@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout2">
+
+    <data>
+
+        <import type="android.text.InputType" />
+
+        <variable
+            name="homeVM"
+            type="com.apion.apionhome.ui.home.HomeViewModel" />
+
+        <variable
+            name="searchVM"
+            type="com.apion.apionhome.ui.search.SearchViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_16"
+            app:layout_constraintEnd_toStartOf="@+id/textInput1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/buttonAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="add images"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonSearchProvince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="search province"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonAddImage" />
+
+            <Button
+                android:id="@+id/buttonSearchDistrict"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="search district"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSearchProvince" />
+
+            <Button
+                android:id="@+id/buttonSearchWard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="search ward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSearchDistrict" />
+
+            <Button
+                android:id="@+id/buttonSearchStreet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="search street"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSearchWard" />
+
+            <Button
+                android:id="@+id/buttonDetailHouseImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="detail image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textShowPass" />
+
+            <EditText
+                android:id="@+id/textProvince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_search_province"
+                android:text="@{searchVM.province.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonDetailHouseImage" />
+
+            <EditText
+                android:id="@+id/textDistrict"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_search_district"
+                android:text="@{searchVM.district.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textProvince" />
+
+            <EditText
+                android:id="@+id/textWard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_search_ward"
+                android:text="@{searchVM.ward.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textDistrict" />
+
+            <EditText
+                android:id="@+id/textStreet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/title_search_street"
+                android:text="@{searchVM.street.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textWard" />
+
+            <EditText
+                android:id="@+id/textInput1"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_64"
+                android:layout_marginStart="@dimen/dp_48"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="@{homeVM.showPass?InputType.TYPE_CLASS_NUMBER:InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD}"
+                android:maxLength="1"
+                android:textSize="@dimen/sp_32"
+                android:textStyle="bold"
+                android:typeface="monospace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textInput2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textStreet" />
+
+            <EditText
+                android:id="@+id/textInput2"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_64"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="@{homeVM.showPass?InputType.TYPE_CLASS_NUMBER:InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD}"
+                android:maxLength="1"
+                android:textSize="@dimen/sp_32"
+                android:textStyle="bold"
+                android:typeface="monospace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textInput3"
+                app:layout_constraintStart_toEndOf="@+id/textInput1"
+                app:layout_constraintTop_toBottomOf="@+id/textStreet" />
+
+            <EditText
+                android:id="@+id/textInput3"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_64"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:imeOptions="actionNext"
+                android:inputType="@{homeVM.showPass?InputType.TYPE_CLASS_NUMBER:InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD}"
+                android:maxLength="1"
+                android:textSize="@dimen/sp_32"
+                android:textStyle="bold"
+                android:typeface="monospace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textInputDone"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textInput2"
+                app:layout_constraintTop_toBottomOf="@+id/textStreet" />
+
+            <EditText
+                android:id="@+id/textInputDone"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_64"
+                android:layout_marginEnd="@dimen/dp_48"
+                android:ellipsize="start"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="@{homeVM.showPass?InputType.TYPE_CLASS_NUMBER:InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD}"
+                android:maxLength="1"
+                android:textSize="@dimen/sp_32"
+                android:textStyle="bold"
+                android:typeface="monospace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textInput3"
+                app:layout_constraintTop_toBottomOf="@+id/textStreet" />
+
+            <TextView
+                android:id="@+id/textShowPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{homeVM.showPass? `hide pass` : `showpass`}"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonDetailHouseImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/buttonSearchStreet" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="yourGroups"
+            type="java.util.List" />
+
+        <variable
+            name="homeVM"
+            type="com.apion.apionhome.ui.home.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.community.CommunityFragment">
+
+        <TextView
+            android:id="@+id/titleCommunity"
+            style="@style/TextHighlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_community"
+            android:gravity="bottom"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_32"
+            android:text="@string/title_community"
+            android:textColor="@color/color_second_primary"
+            android:textSize="@dimen/sp_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.legacy.widget.Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_36"
+            app:layout_constraintBottom_toBottomOf="@+id/titleCommunity"
+            app:layout_constraintLeft_toLeftOf="@id/titleCommunity"
+            app:layout_constraintRight_toRightOf="@id/titleCommunity" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/space">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/includeCommunityEmpty"
+                    layout="@layout/include_group_community"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textYourGroup"
+                    style="@style/TextHighlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:text="@string/title_your_group"
+                    android:textColor="@color/color_second_primary"
+                    android:textSize="@dimen/sp_16"
+                    android:visibility="@{yourGroups.size() == 0 ? View.GONE :View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/includeCommunityEmpty" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMyCommunity"
+                    data="@{yourGroups}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:fitsSystemWindows="true"
+                    android:orientation="vertical"
+                    android:visibility="@{yourGroups.size() == 0 ? View.GONE :View.VISIBLE}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textYourGroup"
+                    app:spanCount="4"
+                    tools:itemCount="8" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:text="@string/title_view_all"
+                    android:textColor="@color/color_second_primary"
+                    android:visibility="@{yourGroups.size() == 0 ? View.GONE :View.VISIBLE}"
+                    app:drawableEndCompat="@drawable/ic_next_ar"
+                    app:layout_constraintBottom_toBottomOf="@+id/textYourGroup"
+                    app:layout_constraintEnd_toEndOf="@+id/recyclerViewMyCommunity"
+                    app:layout_constraintTop_toTopOf="@+id/textYourGroup" />
+
+
+                <TextView
+                    android:id="@+id/titleFeatureCommunity"
+                    style="@style/TextHighlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="@string/title_feature_community"
+                    android:textColor="@color/color_second_primary"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewMyCommunity" />
+
+                <include
+                    android:id="@+id/layoutFeatureCommunity"
+                    layout="@layout/include_feature_community"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_8"
+                    app:features="@{homeVM.dashBoard.featureCommunity}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titleFeatureCommunity" />
+
+
+                <include
+                    android:id="@+id/includeDeliver"
+                    layout="@layout/include_deliver"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_marginTop="@dimen/dp_8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutFeatureCommunity" />
+
+                <TextView
+                    android:id="@+id/titleCommunityDiscover"
+                    style="@style/TextHighlight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="@string/title_community_discover"
+                    android:textColor="@color/color_second_primary"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/includeDeliver" />
+
+                <include
+                    android:id="@+id/layoutCommunity"
+                    layout="@layout/include_community"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dp_16"
+                    android:layout_marginVertical="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_32"
+                    app:communities="@{homeVM.dashBoard.communities}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titleCommunityDiscover" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

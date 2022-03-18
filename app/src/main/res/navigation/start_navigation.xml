@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/startFragment">
+
+    <activity
+        android:id="@+id/activitymain"
+        android:name="com.apion.apionhome.ui.MainActivity"
+        tools:layout="@layout/activity_detail" />
+
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.apion.apionhome.ui.geting_started.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/actionToLogin"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.apion.apionhome.ui.geting_started.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/actionToPinCode"
+            app:destination="@id/pincodeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pincodeFragment"
+        android:name="com.apion.apionhome.ui.geting_started.PincodeFragment"
+        android:label="fragment_pincode"
+        tools:layout="@layout/fragment_pincode">
+        <action
+            android:id="@+id/action_pincodeFragment_to_activitymain"
+            app:destination="@id/activitymain" />
+    </fragment>
+
+</navigation>

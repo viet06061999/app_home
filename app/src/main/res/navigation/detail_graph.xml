@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_gra"
+    app:startDestination="@+id/detailHouseFragment">
+
+    <fragment
+        android:id="@+id/detailImageFragment"
+        android:name="com.apion.apionhome.ui.detail.DetailImageFragment"
+        android:label="fragment_detail_image"
+        tools:layout="@layout/fragment_detail_image">
+        <argument
+            android:name="currentCount"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailHouseFragment"
+        android:name="com.apion.apionhome.ui.detail.DetailHouseFragment"
+        android:label="fragment_detail_house"
+        tools:layout="@layout/fragment_detail_house">
+
+        <action
+            android:id="@+id/actionDetailToDetailImage"
+            app:destination="@id/detailImageFragment" />
+
+        <action
+            android:id="@+id/actionToSelf"
+            app:destination="@id/activityDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.apion.apionhome.ui.detail.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
+
+    <activity
+        android:id="@+id/activityDetail"
+        android:name="com.apion.apionhome.ui.detail.DetailActivity"
+        android:label="Product Details"
+        tools:layout="@layout/activity_detail">
+        <argument
+            android:name="houseDetail"
+            app:argType="com.apion.apionhome.data.model.House" />
+    </activity>
+</navigation>

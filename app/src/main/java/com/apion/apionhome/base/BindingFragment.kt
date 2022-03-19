@@ -36,8 +36,7 @@ import java.net.Socket
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BindingFragment<T : ViewBinding>
-    (private val inflate: Inflate<T>) : Fragment() {
+abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>) : Fragment() {
 
     abstract val viewModel: RxViewModel
 
@@ -216,6 +215,6 @@ abstract class BindingFragment<T : ViewBinding>
     open fun onConnectionAvailable() {}
 
     companion object {
-        private const val EXCEPTION = "Binding only is valid after onCreateView"
+         const val EXCEPTION = "Binding only is valid after onCreateView"
     }
 }

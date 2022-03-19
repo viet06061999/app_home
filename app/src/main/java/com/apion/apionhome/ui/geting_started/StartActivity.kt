@@ -1,17 +1,9 @@
 package com.apion.apionhome.ui.geting_started
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.WindowManager
 import com.apion.apionhome.R
+import com.apion.apionhome.base.BindingActivity
+import com.apion.apionhome.databinding.ActivityStartBinding
 
-class StartActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-    }
+class StartActivity : BindingActivity<ActivityStartBinding>() {
+    override fun getLayoutResId() = R.layout.activity_start
 }

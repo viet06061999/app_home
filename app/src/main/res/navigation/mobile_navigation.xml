@@ -13,7 +13,6 @@
         <action
             android:id="@+id/actionToDetail"
             app:destination="@id/activityDetail" />
-
         <action
             android:id="@+id/actionToSearchDistrictFragment"
             app:destination="@id/searchDistrictFragment"

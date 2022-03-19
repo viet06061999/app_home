@@ -1,6 +1,10 @@
 package com.apion.apionhome.ui
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ActivityNavigator
@@ -15,6 +19,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+        window.statusBarColor = Color.TRANSPARENT
         setContentView(binding.root)
 
 
@@ -24,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         // khai báo navView là 1 BottomNavigationView
         val navView: BottomNavigationView = binding.bottomNavigationView
-        navView.background = null
+//        navView.background = null
         navView.menu.getItem(2).isEnabled = false
 
 

@@ -45,7 +45,7 @@ class HomeFragment :
 
     private val observerVisible =
         ViewTreeObserver.OnGlobalLayoutListener {
-            binding.swipeLayout.isEnabled = binding.layoutHeader.root.isVisible
+//            binding.swipeLayout.isEnabled = binding.layoutHeader.root.isVisible
         }
 
     private val runnable by lazy {
@@ -67,7 +67,7 @@ class HomeFragment :
         binding.layoutSaigon.recyclerViewFeature.adapter = adapterSaiGon
         binding.pagerUserOnline.adapter = adapterUserOnline
         setupBanner()
-        setupListener()
+        //setupListener()
         setupRefresh()
         setupSearchView()
     }
@@ -78,45 +78,45 @@ class HomeFragment :
         viewModel.initData()
     }
 
-    private fun setupListener() {
-        binding.layoutHeader.layoutPrice.setOnClickListener {
-            findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-
-        binding.layoutHeader.editTextCity.setOnClickListener {
-            findNavController().navigate(R.id.actionToSearchProvinceFragment)
-        }
-
-        binding.layoutHeader.editTextDistrict.setOnClickListener {
-            findNavController().navigate(R.id.actionToSearchDistrictFragment)
-        }
-
-        binding.layoutHeader.editTextWard.setOnClickListener {
-            if (searchViewModel.district.value != null) {
-                findNavController().navigate(R.id.actionToSearchWardFragment)
-            } else {
-                showToast(getString(R.string.error_select_ward))
-            }
-        }
-
-        binding.layoutHeader.editTextStreet.setOnClickListener {
-            if (searchViewModel.district.value != null) {
-                findNavController().navigate(R.id.actionToSearchStreetFragment)
-            } else {
-                showToast(getString(R.string.error_select_ward))
-            }
-        }
-    }
+//    private fun setupListener() {
+//        binding.layoutHeader.layoutPrice.setOnClickListener {
+//            findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+//        }
+//
+//        binding.layoutHeader.editTextCity.setOnClickListener {
+//            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+//        }
+//
+//        binding.layoutHeader.editTextDistrict.setOnClickListener {
+//            findNavController().navigate(R.id.actionToSearchDistrictFragment)
+//        }
+//
+//        binding.layoutHeader.editTextWard.setOnClickListener {
+//            if (searchViewModel.district.value != null) {
+//                findNavController().navigate(R.id.actionToSearchWardFragment)
+//            } else {
+//                showToast(getString(R.string.error_select_ward))
+//            }
+//        }
+//
+//        binding.layoutHeader.editTextStreet.setOnClickListener {
+//            if (searchViewModel.district.value != null) {
+//                findNavController().navigate(R.id.actionToSearchStreetFragment)
+//            } else {
+//                showToast(getString(R.string.error_select_ward))
+//            }
+//        }
+//    }
 
     override fun onStop() {
         super.onStop()
-        binding.layoutHeader.root.viewTreeObserver.removeOnGlobalLayoutListener(observerVisible)
+        //binding.layoutHeader.root.viewTreeObserver.removeOnGlobalLayoutListener(observerVisible)
         sliderHandler.removeCallbacks(runnable)
     }
 
     private fun setupRefresh() {
         binding.swipeLayout.apply {
-            binding.layoutHeader.root.viewTreeObserver.addOnGlobalLayoutListener(observerVisible)
+            //binding.layoutHeader.root.viewTreeObserver.addOnGlobalLayoutListener(observerVisible)
             setOnRefreshListener {
                 viewModel.getDashboard() {
                     binding.swipeLayout.isRefreshing = false
@@ -142,7 +142,7 @@ class HomeFragment :
     }
 
     private fun setupSearchView() {
-        binding.search.clearFocus()
+        //binding.search.clearFocus()
     }
 
     private fun onItemBannerClick(banner: Banner) {

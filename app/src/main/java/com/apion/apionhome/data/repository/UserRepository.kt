@@ -12,5 +12,5 @@ interface UserRepository {
 
     fun updateUser(user: User): Maybe<User>
 
-    fun login(phone: String, pinCode: String): Maybe<User>
+    fun login(phone: String): Maybe<User>
 }

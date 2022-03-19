@@ -22,6 +22,8 @@ fun Context.showToast(obj: Any) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
+
+
 fun Context.hideKeyboard() {
     val imm: InputMethodManager =
         this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

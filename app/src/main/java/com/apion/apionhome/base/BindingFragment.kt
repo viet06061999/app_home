@@ -83,12 +83,12 @@ abstract class BindingFragment<T : ViewBinding>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.errorException.observe(viewLifecycleOwner, {
+        viewModel.errorException.observe(viewLifecycleOwner) {
             showToast(getString(R.string.default_error))
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) dialog.show() else dialog.dismiss()
-        })
+        }
         setupView()
         try {
             val builder = NetworkRequest.Builder()

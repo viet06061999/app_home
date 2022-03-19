@@ -1,5 +1,11 @@
 package com.apion.apionhome.utils
+import android.util.Patterns.PHONE
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
+const val PASSWORD_MIN_LENGTH = 5
+const val REGEX_SPACE = "\\s+"
+const val PHONE_PATTERN = "(84|0[3|5|7|8|9])+([0-9]{8})\\b"
 fun String.removeSpecific(): String {
     var s = this
     return s.trim()
@@ -16,6 +22,9 @@ fun String.removeSpecific(): String {
 //    return s
 }
 
+val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
+
+val String.isValidPassword get() = !contains(REGEX_SPACE) && length > PASSWORD_MIN_LENGTH || isNullOrBlank()
 fun String.smartContains(query: String): Boolean {
     println("raw $this query $query")
     if (query.isEmpty()) return true

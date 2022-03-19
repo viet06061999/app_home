@@ -67,4 +67,5 @@
     <string name="title_start">Bắt đầu</string>
     <string name="register"><u>Đăng ký</u></string>
     <string name="forgetPinCode"><u>Quên pin code</u></string>
+    <string name="hint_input_phone">Nhập số điện thoại</string>
 </resources>

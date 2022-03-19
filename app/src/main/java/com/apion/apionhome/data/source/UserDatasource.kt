@@ -13,7 +13,7 @@ interface UserDatasource {
         fun createUser(user: User): Maybe<User>
         fun updateUser(user: User): Maybe<User>
         fun uploadAvatar(id: Int, image: String): Maybe<User>
-        fun login(phone: String, pinCode: String): Maybe<User>
+        fun login(phone: String): Maybe<User>
         fun logout(id: Int, phone: String): Maybe<User>
 
     }

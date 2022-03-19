@@ -5,19 +5,32 @@ import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.databinding.FragmentLoginBinding
+import com.apion.apionhome.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
-    override val viewModel by viewModel<RxViewModel>()
+    override val viewModel by viewModel<UserViewModel>()
 
     override fun setupView() {
+        binding.lifecycleOwner = this
+        binding.loginVM = viewModel
         listener()
+        setupObserver()
+    }
+
+    private fun setupObserver(){
+        viewModel.loginSuccess.observe(this) {
+            if (it.first) {
+                val action = LoginFragmentDirections.actionToPinCode(it.second)
+                findNavController().navigate(action)
+            }
+        }
     }
 
     private fun listener() {
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.actionToPinCode)
+            viewModel.login()
         }
     }
 }

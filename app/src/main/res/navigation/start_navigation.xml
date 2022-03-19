@@ -37,8 +37,14 @@
         android:label="fragment_pincode"
         tools:layout="@layout/fragment_pincode">
         <action
-            android:id="@+id/action_pincodeFragment_to_activitymain"
-            app:destination="@id/activitymain" />
+            android:id="@+id/actionToMain"
+            app:destination="@id/activitymain"
+            app:popUpTo="@id/activitymain"
+            app:popUpToInclusive="false"/>
+        <argument
+            android:name="pinCode"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
 
 </navigation>

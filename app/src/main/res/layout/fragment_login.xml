@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+    <variable
+        name="loginVM"
+        type="com.apion.apionhome.viewmodel.UserViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,11 +21,8 @@
             android:layout_marginStart="145dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="145dp"
-
-
             android:layout_marginBottom="590dp"
             android:scaleType="centerCrop"
-
             android:src="@drawable/itunes_artwork"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +52,6 @@
             android:layout_height="209dp"
             android:layout_marginStart="60dp"
             android:layout_marginEnd="60dp"
-
             android:src="@drawable/login_image_page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,19 +60,43 @@
             app:layout_constraintTop_toBottomOf="@+id/contentFaculty"
             app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editPhoneNumber"
-            android:layout_width="0dp"
-            android:layout_height="49dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/background_view"
-            android:hint="Nhập số điện thoại"
-            android:paddingLeft="17dp"
+            style="@style/StyleTextInputLayout"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_32"
+            app:boxStrokeColor="@color/color_grey"
+            app:boxStrokeWidth="@dimen/dp_2"
+            app:errorEnabled="true"
+            errorText="@{loginVM.phoneRule}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_input_phone"
+                android:text="@={loginVM.phone}"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:padding="@dimen/dp_16" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/editPhoneNumber"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="49dp"-->
+        <!--            android:layout_marginStart="30dp"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_marginEnd="30dp"-->
+        <!--            android:background="@drawable/background_view"-->
+        <!--            android:hint="Nhập số điện thoại"-->
+        <!--            android:paddingLeft="17dp"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/imageView3" />-->
 
         <Button
             android:id="@+id/btnLogin"

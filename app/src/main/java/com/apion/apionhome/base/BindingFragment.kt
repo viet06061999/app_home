@@ -215,6 +215,6 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
     open fun onConnectionAvailable() {}
 
     companion object {
-        private const val EXCEPTION = "Binding only is valid after onCreateView"
+         const val EXCEPTION = "Binding only is valid after onCreateView"
     }
 }

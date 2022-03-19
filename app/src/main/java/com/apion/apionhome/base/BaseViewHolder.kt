@@ -7,6 +7,7 @@ abstract class BaseViewHolder<T, B : ViewBinding>(
     binding: B,
     onItemClick: (T) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
+
     private var itemData: T? = null
 
     init {

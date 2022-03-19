@@ -18,7 +18,6 @@ import com.apion.apionhome.ui.adapter.UserOnlineAdapter
 import com.apion.apionhome.ui.search.SearchViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import java.lang.IllegalStateException
 
 
 class HomeFragment :
@@ -32,7 +31,9 @@ class HomeFragment :
 
     private val adapterImage = ImageSliderAdapter(::onItemBannerClick)
 
-    private val adapterFeature = HouseAdapter(::onItemHouseClick)
+    private val adapterFeature = HouseAdapter(){house ->
+        onItemHouseClick(house)
+    }
 
     private val adapterHanoi = HouseAdapter(::onItemHouseClick)
 

@@ -57,15 +57,15 @@
     <string name="title_join">Tham gia</string>
     <string name="title_out">Rời khỏi</string>
     <string name="title_home">Trang chủ</string>
-    <string name="title_person">Cá nhân</string>
+    <string name="title_person">Tài khoản</string>
     <string name="hint_input_search">Nhập nội dung tìm kiếm</string>
     <string name="title_search_quickly">Tìm kiếm nhanh</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="text_bottom_start_2">Robo siêu kết nối môi giới \n Bất động sản</string>
     <string name="text_welcome_start">Chào mừng bạn đến với Apion Home</string>
     <string name="title_start">Bắt đầu</string>
     <string name="register"><u>Đăng ký</u></string>
     <string name="forgetPinCode"><u>Quên pin code</u></string>
     <string name="hint_input_phone">Nhập số điện thoại</string>
+    <string name="title_notification">Thông báo</string>
 </resources>

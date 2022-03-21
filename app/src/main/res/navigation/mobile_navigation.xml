@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.apion.apionhome.ui.search.SearchProvinceFragment" />
+        android:name="com.apion.apionhome.ui.search.SearchFragment" />
 
     <fragment
         android:id="@+id/navigation_community"

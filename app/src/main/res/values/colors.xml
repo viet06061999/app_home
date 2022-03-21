@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    <color name="color_tropical_rain">#017D4B</color>-->
-<!--    <color name="color_apple">#62B146</color>-->
+    <!--    <color name="color_tropical_rain">#017D4B</color>-->
+    <!--    <color name="color_apple">#62B146</color>-->
     <color name="color_primary">#468645</color>
     <color name="color_text_primary">#468645</color>
 
@@ -20,6 +20,8 @@
     <color name="color_grey_40">#65858484</color>
     <color name="color_grandis">#FFD185</color>
     <color name="color_grey">#858484</color>
+    <color name="color_red">#F80707</color>
+
     <color name="color_silver">#C4C4C4</color>
     <color name="color_silver_40">#65C4C4C4</color>
     <color name="color_soft_peach">#F8F2F2</color>
@@ -28,5 +30,5 @@
     <color name="color_prelude">#CF8AEC</color>
     <color name="color_harp">#D9EBE4</color>
     <color name="color_beryl_green">#CEE0AD</color>
-
+    <color name="color_text_grey">#6C6C6F</color>
 </resources>

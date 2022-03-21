@@ -57,15 +57,27 @@
     <string name="title_join">Tham gia</string>
     <string name="title_out">Rời khỏi</string>
     <string name="title_home">Trang chủ</string>
-    <string name="title_person">Cá nhân</string>
+    <string name="title_person">Tài khoản</string>
     <string name="hint_input_search">Nhập nội dung tìm kiếm</string>
     <string name="title_search_quickly">Tìm kiếm nhanh</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="text_bottom_start_2">Robo siêu kết nối môi giới \n Bất động sản</string>
     <string name="text_welcome_start">Chào mừng bạn đến với Apion Home</string>
     <string name="title_start">Bắt đầu</string>
     <string name="register"><u>Đăng ký</u></string>
     <string name="forgetPinCode"><u>Quên pin code</u></string>
     <string name="hint_input_phone">Nhập số điện thoại</string>
+    <string name="title_notification">Thông báo</string>
+    <string name="hint_input_query">Nhập nội dung tìm kiếm</string>
+    <string name="text_search_by">Hoặc tìm kiếm theo tiêu chí</string>
+    <string name="title_house_type">Loại nhà đất *</string>
+    <string name="title_all">Tất cả</string>
+    <string name="text_address_2">Địa điểm</string>
+    <string name="text_select_address">Chọn địa điểm</string>
+    <string name="text_select_direction">Chọn hướng nhà</string>
+    <string name="title_direction">Hướng nhà</string>
+    <string name="title_price_range">Khoảng giá</string>
+    <string name="title_acr">Diện tích</string>
+    <string name="title_room">Số phòng ngủ</string>
+    <string name="title_search_button">Tìm kiếm</string>
 </resources>

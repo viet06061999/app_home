@@ -1,10 +1,13 @@
 package com.apion.apionhome.ui.search
 
+import android.R
+import android.view.View
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import com.apion.apionhome.base.BindingFragmentBottomSheet
-import com.apion.apionhome.databinding.BottomsheetPriceAcreaBinding
 import com.apion.apionhome.databinding.FragmentSearchBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class SearchFragment :
     BindingFragmentBottomSheet<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -15,10 +18,6 @@ class SearchFragment :
         binding.lifecycleOwner = this
         initParam()
         listener()
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     private fun listener() {

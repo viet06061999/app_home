@@ -25,7 +25,9 @@ val networkModule = module {
 
             val requestBuilder: Request.Builder = original.newBuilder()
                 .url(url)
-            val request: Request = requestBuilder.build()
+            val request: Request = requestBuilder
+                .header("Authorization", "Bearer 1")
+                .build()
             if (BuildConfig.DEBUG) Log.d(logTagRequest, request.toString())
             val response = chain.proceed(request)
             val bodyString = response.body()?.string()

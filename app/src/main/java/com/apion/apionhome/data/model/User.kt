@@ -22,7 +22,7 @@ data class User(
     @SerializedName("address")
     val address: String,
     @SerializedName("avatar")
-    val avatar: String,
+    val avatar: String?,
     @SerializedName("sex")
     val sex: String,
     @SerializedName("academicLevel")

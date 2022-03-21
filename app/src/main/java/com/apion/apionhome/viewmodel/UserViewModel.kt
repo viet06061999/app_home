@@ -38,10 +38,16 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
 
     val phone = MutableLiveData<String>()
-    val errorText = phone.transform {
-        if (it.isPhoneValid) null else "Định dạng không hợp lệ!"
-    }
+//    phone.phone
+//    errorText="@{loginVM.errorText}"
 
+
+    // errorText laf 1 MediatorLivedata
+    val errorText = MutableLiveData<String?>()
+
+    fun setError(error : String?){
+        errorText.value = error
+    }
     fun getAllUser() {
         userRepository
             .getAllUsers()

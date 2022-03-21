@@ -22,7 +22,6 @@ fun String.removeSpecific(): String {
 //    return s
 }
 
-// String extension
 
 val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
 //val String.isPhoneValid = true

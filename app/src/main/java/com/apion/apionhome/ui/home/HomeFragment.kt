@@ -67,7 +67,7 @@ class HomeFragment :
         binding.layoutSaigon.recyclerViewFeature.adapter = adapterSaiGon
         binding.pagerUserOnline.adapter = adapterUserOnline
         setupBanner()
-        //setupListener()
+        setupListener()
         setupRefresh()
         setupSearchView()
     }
@@ -78,11 +78,16 @@ class HomeFragment :
         viewModel.initData()
     }
 
-//    private fun setupListener() {
-//        binding.layoutHeader.layoutPrice.setOnClickListener {
-//            findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-//        }
-//
+    private fun setupListener() {
+        binding.editTextPrice.setOnClickListener(){
+            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+        }
+        binding.editTextDistrict.setOnClickListener(){
+            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
+        }
+        binding.editTextSquare.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+        }
 //        binding.layoutHeader.editTextCity.setOnClickListener {
 //            findNavController().navigate(R.id.actionToSearchProvinceFragment)
 //        }
@@ -106,7 +111,8 @@ class HomeFragment :
 //                showToast(getString(R.string.error_select_ward))
 //            }
 //        }
-//    }
+
+    }
 
     override fun onStop() {
         super.onStop()

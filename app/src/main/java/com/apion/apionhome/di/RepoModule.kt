@@ -12,7 +12,7 @@ import com.apion.apionhome.data.source.remote.HouseRemoteDatasource
 import com.apion.apionhome.data.source.remote.UserRemoteDatasource
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-
+// khởi tạo repository và datasource
 val userRepoModule = module {
 
     single<UserDatasource.Remote> { UserRemoteDatasource(get()) }

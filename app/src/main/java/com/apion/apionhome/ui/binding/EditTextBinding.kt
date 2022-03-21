@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("errorText")
-fun TextInputLayout.bindError(errorText: String?) {
+fun bindError(view:TextInputLayout, errorText: String?) {
     println("error $errorText")
-    error = errorText
+    view.error = errorText
 }

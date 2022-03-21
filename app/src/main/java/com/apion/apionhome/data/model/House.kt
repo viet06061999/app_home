@@ -87,6 +87,10 @@ data class House(
         }
     }
 
+    fun getDefaultImage() : String? {
+        return if (!images.isNullOrEmpty()) images[0]
+        else null
+    }
     fun getDetailAddress(): String {
         return "$address $street, $ward, $district, $province"
     }

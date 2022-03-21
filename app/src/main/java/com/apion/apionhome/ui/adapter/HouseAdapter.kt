@@ -7,14 +7,14 @@ import com.apion.apionhome.base.BaseViewHolder
 import com.apion.apionhome.data.model.House
 import com.apion.apionhome.databinding.ItemHouseBinding
 
-class HouseAdapter(private val listener: (House) -> Unit) :
-    BaseAdapter<House, ItemHouseBinding>() {
+class HouseAdapter(private val listener: (House) -> Unit) : BaseAdapter<House, ItemHouseBinding>()
+{
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<House, ItemHouseBinding> =
-        HouseViewHolder(
+    ): BaseViewHolder<House, ItemHouseBinding> {
+        return HouseViewHolder(
             ItemHouseBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -22,6 +22,7 @@ class HouseAdapter(private val listener: (House) -> Unit) :
             ),
             listener
         )
+    }
 
     class HouseViewHolder(
         private val itemHouseBinding: ItemHouseBinding,

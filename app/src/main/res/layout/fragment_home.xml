@@ -320,67 +320,99 @@
                         app:tabSelectedTextColor="@android:color/transparent"
                         app:tabTextColor="@android:color/transparent" />
 
-                    <TextView
-                        android:id="@+id/titleHighLight"
-                        style="@style/TextHighlight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_16"
-                        android:text="@string/title_highlight"
-                        android:textColor="@color/black"
-                        app:layout_constraintBottom_toBottomOf="@+id/buttonDetailHighlight"
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/title_feature"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/buttonDetailHighlight" />
+                        app:layout_constraintTop_toBottomOf="@+id/layoutBanner"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        >
 
-                    <TextView
-                        android:id="@+id/buttonDetailHighlight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:layout_marginEnd="@dimen/dp_16"
-                        android:drawableEnd="@drawable/ic_next_ar"
-                        android:drawablePadding="@dimen/dp_4"
-                        android:text="@string/title_view_all"
-                        android:textColor="@color/color_second_primary"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/layoutBanner" />
+                        <TextView
+                            android:id="@+id/titleFeature"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:text="@string/title_feature_community"
+                            android:textColor="#000000"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/buttonDetailFeature"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/buttonDetailFeature"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/background_textview"
+                            android:gravity="center"
+                            android:text="Chi tiết"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <include
                         android:id="@+id/layoutFeature"
                         layout="@layout/include_feature"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dp_16"
-                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_2"
                         app:features="@{homeVM.dashBoard.feature}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/buttonDetailHighlight" />
-
-                    <TextView
-                        android:id="@+id/titleHaNoi"
-                        style="@style/TextHighlight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_16"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:text="@string/title_house_hn"
-                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/title_feature" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/title_HaNoi"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/layoutFeature" />
+                        app:layout_constraintTop_toBottomOf="@+id/layoutFeature"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        >
 
-                    <TextView
-                        android:id="@+id/buttonDetaiHanoi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dp_16"
-                        android:text="@string/title_detail"
-                        android:textColor="@color/color_second_primary"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/titleHaNoi"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/titleHaNoi" />
+                        <TextView
+                            android:id="@+id/titleHaNoi"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:text="@string/title_house_hn"
+                            android:textColor="#000000"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/buttonDetaiHanoi"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/buttonDetaiHanoi"
+                            android:layout_width="60dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/background_textview"
+                            android:gravity="center"
+                            android:text="@string/title_detail"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <include
                         android:id="@+id/layoutHanoi"
@@ -392,7 +424,7 @@
                         app:features="@{homeVM.dashBoard.hanoiHouse}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/titleHaNoi" />
+                        app:layout_constraintTop_toBottomOf="@+id/title_HaNoi" />
 
                     <TextView
                         android:id="@+id/titleSaiGon"

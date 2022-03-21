@@ -7,7 +7,8 @@ import com.apion.apionhome.data.source.remote.utils.UserAPIService
 import org.koin.dsl.module
 
 import retrofit2.Retrofit
-
+// khởi tạo các service
+//
 val apiModule = module {
     single { get<Retrofit>().create(UserAPIService::class.java) }
     single { get<Retrofit>().create(HouseAPIService::class.java) }

@@ -22,7 +22,11 @@ fun String.removeSpecific(): String {
 //    return s
 }
 
+// String extension
+
 val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
+//val String.isPhoneValid = true
+
 
 val String.isValidPassword get() = !contains(REGEX_SPACE) && length > PASSWORD_MIN_LENGTH || isNullOrBlank()
 fun String.smartContains(query: String): Boolean {

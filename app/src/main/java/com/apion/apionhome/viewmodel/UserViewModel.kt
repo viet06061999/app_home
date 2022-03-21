@@ -18,22 +18,27 @@ import java.lang.Exception
 
 class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
+
+    // khởi tạo biến _users, khai báo users  và gán _users cho nó
     private val _users = MutableLiveData<List<User>>()
-
     val users: LiveData<List<User>>
-        get() = _users
+    get() = _users
 
+
+    // khởi tạo biến _user, khai báo user  và gán _users cho nó
     private val _user = MutableLiveData<User>()
-
     val user: LiveData<User>
         get() = _user
-    private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
 
+    // khởi tạo biến _loginSuccess, khai báo loginSuccess  và gán _loginSuccess cho nó
+    private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
     val loginSuccess: LiveData<Pair<Boolean, String?>>
         get() = _loginSuccess
 
+
+
     val phone = MutableLiveData<String>()
-    val phoneRule = phone.transform {
+    val errorText = phone.transform {
         if (it.isPhoneValid) null else "Định dạng không hợp lệ!"
     }
 
@@ -53,6 +58,9 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
     }
 
     fun login() {
+        var name : String = "Viet"
+        // ? để check null. khi null thì ko thực hiện scope function apply
+        //
         validatePhone()?.apply {
             userRepository
                 .login(this)
@@ -70,13 +78,13 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
                                         charset("UTF-8")
                                     )
                                 )
-                                phoneRule.value = jsonError.getString("message")
+                                errorText.value = jsonError.getString("message")
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                phoneRule.value = it.message
+                                errorText.value = it.message
                             }
                         } else {
-                            phoneRule.value = it.message
+                            errorText.value = it.message
                         }
                     }
                 )
@@ -87,10 +95,9 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
     private fun validatePhone(): String? {
         val phoneValue = phone.value
-        println("phone $phoneValue")
         when {
-            phoneValue.isNullOrBlank() -> phoneRule.value = "Yêu cầu nhập số điện thoại!"
-            phoneRule.value == null -> return phoneValue
+            phoneValue.isNullOrBlank() -> errorText.value = "Yêu cầu nhập số điện thoại!"
+            errorText.value == null -> return phoneValue
         }
         return null
     }

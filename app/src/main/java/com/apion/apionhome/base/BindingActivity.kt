@@ -23,6 +23,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutResId())
+
         if (Build.VERSION.SDK_INT in 21..29) {
             window.statusBarColor = Color.TRANSPARENT
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -31,7 +32,6 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 
         } else if (Build.VERSION.SDK_INT >= 30) {
-
             ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
 
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -42,7 +42,8 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity() {
                 }
                 WindowInsetsCompat.CONSUMED
             }
-
         }
+
+
     }
 }

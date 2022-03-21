@@ -20,8 +20,6 @@
             data="@{features}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:fitsSystemWindows="true"
             android:orientation="horizontal"
             android:visibility="@{features.size()>0? View.VISIBLE: View.GONE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

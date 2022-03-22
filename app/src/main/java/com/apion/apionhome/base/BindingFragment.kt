@@ -66,9 +66,17 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = inflate.invoke(inflater, container, false)
+        _binding =  inflate.invoke(inflater,container,false)
         return binding.root
     }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        _binding = inflate.invoke(inflater, container, false)
+//        return binding.root
+//    }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {

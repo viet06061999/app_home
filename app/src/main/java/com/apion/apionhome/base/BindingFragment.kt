@@ -36,7 +36,7 @@ import java.net.Socket
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>) : Fragment() {
+abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> T) : Fragment() {
 
     abstract val viewModel: RxViewModel
 

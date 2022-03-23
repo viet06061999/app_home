@@ -79,18 +79,18 @@ class HomeFragment :
     }
 
     private fun setupListener() {
-        binding.editTextPrice.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-        binding.editTextDistrict.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
-        }
-        binding.editTextSquare.setOnClickListener {
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-//        binding.layoutHeader.editTextCity.setOnClickListener {
-//            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+//        binding.editTextPrice.setOnClickListener(){
+//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
 //        }
+//        binding.editTextDistrict.setOnClickListener(){
+//            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
+//        }
+//        binding.editTextSquare.setOnClickListener {
+//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+//        }
+        binding.editTextCity.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+        }
 //
 //        binding.layoutHeader.editTextDistrict.setOnClickListener {
 //            findNavController().navigate(R.id.actionToSearchDistrictFragment)

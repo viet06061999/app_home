@@ -21,7 +21,7 @@ data class Province(
 
     override fun getTitle(): String = name
 
-    override fun getContent(): String = "${districts.size} quận, huyện"
+    override fun getContent(): String = "${name} (${code})"
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
         newItem is District && this.id == newItem.id

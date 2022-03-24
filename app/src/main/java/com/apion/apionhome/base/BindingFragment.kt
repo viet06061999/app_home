@@ -36,7 +36,7 @@ import java.net.Socket
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>) : Fragment() {
+abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> T) : Fragment() {
 
     abstract val viewModel: RxViewModel
 
@@ -66,9 +66,17 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = inflate.invoke(inflater, container, false)
+        _binding =  inflate.invoke(inflater,container,false)
         return binding.root
     }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        _binding = inflate.invoke(inflater, container, false)
+//        return binding.root
+//    }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {

@@ -39,7 +39,9 @@ class HomeFragment :
 
     private val adapterSaiGon = HouseAdapter(::onItemHouseClick)
 
-    private val adapterUserOnline = UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick)
+    private val adapterUserOnline by lazy {
+        UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick,requireContext())
+    }
 
     private var isCheck = false
 
@@ -79,18 +81,24 @@ class HomeFragment :
     }
 
     private fun setupListener() {
-        binding.editTextPrice.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-        binding.editTextDistrict.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
-        }
-        binding.editTextSquare.setOnClickListener {
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-//        binding.layoutHeader.editTextCity.setOnClickListener {
-//            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+//        binding.editTextPrice.setOnClickListener(){
+//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
 //        }
+//        binding.editTextDistrict.setOnClickListener(){
+//            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
+//        }
+//        binding.editTextSquare.setOnClickListener {
+//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+//        }
+        binding.editTextCity.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+        }
+        binding.editTextDistrict.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchDistrictFragment)
+        }
+        binding.editTextPrice.setOnClickListener {
+//            findNavController().
+        }
 //
 //        binding.layoutHeader.editTextDistrict.setOnClickListener {
 //            findNavController().navigate(R.id.actionToSearchDistrictFragment)

@@ -8,115 +8,88 @@
             name="searchVM"
             type="com.apion.apionhome.ui.search.SearchViewModel" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomSheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rectangle_top"
-        android:padding="@dimen/dp_8">
+        android:paddingBottom="30dp"
+        >
+    <View
+        android:id="@+id/view_title"
+        android:layout_width="115dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="25dp"
+        style="@style/StyleIconBottomSheet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textDetail"
-            style="@style/TextHighlight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/title_detail"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/title_price"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_title" />
+    <TextView
+        android:id="@+id/price_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/dp_18"
+        android:text="Mức giá"
+        android:textColor="#888B8F"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+    <TextView
+        android:id="@+id/txt_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:text="Mức giá"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/text_title" />
 
-        <TextView
-            android:id="@+id/textPrice"
-            style="@style/TextHighlight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="@{@string/hint_price + `: ` + searchVM.price.getData() + ` tỷ`}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textDetail" />
 
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rangeSliderPrice"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_36"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="100"
-            app:labelBehavior="withinBounds"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textPrice"
-            app:values="@array/initial_slider_values_price" />
+    <SeekBar
+        android:id="@+id/seekBar_luminosite"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="28dp"
+        android:maxHeight="4dp"
+        android:progressDrawable="@drawable/thumb"
+        android:scaleY="1"
+        android:thumb="@drawable/thumb1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_price" />
 
-        <TextView
-            android:id="@+id/textAcreage"
-            style="@style/TextHighlight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="@{@string/hint_acreage + `: ` + searchVM.acreage.getData() + ` m2`}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rangeSliderPrice" />
-
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rangeSliderAcreage"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_36"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:stepSize="10"
-            android:valueFrom="0"
-            android:valueTo="1000"
-            app:labelBehavior="withinBounds"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textAcreage"
-            app:values="@array/initial_slider_values_acreage" />
-
-        <TextView
-            android:id="@+id/textFrontWidth"
-            style="@style/TextHighlight"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:text="@{@string/hint_front_width + `: ` + searchVM.frontWidth.getData() + ` m`}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rangeSliderAcreage" />
-
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/rangeSliderFrontWidth"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_36"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:stepSize="1"
-            android:valueFrom="0"
-            android:valueTo="100"
-            app:labelBehavior="withinBounds"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFrontWidth"
-            app:values="@array/initial_slider_values_price" />
-
-        <Button
-            android:id="@+id/buttonDone"
-            style="@style/StyleButton"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_44"
-            android:layout_marginHorizontal="@dimen/dp_16"
-            android:layout_marginVertical="@dimen/dp_4"
-            android:text="@string/title_done"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rangeSliderFrontWidth" />
-
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="130dp"
+        android:text="@string/title_use_button"
+        android:textSize="15sp"
+        app:backgroundTint="#4E934F"
+        android:textColor="#ffffff"
+        android:background="@drawable/background_button5"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_luminosite" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -39,7 +39,9 @@ class HomeFragment :
 
     private val adapterSaiGon = HouseAdapter(::onItemHouseClick)
 
-    private val adapterUserOnline = UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick)
+    private val adapterUserOnline by lazy {
+        UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick,requireContext())
+    }
 
     private var isCheck = false
 
@@ -90,6 +92,9 @@ class HomeFragment :
 //        }
         binding.editTextCity.setOnClickListener {
             findNavController().navigate(R.id.actionToSearchProvinceFragment)
+        }
+        binding.editTextDistrict.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchDistrictFragment)
         }
 //
 //        binding.layoutHeader.editTextDistrict.setOnClickListener {

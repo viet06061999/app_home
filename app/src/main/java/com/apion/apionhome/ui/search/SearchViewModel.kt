@@ -14,7 +14,7 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.utils.setup
 
-class SearchViewModel(private val houseRepository : HouseRepository) : RxViewModel(){
+class SearchViewModel(private val houseRepository : HouseRepository) : RxViewModel() {
 
     val title = MutableLiveData<String>()
 
@@ -23,21 +23,21 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     val provinces: LiveData<List<Province>>
         get() = _provinces
 
-    private val _locations = MutableLiveData<List<ILocation>>()
-
-    val locations: LiveData<List<ILocation>>
-        get() = _locations
-
-    private val _province = MutableLiveData<Province?>()
-
-    val province: LiveData<Province?>
-        get() = _province
-
     private val _district = MutableLiveData<District?>()
 
     val district: LiveData<District?>
         get() = _district
 
+    private val _province = MutableLiveData<Province?>(
+        Province(
+            id = 2,
+            name = "Hà Nội",
+            code = "HN",
+            districts = mutableListOf()
+        )
+    )
+    val province: LiveData<Province?>
+        get() = _province
     private val _ward = MutableLiveData<LocationName?>()
 
     val ward: LiveData<LocationName?>
@@ -58,10 +58,17 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     val acreage: LiveData<Range?>
         get() = _acreage
 
+    private val _locations = MutableLiveData<List<ILocation>>()
+    val locations: LiveData<List<ILocation>>
+        get() = _locations
     private val _frontWidth = MutableLiveData<Range?>()
 
     val frontWidth: LiveData<Range?>
         get() = _frontWidth
+
+    private val _texts = MutableLiveData<String>()
+    val texts: LiveData<String>
+        get() = _texts
 
     private val empty = emptyList<ILocation>()
 
@@ -104,6 +111,7 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
         super.initData()
         getAllProvince()
     }
+
 
     fun clearSearch() {
         _locations.value = empty
@@ -151,14 +159,20 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
                 }
             )
     }
-    fun searchProvince(query: String){
+
+    fun searchProvince(query: String) {
         houseRepository
             .searchProvince(query)
             .setup()
             .subscribe(
-                {_locations.value = it},
-                {it.printStackTrace()
-                    error.value = it.message})
+                {
+                    _locations.value = it
+                },
+                {
+                    it.printStackTrace()
+                    error.value = it.message
+                })
+
     }
 
     fun searchWard(query: String) {
@@ -192,18 +206,18 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
 
     fun searchHouse() {
         val param = SearchParam(
-           title.value,
-           province.value?.name,
+            title.value,
+            province.value?.name,
             district.value?.name,
             ward.value?.name,
             street.value?.name,
-            RangeUI.houseTypeRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
-            RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
-            RangeUI.priceRangeUis.entries.toList()[priceIndex.value?:0].key,
-            RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value?:0].key,
-            RangeUI.frontWidthRangeUis.entries.toList()[frontWidthIndex.value?:0].key,
-            RangeUI.bedroomUis.entries.toList()[bedroomIndex.value?:0].key,
-            )
+            RangeUI.houseTypeRangeUis.entries.toList()[houseDirectionIndex.value ?: 0].key,
+            RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value ?: 0].key,
+            RangeUI.priceRangeUis.entries.toList()[priceIndex.value ?: 0].key,
+            RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value ?: 0].key,
+            RangeUI.frontWidthRangeUis.entries.toList()[frontWidthIndex.value ?: 0].key,
+            RangeUI.bedroomUis.entries.toList()[bedroomIndex.value ?: 0].key,
+        )
         println(param)
         houseRepository
             .getSearchHouse(param)
@@ -220,74 +234,73 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
             )
     }
 
-    fun setProvince(province: Province) {
-        _province.value = province
-        _district.value = null
-        _ward.value = null
-        _street.value = null
-    }
+
+        fun setProvince(province: Province) {
+            _province.value = province
+            _district.value = province.districts.first()
+//        _district.value = null
+//        _ward.value = null
+//        _street.value = null
+        }
 
     fun setDistrict(district: District) {
-        _province.value = district.province
         _district.value = district
-        _ward.value = null
-        _street.value = null
     }
+        fun setWard(locationName: LocationName) {
+            _ward.value = locationName
+        }
 
-    fun setWard(locationName: LocationName) {
-        _ward.value = locationName
-    }
+        fun setStreet(locationName: LocationName) {
+            _street.value = locationName
+        }
 
-    fun setStreet(locationName: LocationName) {
-        _street.value = locationName
-    }
+        fun setPrice(min: Int, max: Int) {
+            val range = _price.value?.apply {
+                this.min = min
+                this.max = max
+            } ?: Range(min, max, "ty")
+            _price.value = range
+        }
 
-    fun setPrice(min: Int, max: Int) {
-        val range = _price.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "ty")
-        _price.value = range
-    }
-
-    fun setAcreage(min: Int, max: Int) {
-        val range = _acreage.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "m2")
-        _acreage.value = range
-    }
+        fun setAcreage(min: Int, max: Int) {
+            val range = _acreage.value?.apply {
+                this.min = min
+                this.max = max
+            } ?: Range(min, max, "m2")
+            _acreage.value = range
+        }
 
 
-    fun setFrontWidth(min: Int, max: Int) {
-        val range = _frontWidth.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "m")
-        _frontWidth.value = range
-    }
+        fun setFrontWidth(min: Int, max: Int) {
+            val range = _frontWidth.value?.apply {
+                this.min = min
+                this.max = max
+            } ?: Range(min, max, "m")
+            _frontWidth.value = range
+        }
 
-    fun setFrontWidthIndex(index: Int) {
-        _frontWidthIndex.value = index
-    }
+        fun setFrontWidthIndex(index: Int) {
+            _frontWidthIndex.value = index
+        }
 
-    fun setPriceIndex(index: Int) {
-        _priceIndex.value = index
-    }
+        fun setPriceIndex(index: Int) {
+            _priceIndex.value = index
+        }
 
-    fun setAcreageIndex(index: Int) {
-        _acreageIndex.value = index
-    }
+        fun setAcreageIndex(index: Int) {
+            _acreageIndex.value = index
+        }
 
-    fun setHouseTypeIndex(index: Int) {
-        _houseTypeIndex.value = index
-    }
+        fun setHouseTypeIndex(index: Int) {
+            _houseTypeIndex.value = index
+        }
 
-    fun setHouseDirectionIndex(index: Int) {
-        _houseDirectionIndex.value = index
-    }
+        fun setHouseDirectionIndex(index: Int) {
+            _houseDirectionIndex.value = index
+        }
 
-    fun setBedroomsIndex(index: Int) {
-        _bedroomIndex.value = index
-    }
+        fun setBedroomsIndex(index: Int) {
+            _bedroomIndex.value = index
+        }
+
 }

@@ -2,22 +2,20 @@ package com.apion.apionhome.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.apion.apionhome.base.RxViewModel
+import com.apion.apionhome.data.model.local.District
+import com.apion.apionhome.data.model.local.ILocation
 import com.apion.apionhome.data.model.House
 import com.apion.apionhome.data.model.Range
 import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.SearchParam
-import com.apion.apionhome.data.model.local.District
-import com.apion.apionhome.data.model.local.ILocation
 import com.apion.apionhome.data.model.local.LocationName
 import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.utils.setup
 
-class SearchViewModel(
-    private val houseRepository: HouseRepository
-) : RxViewModel() {
+class SearchViewModel(private val houseRepository : HouseRepository) : RxViewModel(){
+
     val title = MutableLiveData<String>()
 
     private val _provinces = MutableLiveData<List<Province>>()
@@ -125,20 +123,20 @@ class SearchViewModel(
             )
     }
 
-    fun searchProvince(query: String) {
-        println("province $province")
-        houseRepository
-            .searchProvince(query)
-            .setup()
-            .subscribe(
-                {
-                    _locations.value = it
-                }, {
-                    it.printStackTrace()
-                    error.value = it.message
-                }
-            )
-    }
+//    fun searchProvince(query: String) {
+//        println("province $province")
+//        houseRepository
+//            .searchProvince(query)
+//            .setup()
+//            .subscribe(
+//                {
+//                    _locations.value = it
+//                }, {
+//                    it.printStackTrace()
+//                    error.value = it.message
+//                }
+//            )
+//    }
 
     fun searchDistrict(query: String) {
         houseRepository
@@ -152,6 +150,15 @@ class SearchViewModel(
                     error.value = it.message
                 }
             )
+    }
+    fun searchProvince(query: String){
+        houseRepository
+            .searchProvince(query)
+            .setup()
+            .subscribe(
+                {_locations.value = it},
+                {it.printStackTrace()
+                    error.value = it.message})
     }
 
     fun searchWard(query: String) {

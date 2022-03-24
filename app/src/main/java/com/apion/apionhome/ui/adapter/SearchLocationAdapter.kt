@@ -25,7 +25,7 @@ class SearchLocationAdapter<L : ILocation>(
     {
         override fun onBind(itemData: ILocation) {
             super.onBind(itemData)
-            itemLocationBinding.location = itemData
+            //itemLocationBinding.location = itemData
         }
     }
 }

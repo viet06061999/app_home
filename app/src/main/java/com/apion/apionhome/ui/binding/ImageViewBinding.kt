@@ -12,9 +12,12 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
 import com.apion.apionhome.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+
 
 @BindingAdapter(value = ["image", "sex"], requireAll = false)
 fun loadImage(view: ImageView, imageUrl: String?, sex: String?) {
@@ -27,10 +30,16 @@ fun loadImage(view: ImageView, imageUrl: String?, sex: String?) {
     }
     val factory =
         DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
-
+    val url = imageUrl?.let {
+        GlideUrl(
+            imageUrl, LazyHeaders.Builder()
+                .addHeader("User-Agent", "5")
+                .build()
+        )
+    }
     if (!imageUrl.isNullOrBlank()) {
         Glide.with(view.context)
-            .load(imageUrl)
+            .load(url)
             .placeholder(animationDrawable)
             .transition(withCrossFade(factory))
             .error(R.drawable.img_no_image_to_show)

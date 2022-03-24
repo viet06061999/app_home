@@ -67,10 +67,14 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
         var name : String = "Viet"
         // ? để check null. khi null thì ko thực hiện scope function apply
         //
+        _isLoading.value = true
         validatePhone()?.apply {
             userRepository
                 .login(this)
                 .setup()
+                .doOnTerminate {
+                    _isLoading.value = false
+                }
                 .subscribe(
                     {
                         _user.value = it

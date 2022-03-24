@@ -63,6 +63,26 @@ class SearchViewModel(
 
     private val empty = emptyList<ILocation>()
 
+    private val _priceIndex = MutableLiveData<Int>(0)
+
+    val priceIndex: LiveData<Int>
+        get() = _priceIndex
+
+    private val _acreageIndex = MutableLiveData<Int>(0)
+
+    val acreageIndex: LiveData<Int>
+        get() = _acreageIndex
+
+    private val _frontWidthIndex = MutableLiveData<Int>(0)
+
+    val frontWidthIndex: LiveData<Int>
+        get() = _frontWidthIndex
+
+    private val _bedroomIndex = MutableLiveData<Int>(0)
+
+    val bedroomIndex: LiveData<Int>
+        get() = _bedroomIndex
+
     override fun initData() {
         super.initData()
         getAllProvince()
@@ -189,5 +209,21 @@ class SearchViewModel(
             this.max = max
         } ?: Range(min, max, "m")
         _frontWidth.value = range
+    }
+
+    fun setFrontWidthIndex(index: Int) {
+        _frontWidthIndex.value = index
+    }
+
+    fun setPriceIndex(index: Int) {
+        _priceIndex.value = index
+    }
+
+    fun setAcreageIndex(index: Int) {
+        _acreageIndex.value = index
+    }
+
+    fun setBedroomsIndex(index: Int) {
+        _bedroomIndex.value = index
     }
 }

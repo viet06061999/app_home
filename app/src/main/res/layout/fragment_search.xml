@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="com.apion.apionhome.data.model.RangeUI"/>
+    <variable
+        name="searchVM"
+        type="com.apion.apionhome.ui.search.SearchViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -204,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_12"
-                    android:text="@string/title_price_range"
+                    android:text="@string/hint_price"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="@+id/textLayoutSearch"
                     app:layout_constraintTop_toBottomOf="@+id/textLayoutDirection" />
@@ -217,6 +223,7 @@
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
+                    android:max="@{RangeUI.INSTANCE.priceRangeUis.values().size() - 1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -238,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_12"
-                    android:text="@string/title_acr"
+                    android:text="@string/hint_acreage"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="@+id/textLayoutSearch"
                     app:layout_constraintTop_toBottomOf="@+id/seekBarPrice" />
@@ -251,6 +258,7 @@
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
+                    android:max="@{RangeUI.INSTANCE.acreageRangeUis.values().size() -1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -283,6 +291,7 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/dp_8"
                     android:maxHeight="4dp"
+                    android:max="@{RangeUI.INSTANCE.frontWidthRangeUis.values().size() - 1}"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
                     android:thumb="@drawable/thumb1"
@@ -319,11 +328,13 @@
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
+                    android:max="@{RangeUI.INSTANCE.bedroomUis.values().size()-1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/textPriceRange"
                     app:layout_constraintTop_toBottomOf="@+id/textRoomRange" />
+
                 <Button
                     android:id="@+id/btnLogin"
                     android:layout_width="0dp"

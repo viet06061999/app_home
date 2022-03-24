@@ -9,10 +9,8 @@ import com.facebook.shimmer.ShimmerFrameLayout
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter("dataShimmerList")
 fun <T> setupShimmerList(shimmer: ShimmerFrameLayout, data: List<T>?) {
-    println("shimmer $data")
     if (data.isNullOrEmpty() && !shimmer.isAnimationStarted) shimmer.startShimmerAnimation()
     else shimmer.stopShimmerAnimation()
-    println("shimmer ${shimmer.isAnimationStarted}")
 }
 
 @Suppress("UNCHECKED_CAST")

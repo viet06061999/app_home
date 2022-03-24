@@ -108,7 +108,8 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
     }
 
     private fun onConnection() {
-        isInternetAvailable()
+//        isInternetAvailable()
+        onConnectionAvailable()
         exceptionDialog?.let {
             if (it.isShowing) it.dismiss()
         }

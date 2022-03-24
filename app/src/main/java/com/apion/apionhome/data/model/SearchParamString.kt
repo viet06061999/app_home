@@ -11,7 +11,7 @@ import com.apion.apionhome.utils.ApiEndPoint.PART_TITLE
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
-data class SearchParam(
+data class SearchParamString(
     val province: String? = null,
     val district: String? = null,
     val priceRange: Range? = null,
@@ -19,8 +19,7 @@ data class SearchParam(
     val homeDirection: String? = null,
     val title: String? = null,
     @SerializedName("frontWidthRange")
-    val frontWidthRange: Range?,
-    val newsType: String? = null,
+    val frontWidthRange: String,
 ) {
 
     fun toJson(): String {
@@ -45,9 +44,6 @@ data class SearchParam(
             }
             frontWidthRange?.let {
                 addProperty(PART_FRONT_WIDTH_RANGE, it.toString())
-            }
-            newsType?.let {
-                addProperty(PART_NEWS_TYPE, it)
             }
         }
 

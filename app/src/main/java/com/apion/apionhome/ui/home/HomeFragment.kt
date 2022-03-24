@@ -156,7 +156,6 @@ class HomeFragment :
     }
 
     private fun onItemHouseClick(house: House) {
-        println(house)
         val destination = HomeFragmentDirections.actionToDetail(house)
         findNavController().navigate(destination)
     }

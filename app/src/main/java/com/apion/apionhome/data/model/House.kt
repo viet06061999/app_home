@@ -13,37 +13,37 @@ data class House(
     @SerializedName("id")
     val id: Int,
     @SerializedName("news_type")
-    val newsType: String,
+    val newsType: String?,
     @SerializedName("houseType")
-    val houseType: String,
+    val houseType: String?,
     @SerializedName("status")
-    val status: String,
+    val status: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("content")
-    val content: String,
+    val content: String?,
     @SerializedName("province")
-    val province: String,
+    val province: String?,
     @SerializedName("district")
-    val district: String,
+    val district: String?,
     @SerializedName("ward")
-    val ward: String,
+    val ward: String?,
     @SerializedName("street")
-    val street: String,
+    val street: String?,
     @SerializedName("detail_address")
-    val address: String,
+    val address: String?,
     @SerializedName("price")
-    val price: Long,
+    val price: Long?,
     @SerializedName("frontWidth")
-    val frontWidth: Double,
+    val frontWidth: Double?,
     @SerializedName("acreage")
-    val acreage: Double,
+    val acreage: Double?,
     @SerializedName("homeDirection")
-    val homeDirection: String,
+    val homeDirection: String?,
     @SerializedName("bedrooms")
-    val bedrooms: Int,
+    val bedrooms: Int?,
     @SerializedName("user_id")
-    val userId: Int,
+    val userId: Int?,
     @SerializedName("seller_id")
     val sellerId: Int?,
     @SerializedName("owner")
@@ -51,13 +51,13 @@ data class House(
     @SerializedName("seller")
     val seller: User?,
     @SerializedName("images")
-    var images: List<String>,
+    var images: List<String>?,
     @SerializedName("related_houses")
     val relatedHouses: List<House>?,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
 ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
@@ -67,30 +67,29 @@ data class House(
         newItem is House && this == newItem
 
     fun getPriceConvert(): String {
+        val tmpPrice = price ?: 0
         return when {
-            price / 1000000000.0 >= 1.0 -> {
-                val value = price / 1000000000.0
-                if (checkPrice(value)) return "${value.roundToInt()} tỷ"
-                else return "$value tỷ"
+            tmpPrice / 1000000000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000000000.0
+                return "${checkPrice(value)} tỷ"
             }
-            price / 1000000.0 >= 1.0 -> {
-                val value = price / 1000000.0
-                if (checkPrice(value)) return "${value.roundToInt()} triệu"
-                else return "$value triệu"
+            tmpPrice / 1000000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000000.0
+                return "${checkPrice(value)} triệu"
             }
-            price / 1000.0 >= 1.0 -> {
-                val value = price / 1000.0
-                if (checkPrice(value)) return "${value.roundToInt()} nghìn"
-                else return "$value nghìn"
+            tmpPrice / 1000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000.0
+                return "${checkPrice(value)} nghìn"
             }
             else -> "$price đồng"
         }
     }
 
-    fun getDefaultImage() : String? {
-        return if (!images.isNullOrEmpty()) images[0]
+    fun getDefaultImage(): String? {
+        return if (!images.isNullOrEmpty()) images?.get(0)
         else null
     }
+
     fun getDetailAddress(): String {
         return "$address $street, $ward, $district, $province"
     }
@@ -105,7 +104,9 @@ data class House(
         } ?: ""
     }
 
-    private fun checkPrice(number: Double): Boolean {
-        return number.roundToInt() - number == 0.0
+    private fun checkPrice(number: Double): String {
+        val priceString = String.format("%.1f", number)
+        return if (priceString.last() == '0') priceString.split(".").first() else priceString
+
     }
 }

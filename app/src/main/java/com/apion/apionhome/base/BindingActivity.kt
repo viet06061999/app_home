@@ -26,7 +26,7 @@ abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, getLayoutResId())
 
         if (Build.VERSION.SDK_INT in 21..29) {
-            window.statusBarColor = Color.TRANSPARENT
+            window.statusBarColor = Color.BLACK
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.decorView.systemUiVisibility =

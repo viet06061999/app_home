@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.apion.apionhome.base.RxViewModel
+import com.apion.apionhome.data.model.House
 import com.apion.apionhome.data.model.Range
+import com.apion.apionhome.data.model.RangeUI
+import com.apion.apionhome.data.model.SearchParam
 import com.apion.apionhome.data.model.local.District
 import com.apion.apionhome.data.model.local.ILocation
 import com.apion.apionhome.data.model.local.LocationName
@@ -15,6 +18,7 @@ import com.apion.apionhome.utils.setup
 class SearchViewModel(
     private val houseRepository: HouseRepository
 ) : RxViewModel() {
+    val title = MutableLiveData<String>()
 
     private val _provinces = MutableLiveData<List<Province>>()
 
@@ -82,6 +86,21 @@ class SearchViewModel(
 
     val bedroomIndex: LiveData<Int>
         get() = _bedroomIndex
+
+    private val _houseTypeIndex = MutableLiveData<Int>(0)
+
+    val houseTypeIndex: LiveData<Int>
+        get() = _houseTypeIndex
+
+    private val _houseDirectionIndex = MutableLiveData<Int>(0)
+
+    val houseDirectionIndex: LiveData<Int>
+        get() = _houseDirectionIndex
+
+    private val _housesSearch = MutableLiveData<List<House>>()
+
+    val housesSearch: LiveData<List<House>>
+        get() = _housesSearch
 
     override fun initData() {
         super.initData()
@@ -164,6 +183,36 @@ class SearchViewModel(
             )
     }
 
+    fun searchHouse() {
+        val param = SearchParam(
+           title.value,
+           province.value?.name,
+            district.value?.name,
+            ward.value?.name,
+            street.value?.name,
+            RangeUI.houseTypeRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
+            RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
+            RangeUI.priceRangeUis.entries.toList()[priceIndex.value?:0].key,
+            RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value?:0].key,
+            RangeUI.frontWidthRangeUis.entries.toList()[frontWidthIndex.value?:0].key,
+            RangeUI.bedroomUis.entries.toList()[bedroomIndex.value?:0].key,
+            )
+        println(param)
+        houseRepository
+            .getSearchHouse(param)
+            .setup()
+            .subscribe(
+                {
+                    println("search house -----------------")
+                    println(it)
+                    _housesSearch.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+
     fun setProvince(province: Province) {
         _province.value = province
         _district.value = null
@@ -221,6 +270,14 @@ class SearchViewModel(
 
     fun setAcreageIndex(index: Int) {
         _acreageIndex.value = index
+    }
+
+    fun setHouseTypeIndex(index: Int) {
+        _houseTypeIndex.value = index
+    }
+
+    fun setHouseDirectionIndex(index: Int) {
+        _houseDirectionIndex.value = index
     }
 
     fun setBedroomsIndex(index: Int) {

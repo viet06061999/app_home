@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.apion.apionhome.data.model.RangeUI"/>
-    <variable
-        name="searchVM"
-        type="com.apion.apionhome.ui.search.SearchViewModel" />
+
+        <import type="com.apion.apionhome.data.model.RangeUI" />
+
+        <variable
+            name="searchVM"
+            type="com.apion.apionhome.ui.search.SearchViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,9 +64,9 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleSearch">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,6 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_input_query"
+                        android:text="@={searchVM.title}"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:padding="@dimen/dp_16" />
@@ -112,26 +116,18 @@
                     app:layout_constraintStart_toStartOf="@+id/textLayoutSearch"
                     app:layout_constraintTop_toBottomOf="@+id/textSearchBy" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textLayoutHouseType"
-                    style="@style/StyleTextInputLayout"
-                    android:layout_height="wrap_content"
+                    style="@style/StyleEditText"
                     android:layout_marginHorizontal="@dimen/dp_32"
-                    app:boxStrokeColor="@color/color_grey"
-                    app:boxStrokeWidth="@dimen/dp_2"
+                    android:background="@drawable/bg_rectangle_grey"
+                    android:focusable="false"
+                    android:hint="@string/hint_ward"
+                    android:paddingHorizontal="@dimen/dp_8"
+                    android:text="@string/title_all"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textHouseType">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextHouseType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:maxLines="1"
-                        android:padding="@dimen/dp_16"
-                        android:text="@string/title_all" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textHouseType" />
 
                 <TextView
                     android:id="@+id/textAddress"
@@ -143,26 +139,18 @@
                     app:layout_constraintStart_toStartOf="@+id/textLayoutSearch"
                     app:layout_constraintTop_toBottomOf="@+id/textLayoutHouseType" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textLayoutAddress"
-                    style="@style/StyleTextInputLayout"
-                    android:layout_height="wrap_content"
+                    style="@style/StyleEditText"
                     android:layout_marginHorizontal="@dimen/dp_32"
-                    app:boxStrokeColor="@color/color_grey"
-                    app:boxStrokeWidth="@dimen/dp_2"
+                    android:background="@drawable/bg_rectangle_grey"
+                    android:focusable="false"
+                    android:hint="@string/hint_ward"
+                    android:paddingHorizontal="@dimen/dp_8"
+                    android:text="@string/text_select_address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textAddress">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextAddress"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:maxLines="1"
-                        android:padding="@dimen/dp_16"
-                        android:text="@string/text_select_address" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textAddress" />
 
                 <TextView
                     android:id="@+id/textDirection"
@@ -174,26 +162,18 @@
                     app:layout_constraintStart_toStartOf="@+id/textLayoutSearch"
                     app:layout_constraintTop_toBottomOf="@+id/textLayoutAddress" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textLayoutDirection"
-                    style="@style/StyleTextInputLayout"
-                    android:layout_height="wrap_content"
+                    style="@style/StyleEditText"
                     android:layout_marginHorizontal="@dimen/dp_32"
-                    app:boxStrokeColor="@color/color_grey"
-                    app:boxStrokeWidth="@dimen/dp_2"
+                    android:background="@drawable/bg_rectangle_grey"
+                    android:focusable="false"
+                    android:hint="@string/hint_ward"
+                    android:paddingHorizontal="@dimen/dp_8"
+                    android:text="@string/text_select_direction"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textDirection">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextDirection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:maxLines="1"
-                        android:padding="@dimen/dp_16"
-                        android:text="@string/text_select_direction" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/textDirection" />
 
                 <TextView
                     android:id="@+id/textPriceRange"
@@ -220,10 +200,10 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/dp_8"
+                    android:max="@{RangeUI.INSTANCE.priceRangeUis.values().size() - 1}"
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
-                    android:max="@{RangeUI.INSTANCE.priceRangeUis.values().size() - 1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -255,10 +235,10 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/dp_8"
+                    android:max="@{RangeUI.INSTANCE.acreageRangeUis.values().size() -1}"
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
-                    android:max="@{RangeUI.INSTANCE.acreageRangeUis.values().size() -1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -290,8 +270,8 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/dp_8"
-                    android:maxHeight="4dp"
                     android:max="@{RangeUI.INSTANCE.frontWidthRangeUis.values().size() - 1}"
+                    android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
                     android:thumb="@drawable/thumb1"
@@ -325,10 +305,10 @@
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/dp_8"
+                    android:max="@{RangeUI.INSTANCE.bedroomUis.values().size()-1}"
                     android:maxHeight="4dp"
                     android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
-                    android:max="@{RangeUI.INSTANCE.bedroomUis.values().size()-1}"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -336,21 +316,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/textRoomRange" />
 
                 <Button
-                    android:id="@+id/btnLogin"
+                    android:id="@+id/btnSearch"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_16"
                     android:layout_marginBottom="@dimen/dp_32"
-                    android:paddingVertical="@dimen/dp_8"
                     android:background="@drawable/background_button1"
+                    android:paddingVertical="@dimen/dp_8"
                     android:text="@string/title_search_button"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_16"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/seekBarRoom" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

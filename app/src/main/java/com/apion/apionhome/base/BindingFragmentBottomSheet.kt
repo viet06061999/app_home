@@ -7,6 +7,9 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +18,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.apion.apionhome.R
 import com.apion.apionhome.utils.showToast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 
 abstract class BindingFragmentBottomSheet<T : ViewBinding>
     (private val inflate: Inflate<T>) : BottomSheetDialogFragment() {
@@ -31,6 +36,8 @@ abstract class BindingFragmentBottomSheet<T : ViewBinding>
 
     protected val binding: T
         get() = _binding ?: throw IllegalStateException(EXCEPTION)
+
+    open var isBackgroundTrans = false
 
     private val requestMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -48,6 +55,11 @@ abstract class BindingFragmentBottomSheet<T : ViewBinding>
         savedInstanceState: Bundle?
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
+        binding.root.apply {
+            backgroundTintMode = PorterDuff.Mode.CLEAR
+            backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+            setBackgroundColor(Color.TRANSPARENT)
+        }
         return binding.root
     }
 
@@ -61,9 +73,9 @@ abstract class BindingFragmentBottomSheet<T : ViewBinding>
                 sheet.parent.requestLayout()
             }
         }
-        viewModel.errorException.observe(viewLifecycleOwner, {
+        viewModel.errorException.observe(viewLifecycleOwner) {
             showToast(getString(R.string.default_error))
-        })
+        }
         setupView()
     }
 

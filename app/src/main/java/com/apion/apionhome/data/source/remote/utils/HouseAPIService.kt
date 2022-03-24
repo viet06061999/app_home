@@ -30,7 +30,7 @@ interface HouseAPIService {
     @GET(PATH_GET_HOUSE_BY_USER)
     fun getHouseByUser(@Path(PATH_PARAM_ID) userId: Int): Maybe<AllHouseResponse>
 
-    @GET(PATH_SEARCH)
+    @POST(PATH_SEARCH)
     fun getSearchHouse(@Body search: SearchParam): Maybe<AllHouseResponse>
 
     @Multipart

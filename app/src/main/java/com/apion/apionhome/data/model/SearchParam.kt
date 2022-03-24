@@ -1,56 +1,28 @@
 package com.apion.apionhome.data.model
 
-import com.apion.apionhome.utils.ApiEndPoint.PART_ACREAGE_RANGE
-import com.apion.apionhome.utils.ApiEndPoint.PART_DISTRICT
-import com.apion.apionhome.utils.ApiEndPoint.PART_FRONT_WIDTH_RANGE
-import com.apion.apionhome.utils.ApiEndPoint.PART_HOME_DIRECTION
-import com.apion.apionhome.utils.ApiEndPoint.PART_NEWS_TYPE
-import com.apion.apionhome.utils.ApiEndPoint.PART_PRICE_RANGE
-import com.apion.apionhome.utils.ApiEndPoint.PART_PROVINCE
-import com.apion.apionhome.utils.ApiEndPoint.PART_TITLE
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 data class SearchParam(
-    val province: String? = null,
-    val district: String? = null,
-    val priceRange: Range? = null,
-    val acreageRange: Range? = null,
-    val homeDirection: String? = null,
+    @SerializedName("title")
     val title: String? = null,
+    @SerializedName("province")
+    val province: String? = null,
+    @SerializedName("district")
+    val district: String? = null,
+    @SerializedName("ward")
+    val ward: String? = null,
+    @SerializedName("street")
+    val street: String? = null,
+    @SerializedName("houseType")
+    val houseType: String? = null,
+    @SerializedName("homeDirection")
+    val homeDirection: String? = null,
+    @SerializedName("priceRange")
+    val priceRange: String? = null,
+    @SerializedName("acreageRange")
+    val acreageRange: String? = null,
     @SerializedName("frontWidthRange")
-    val frontWidthRange: Range?,
-    val newsType: String? = null,
-) {
-
-    fun toJson(): String {
-        val jsonObject = JsonObject().apply {
-            province?.let {
-                addProperty(PART_PROVINCE, it)
-            }
-            district?.let {
-                addProperty(PART_DISTRICT, it)
-            }
-            priceRange?.let {
-                addProperty(PART_PRICE_RANGE, it.toString())
-            }
-            acreageRange?.let {
-                addProperty(PART_ACREAGE_RANGE, it.toString())
-            }
-            homeDirection?.let {
-                addProperty(PART_HOME_DIRECTION, it)
-            }
-            title?.let {
-                addProperty(PART_TITLE, it)
-            }
-            frontWidthRange?.let {
-                addProperty(PART_FRONT_WIDTH_RANGE, it.toString())
-            }
-            newsType?.let {
-                addProperty(PART_NEWS_TYPE, it)
-            }
-        }
-
-        return jsonObject.toString()
-    }
-}
+    val frontWidthRange: String?,
+    @SerializedName("bedrooms")
+    val bedRoom: Int? = 0,
+)

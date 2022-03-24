@@ -96,6 +96,9 @@ class HomeFragment :
         binding.editTextDistrict.setOnClickListener {
             findNavController().navigate(R.id.actionToSearchDistrictFragment)
         }
+        binding.editTextPrice.setOnClickListener {
+//            findNavController().
+        }
 //
 //        binding.layoutHeader.editTextDistrict.setOnClickListener {
 //            findNavController().navigate(R.id.actionToSearchDistrictFragment)

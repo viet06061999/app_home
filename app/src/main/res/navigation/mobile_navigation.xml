@@ -123,29 +123,12 @@
         android:id="@+id/bottomSheetPrice"
         android:name="com.apion.apionhome.ui.search.BottomSheetPriceFragment"
         />
-<!--    <fragment-->
-<!--        android:id="@+id/searchWardFragment"-->
-<!--        android:name="com.apion.apionhome.ui.search.SearchWardFragment"-->
-<!--        tools:layout="@layout/bottomsheet_search_location"-->
-<!--        >-->
-<!--        &lt;!&ndash;            app:enterAnim="@anim/slide_up"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:exitAnim="@anim/fade_out"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:popEnterAnim="@anim/fade_in"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:popExitAnim="@anim/slide_bottom"&ndash;&gt;-->
-<!--    </fragment>-->
-<!--    <fragment-->
-<!--        android:id="@+id/searchWardFragment"-->
-<!--        android:name="com.apion.apionhome.ui.search.SearchWardFragment"-->
-<!--        android:label="SearchWardFragment" />-->
-<!--    <dialog-->
-<!--        android:id="@+id/searchStreetFragment"-->
-<!--        android:name="com.apion.apionhome.ui.search.SearchStreetFragment"-->
-<!--        tools:layout="@layout/bottomsheet_search_location"-->
-<!--        />-->
-<!--    <fragment-->
-<!--        android:id="@+id/searchStreetFragment"-->
-<!--        android:name="com.apion.apionhome.ui.search.SearchStreetFragment"-->
-<!--        android:label="SearchStreetFragment" />-->
+    <dialog
+        android:id="@+id/bottomSheetSquare"
+        android:name="com.apion.apionhome.ui.search.BottomSheetSquareFragment"
+        tools:layout="@layout/bottomsheet_square"
+        />
+
     <fragment
         android:id="@+id/bottomSheetSearchDetail"
         android:name="com.apion.apionhome.ui.search.BottomSheetSearchDetailFragment"
@@ -208,8 +191,4 @@
 <!--        android:id="@+id/bootomSheetPriceAcrea"-->
 <!--        android:name="com.apion.apionhome.ui.search.BottomSheetPriceAcrea"-->
 <!--        tools:layout="@layout/bottomsheet_price_acrea" />-->
-    <!--    <dialog-->
-    <!--        android:id="@+id/bootomSheetPriceAcrea"-->
-    <!--        android:name="com.apion.apionhome.ui.search.BottomSheetPriceAcrea"-->
-    <!--        tools:layout="@layout/bottomsheet_price_acrea" />-->
 </navigation>

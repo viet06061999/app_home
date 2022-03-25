@@ -12,7 +12,9 @@ class SearchDistrictFragment : SearchLocationFragment<District>() {
         setUpViewModel().searchDistrict(query)
     }
 
+
     override fun getHint(): String {
         return "Tìm kiếm"
     }
+
 }

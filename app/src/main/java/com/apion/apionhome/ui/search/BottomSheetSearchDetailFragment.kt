@@ -2,6 +2,7 @@ package com.apion.apionhome.ui.search
 
 import androidx.navigation.fragment.findNavController
 import com.apion.apionhome.R
+import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.BindingFragmentBottomSheet
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.databinding.BottomsheetSearchDetailBinding
@@ -21,8 +22,12 @@ class BottomSheetSearchDetailFragment : BindingFragmentBottomSheet<BottomsheetSe
         binding.edtWard.setOnClickListener {
             this.findNavController().navigate(R.id.actionToSearchWardFragment)
         }
+//        binding.edtStreet.setOnClickListener {
+//            this.findNavController().navigate(R.id.actionToSearchStreetFragment)
+//        }
         binding.edtStreet.setOnClickListener {
             this.findNavController().navigate(R.id.actionToSearchStreetFragment)
         }
     }
 }
+//class BottomSheetSearchDetailFragment : BindingFragment<>

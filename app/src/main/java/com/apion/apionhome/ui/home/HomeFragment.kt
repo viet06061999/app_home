@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
+import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.User
 import com.apion.apionhome.data.model.dashboard.Banner
 import com.apion.apionhome.databinding.FragmentHomeBinding
@@ -82,6 +83,7 @@ class HomeFragment :
         setupListener()
         setupRefresh()
         setupSearchView()
+        setupObserve()
     }
 
     override fun onConnectionAvailable() {
@@ -91,15 +93,11 @@ class HomeFragment :
     }
 
     private fun setupListener() {
-//        binding.editTextPrice.setOnClickListener(){
-//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-//        }
-//        binding.editTextDistrict.setOnClickListener(){
-//            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
-//        }
-//        binding.editTextSquare.setOnClickListener {
-//            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-//        }
+
+
+        binding.editTextSquare.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToBottomSheetSquareFragment)
+        }
         binding.editTextCity.setOnClickListener {
             findNavController().navigate(R.id.actionToSearchProvinceFragment)
         }
@@ -112,11 +110,8 @@ class HomeFragment :
         binding.layoutWardStreet.setOnClickListener{
             findNavController().navigate(R.id.actionToBottomSheetSearchDetailFragment)
         }
-//
-//        binding.layoutHeader.editTextDistrict.setOnClickListener {
-//            findNavController().navigate(R.id.actionToSearchDistrictFragment)
-//        }
-//
+
+
 //        binding.layoutHeader.editTextWard.setOnClickListener {
 //            if (searchViewModel.district.value != null) {
 //                findNavController().navigate(R.id.actionToSearchWardFragment)
@@ -140,7 +135,16 @@ class HomeFragment :
         //binding.layoutHeader.root.viewTreeObserver.removeOnGlobalLayoutListener(observerVisible)
         sliderHandler.removeCallbacks(runnable)
     }
-
+    private fun setupObserve(){
+        searchViewModel.priceIndex.observe(this, {
+            binding.editTextPrice.text =
+                RangeUI.priceRangeUis.values.toMutableList()[searchViewModel.priceIndex.value ?: 0]
+        })
+        searchViewModel.squareIndex.observe(this, {
+            binding.editTextSquare.text =
+                RangeUI.acreageRangeUis.values.toMutableList()[searchViewModel.squareIndex.value ?: 0]
+        })
+    }
     private fun setupRefresh() {
         binding.swipeLayout.apply {
             //binding.layoutHeader.root.viewTreeObserver.addOnGlobalLayoutListener(observerVisible)

@@ -53,14 +53,27 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     val street: LiveData<LocationName?>
         get() = _street
 
+//    private val _price = MutableLiveData<Range?>()
+//
+//    val price: LiveData<Range?>
+//        get() = _price
+
+//    private val _acreage = MutableLiveData<Range?>()
+//
+//    val acreage: LiveData<Range?>
+//        get() = _acreage
 
     private val _locations = MutableLiveData<List<ILocation>>()
     val locations: LiveData<List<ILocation>>
         get() = _locations
+    private val _frontWidth = MutableLiveData<Range?>()
 
-//    private val _texts = MutableLiveData<String>()
-//    val texts: LiveData<String>
-//        get() = _texts
+    val frontWidth: LiveData<Range?>
+        get() = _frontWidth
+
+    private val _texts = MutableLiveData<String>()
+    val texts: LiveData<String>
+        get() = _texts
 
     private val empty = emptyList<ILocation>()
 
@@ -68,6 +81,12 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     val priceIndex: LiveData<Int>
         get() = _priceIndex
+
+    private val _squareIndex = MutableLiveData<Int>(0)
+
+    val squareIndex: LiveData<Int>
+        get() = _squareIndex
+
 
     private val _acreageIndex = MutableLiveData<Int>(0)
 
@@ -203,7 +222,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             .setup()
             .subscribe(
                 {
-                    println(it)
                     _locations.value = it
                 },
                 {

@@ -23,14 +23,6 @@ class CommunityFragment :
     private val communityAdapter = CommunityAdapter(::onItemCommunityClick, ::onButtonJoinClick)
     private val myCommunityAdapter = MyCommunityAdapter(::onItemCommunityClick)
 
-    override fun onResume() {
-        super.onResume()
-        requireActivity().window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-    }
-
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.homeVM = viewModel
@@ -48,11 +40,6 @@ class CommunityFragment :
         })
     }
 
-    override fun onStop() {
-        super.onStop()
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-    }
 
     private fun onItemPostClick(house: House) {
         println(house)

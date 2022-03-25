@@ -14,7 +14,7 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.utils.setup
 
-class SearchViewModel(private val houseRepository : HouseRepository) : RxViewModel() {
+class SearchViewModel(private val houseRepository: HouseRepository) : RxViewModel() {
 
     val title = MutableLiveData<String>()
 
@@ -28,14 +28,8 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     val district: LiveData<District?>
         get() = _district
 
-    private val _province = MutableLiveData<Province?>(
-        Province(
-            id = 2,
-            name = "Hà Nội",
-            code = "HN",
-            districts = mutableListOf()
-        )
-    )
+    private val _province = MutableLiveData<Province?>()
+
     val province: LiveData<Province?>
         get() = _province
     private val _ward = MutableLiveData<LocationName?>()
@@ -48,27 +42,14 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     val street: LiveData<LocationName?>
         get() = _street
 
-    private val _price = MutableLiveData<Range?>()
-
-    val price: LiveData<Range?>
-        get() = _price
-
-    private val _acreage = MutableLiveData<Range?>()
-
-    val acreage: LiveData<Range?>
-        get() = _acreage
 
     private val _locations = MutableLiveData<List<ILocation>>()
     val locations: LiveData<List<ILocation>>
         get() = _locations
-    private val _frontWidth = MutableLiveData<Range?>()
 
-    val frontWidth: LiveData<Range?>
-        get() = _frontWidth
-
-    private val _texts = MutableLiveData<String>()
-    val texts: LiveData<String>
-        get() = _texts
+//    private val _texts = MutableLiveData<String>()
+//    val texts: LiveData<String>
+//        get() = _texts
 
     private val empty = emptyList<ILocation>()
 
@@ -107,9 +88,57 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     val housesSearch: LiveData<List<House>>
         get() = _housesSearch
 
+    fun getAddress(): String {
+        var textAddress = ""
+        street.value?.let {
+            textAddress += street.value?.name +", "
+        }
+
+        ward.value?.let {
+            textAddress += ward.value?.name +", "
+        }
+
+        district.value?.let {
+            textAddress += district.value?.name +", "
+        }
+
+        province.value?.let {
+            textAddress += province.value?.name
+        }
+
+        return textAddress
+    }
+
     override fun initData() {
         super.initData()
         getAllProvince()
+        _province.value = Province(
+            id = 2,
+            name = "Hà Nội",
+            code = "HN",
+            districts = mutableListOf()
+        )
+        _district.value = District(
+            id = 25,
+            name = "Ba Đình",
+            province = Province(
+                id = 2,
+                name = "Hà Nội",
+                code = "HN",
+                districts = mutableListOf()
+            )
+        )
+        _ward.value = null
+        _street.value = null
+        title.value = ""
+        _locations.value = emptyList()
+        _priceIndex.value = 0
+        _frontWidthIndex.value = 0
+        _houseDirectionIndex.value = 0
+        _housesSearch.value = emptyList()
+        _houseTypeIndex.value = 0
+        _bedroomIndex.value = 0
+        _acreageIndex.value = 0
     }
 
 
@@ -235,72 +264,50 @@ class SearchViewModel(private val houseRepository : HouseRepository) : RxViewMod
     }
 
 
-        fun setProvince(province: Province) {
-            _province.value = province
-            _district.value = province.districts.first()
-//        _district.value = null
-//        _ward.value = null
-//        _street.value = null
-        }
-
-    fun setDistrict(district: District) {
-        _district.value = district
+    fun setProvince(province: Province?) {
+        _province.value = province
+        _district.value = province?.districts?.first()
+        _ward.value = null
+        _street.value = null
     }
-        fun setWard(locationName: LocationName) {
-            _ward.value = locationName
-        }
 
-        fun setStreet(locationName: LocationName) {
-            _street.value = locationName
-        }
+    fun setDistrict(district: District?) {
+        _district.value = district
+        _ward.value = null
+        _street.value = null
+    }
 
-        fun setPrice(min: Int, max: Int) {
-            val range = _price.value?.apply {
-                this.min = min
-                this.max = max
-            } ?: Range(min, max, "ty")
-            _price.value = range
-        }
+    fun setWard(locationName: LocationName) {
+        _ward.value = locationName
+        _street.value = null
+    }
 
-        fun setAcreage(min: Int, max: Int) {
-            val range = _acreage.value?.apply {
-                this.min = min
-                this.max = max
-            } ?: Range(min, max, "m2")
-            _acreage.value = range
-        }
+    fun setStreet(locationName: LocationName) {
+        _street.value = locationName
+    }
 
+    fun setFrontWidthIndex(index: Int) {
+        _frontWidthIndex.value = index
+    }
 
-        fun setFrontWidth(min: Int, max: Int) {
-            val range = _frontWidth.value?.apply {
-                this.min = min
-                this.max = max
-            } ?: Range(min, max, "m")
-            _frontWidth.value = range
-        }
+    fun setPriceIndex(index: Int) {
+        _priceIndex.value = index
+    }
 
-        fun setFrontWidthIndex(index: Int) {
-            _frontWidthIndex.value = index
-        }
+    fun setAcreageIndex(index: Int) {
+        _acreageIndex.value = index
+    }
 
-        fun setPriceIndex(index: Int) {
-            _priceIndex.value = index
-        }
+    fun setHouseTypeIndex(index: Int) {
+        _houseTypeIndex.value = index
+    }
 
-        fun setAcreageIndex(index: Int) {
-            _acreageIndex.value = index
-        }
+    fun setHouseDirectionIndex(index: Int) {
+        _houseDirectionIndex.value = index
+    }
 
-        fun setHouseTypeIndex(index: Int) {
-            _houseTypeIndex.value = index
-        }
-
-        fun setHouseDirectionIndex(index: Int) {
-            _houseDirectionIndex.value = index
-        }
-
-        fun setBedroomsIndex(index: Int) {
-            _bedroomIndex.value = index
-        }
+    fun setBedroomsIndex(index: Int) {
+        _bedroomIndex.value = index
+    }
 
 }

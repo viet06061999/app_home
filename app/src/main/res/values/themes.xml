@@ -13,7 +13,7 @@
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
-
+<!--        <item name="android:windowLightStatusBar">true</item>-->
         <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
 

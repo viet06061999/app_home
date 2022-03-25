@@ -64,9 +64,9 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleSearch">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,10 +89,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_input_query"
-                        android:text="@={searchVM.title}"
                         android:inputType="phone"
                         android:maxLines="1"
-                        android:padding="@dimen/dp_16" />
+                        android:padding="@dimen/dp_16"
+                        android:text="@={searchVM.title}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -145,7 +145,6 @@
                     android:layout_marginHorizontal="@dimen/dp_32"
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
-                    android:hint="@string/hint_ward"
                     android:paddingHorizontal="@dimen/dp_8"
                     android:text="@string/text_select_address"
                     app:layout_constraintEnd_toEndOf="parent"

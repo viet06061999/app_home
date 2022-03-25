@@ -1,7 +1,11 @@
 package com.apion.apionhome.ui.home
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -60,6 +64,12 @@ class HomeFragment :
             }
             binding.layoutBanner.imageSlider.currentItem = current
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("lai vao set up view")
+        searchViewModel.initData()
     }
 
     override fun setupView() {

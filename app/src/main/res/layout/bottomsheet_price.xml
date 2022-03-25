@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="com.apion.apionhome.data.model.RangeUI" />
         <variable
             name="searchVM"
             type="com.apion.apionhome.ui.search.SearchViewModel" />
@@ -60,16 +60,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/text_title" />
+<!--        android:progressDrawable="@drawable/thumb"-->
 
 
     <SeekBar
-        android:id="@+id/seekBar_luminosite"
+        android:id="@+id/seekBarHome"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="28dp"
-        android:maxHeight="4dp"
-        android:progressDrawable="@drawable/thumb"
+        android:layout_marginTop="@dimen/dp_8"
+        android:maxHeight="6dp"
+        android:max="@{RangeUI.INSTANCE.priceRangeUis.values().size() - 1}"
+        android:progressBackgroundTint="#000000"
+        android:progressTint="#388e3c"
         android:scaleY="1"
         android:thumb="@drawable/thumb1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +93,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar_luminosite" />
+        app:layout_constraintTop_toBottomOf="@+id/seekBarHome" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

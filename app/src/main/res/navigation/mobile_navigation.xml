@@ -23,25 +23,6 @@
         <action
             android:id="@+id/actionToDetail"
             app:destination="@id/activityDetail" />
-
-        <!--        <action-->
-        <!--            android:id="@+id/actionToSearchWardFragment"-->
-        <!--            app:destination="@id/searchWardFragment"-->
-        <!--            app:enterAnim="@anim/slide_up"-->
-        <!--            app:exitAnim="@anim/fade_out"-->
-        <!--            app:popEnterAnim="@anim/fade_in"-->
-        <!--            app:popExitAnim="@anim/slide_bottom" />-->
-
-        <!--        <action-->
-        <!--            android:id="@+id/actionToSearchStreetFragment"-->
-        <!--            app:destination="@id/searchStreetFragment"-->
-        <!--            app:enterAnim="@anim/slide_up"-->
-        <!--            app:exitAnim="@anim/fade_out"-->
-        <!--            app:popEnterAnim="@anim/fade_in"-->
-        <!--            app:popExitAnim="@anim/slide_bottom" />-->
-        <!--        <action-->
-        <!--            android:id="@+id/actionToBottomSheetPriceAcrea"-->
-        <!--            app:destination="@id/bootomSheetPriceAcrea" />-->
     </fragment>
 
     <action
@@ -137,7 +118,55 @@
     <fragment
         android:id="@+id/searchDistrictFragment"
         android:name="com.apion.apionhome.ui.search.SearchDistrictFragment"
-        android:label="SearchDistrictFragment">
+        android:label="SearchDistrictFragment" />
+    <dialog
+        android:id="@+id/bottomSheetPrice"
+        android:name="com.apion.apionhome.ui.search.BottomSheetPriceFragment"
+        />
+<!--    <fragment-->
+<!--        android:id="@+id/searchWardFragment"-->
+<!--        android:name="com.apion.apionhome.ui.search.SearchWardFragment"-->
+<!--        tools:layout="@layout/bottomsheet_search_location"-->
+<!--        >-->
+<!--        &lt;!&ndash;            app:enterAnim="@anim/slide_up"&ndash;&gt;-->
+<!--        &lt;!&ndash;            app:exitAnim="@anim/fade_out"&ndash;&gt;-->
+<!--        &lt;!&ndash;            app:popEnterAnim="@anim/fade_in"&ndash;&gt;-->
+<!--        &lt;!&ndash;            app:popExitAnim="@anim/slide_bottom"&ndash;&gt;-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/searchWardFragment"-->
+<!--        android:name="com.apion.apionhome.ui.search.SearchWardFragment"-->
+<!--        android:label="SearchWardFragment" />-->
+<!--    <dialog-->
+<!--        android:id="@+id/searchStreetFragment"-->
+<!--        android:name="com.apion.apionhome.ui.search.SearchStreetFragment"-->
+<!--        tools:layout="@layout/bottomsheet_search_location"-->
+<!--        />-->
+<!--    <fragment-->
+<!--        android:id="@+id/searchStreetFragment"-->
+<!--        android:name="com.apion.apionhome.ui.search.SearchStreetFragment"-->
+<!--        android:label="SearchStreetFragment" />-->
+    <fragment
+        android:id="@+id/bottomSheetSearchDetail"
+        android:name="com.apion.apionhome.ui.search.BottomSheetSearchDetailFragment"
+        tools:layout="@layout/bottomsheet_search_detail"
+        >
+        <action
+            android:id="@+id/actionToSearchWardFragment"
+            app:destination="@id/searchWardFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_bottom"
+            />
+        <action
+            android:id="@+id/actionToSearchStreetFragment"
+            app:destination="@id/searchStreetFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_bottom"
+            />
         <argument
             android:name="shareData2"
             android:defaultValue="true"
@@ -175,6 +204,10 @@
             app:argType="boolean" />
     </fragment>
 
+<!--    <dialog-->
+<!--        android:id="@+id/bootomSheetPriceAcrea"-->
+<!--        android:name="com.apion.apionhome.ui.search.BottomSheetPriceAcrea"-->
+<!--        tools:layout="@layout/bottomsheet_price_acrea" />-->
     <!--    <dialog-->
     <!--        android:id="@+id/bootomSheetPriceAcrea"-->
     <!--        android:name="com.apion.apionhome.ui.search.BottomSheetPriceAcrea"-->

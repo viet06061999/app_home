@@ -23,7 +23,18 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     val provinces: LiveData<List<Province>>
         get() = _provinces
 
-    private val _district = MutableLiveData<District?>()
+    private val _district = MutableLiveData<District?>(
+        District(
+            id = 25,
+            name = "Ba Đình",
+            province = Province(
+                                id = 2,
+                                name = "Hà Nội",
+                                code = "HN",
+                                districts = mutableListOf()
+                                ),
+        )
+    )
 
     val district: LiveData<District?>
         get() = _district
@@ -170,20 +181,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             )
     }
 
-//    fun searchProvince(query: String) {
-//        println("province $province")
-//        houseRepository
-//            .searchProvince(query)
-//            .setup()
-//            .subscribe(
-//                {
-//                    _locations.value = it
-//                }, {
-//                    it.printStackTrace()
-//                    error.value = it.message
-//                }
-//            )
-//    }
+
 
     fun searchDistrict(query: String) {
         houseRepository
@@ -222,6 +220,8 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             .subscribe(
                 {
                     _locations.value = it
+                    print(_locations.value)
+                    print("PAT")
                 }, {
                     it.printStackTrace()
                     error.value = it.message

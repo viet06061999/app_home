@@ -39,7 +39,7 @@ abstract class SearchLocationFragment<I : ILocation>() :
         }.start()
     }
 
-    private fun onItemSearchClick(item: I) {
+     open fun onItemSearchClick(item: I){
         onItemClick(item)
         this.findNavController().popBackStack()
     }

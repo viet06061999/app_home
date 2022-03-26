@@ -130,6 +130,12 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAllCaps">false</item>
     </style>
+    <style name="TextHighlight2">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 
     <style name="TextNormal">
         <item name="android:fontFamily">sans-serif-medium</item>

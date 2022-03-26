@@ -111,23 +111,6 @@ class HomeFragment :
             findNavController().navigate(R.id.actionToSearchDetailFragment)
         }
 
-
-//        binding.layoutHeader.editTextWard.setOnClickListener {
-//            if (searchViewModel.district.value != null) {
-//                findNavController().navigate(R.id.actionToSearchWardFragment)
-//            } else {
-//                showToast(getString(R.string.error_select_ward))
-//            }
-//        }
-//
-//        binding.layoutHeader.editTextStreet.setOnClickListener {
-//            if (searchViewModel.district.value != null) {
-//                findNavController().navigate(R.id.actionToSearchStreetFragment)
-//            } else {
-//                showToast(getString(R.string.error_select_ward))
-//            }
-//        }
-
     }
 
     override fun onStop() {

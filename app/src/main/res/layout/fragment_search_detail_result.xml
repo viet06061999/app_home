@@ -18,48 +18,48 @@
     android:id="@+id/layoutHeader"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/dp_24"
-    android:paddingBottom="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_20"
+    android:paddingBottom="@dimen/dp_8"
     app:layout_constraintEnd_toEndOf="parent"
     android:background="@drawable/bg_gradient_search"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
+
     <ImageButton
         android:id="@+id/icBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:background="@null"
-        android:src="@drawable/ic_back"
-        android:layout_marginStart="@dimen/dp_12"
+        android:src="@drawable/ic_back_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
 
     <TextView
         android:id="@+id/titleSearchResult"
         style="@style/TextHighlight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:text="@{searchVM.province==null?@string/title_all_house:`BDS `+ searchVM.province.name}"
+        android:layout_marginStart="@dimen/dp_16"
+        android:text="@{searchVM.province==null?@string/title_all_house:`BĐS `+ searchVM.province.name}"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_24"
-        app:layout_constraintBottom_toBottomOf="@+id/icBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icBack"
-        app:layout_constraintTop_toTopOf="@+id/icBack" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/icBack" />
 
     <TextView
         android:id="@+id/titleCountPost"
-        style="@style/TextHighlight"
+        style="@style/TextHighlight2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@{`Hiện có `+searchVM.housesSearch.size() + ` bất động sản`}"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_4"
         app:layout_constraintTop_toBottomOf="@+id/titleSearchResult"
         app:layout_constraintStart_toStartOf="@+id/titleSearchResult"
         />

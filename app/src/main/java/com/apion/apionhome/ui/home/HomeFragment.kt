@@ -108,7 +108,7 @@ class HomeFragment :
             findNavController().navigate(R.id.actionToBottomSheetPriceFragment)
         }
         binding.layoutWardStreet.setOnClickListener{
-            findNavController().navigate(R.id.actionToBottomSheetSearchDetailFragment)
+            findNavController().navigate(R.id.actionToSearchDetailFragment)
         }
 
 

@@ -64,7 +64,7 @@
         <!--        <item name="android:layout_marginStart">@dimen/dp_16</item>-->
         <!--        <item name="android:layout_marginEnd">@dimen/dp_16</item>-->
         <item name="android:textColor">@color/black</item>
-        <item name="android:layout_marginTop">@dimen/dp_8</item>
+        <item name="android:layout_marginTop">@dimen/dp_12</item>
         <item name="android:background">@drawable/bg_rectangle</item>
         <item name="android:drawablePadding">@dimen/dp_8</item>
         <item name="android:paddingStart">@dimen/dp_8</item>
@@ -73,6 +73,31 @@
         <item name="android:paddingEnd">@dimen/dp_8</item>
         <item name="android:inputType">textNoSuggestions</item>
     </style>
+    <style name= "StyleEditTextRegister">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/sp_14</item>
+        <item name="android:paddingBottom">@dimen/sp_14</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:paddingLeft">@dimen/dp_17</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:background">@drawable/background_view</item>
+    </style>
+    <style name= "StyleEditTextRegister2">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/sp_14</item>
+        <item name="android:paddingBottom">@dimen/sp_14</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:paddingLeft">@dimen/dp_17</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:background">@drawable/background_view_3</item>
+    </style>
+
     <style name="StyleTextDetail">
 
         <item name="android:layout_marginTop">@dimen/dp_16</item>

@@ -89,6 +89,20 @@
     <string name="title_room">Số phòng ngủ</string>
     <string name="title_search_button">Tìm kiếm</string>
     <string name="title_use_button">Sử dụng</string>
+
+<!--    Register-->
+    <string name="title_register">Đăng ký tài khoản</string>
+    <string name="hint_register_name">Họ tên</string>
+    <string name="hint_register_phone">Số điện thoại</string>
+    <string name="hint_register_phone_2">Số điện thoại giới thiệu</string>
+    <string name="hint_description">Giới thiệu (tuỳ chọn)</string>
+    <string name="button_register">Đăng ký</string>
+    <string name="title_address_register">Địa chỉ (tuỳ chọn)</string>
+    <string name="hint_address_register">Chọn địa chỉ</string>
+    <string name="title_detail_register">Chọn chi tiết</string>
+
+
+
     <string name="title_select_location">Chọn địa chỉ</string>
     <string name="title_select_province">Chọn tỉnh/thành phố *</string>
     <string name="title_select_district">Chọn quận/huyện *</string>

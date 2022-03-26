@@ -35,6 +35,9 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
         binding.btnLogin.setOnClickListener(View.OnClickListener() {
             viewModel.login()
         })
+        binding.textRegister.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToRegister)
+        }
         viewModel.phone.observe(this) { error: String ->
             val errorText = if (error.isPhoneValid) null else "Định dạng không hợp lệ!"
             viewModel.setError(errorText)

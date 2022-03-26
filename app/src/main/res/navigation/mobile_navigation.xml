@@ -17,8 +17,7 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.apion.apionhome.ui.home.HomeFragment"
-        tools:layout="@layout/fragment_home"
-        >
+        tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/actionToDetail"

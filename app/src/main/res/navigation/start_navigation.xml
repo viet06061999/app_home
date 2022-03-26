@@ -29,6 +29,18 @@
         <action
             android:id="@+id/actionToPinCode"
             app:destination="@id/pincodeFragment" />
+
+        <action
+            android:id="@+id/actionToRegister"
+            app:destination="@id/registerFragment"
+
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            />
+<!--        app:popEnterAnim="@anim/fade_in"-->
+<!--        app:popExitAnim="@anim/slide_bottom"-->
     </fragment>
 
     <fragment
@@ -45,6 +57,13 @@
             android:name="pinCode"
             app:argType="string"
             app:nullable="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.apion.apionhome.ui.geting_started.RegisterFragment"
+        tools:layout="@layout/fragment_register"
+        >
+
     </fragment>
 
 </navigation>

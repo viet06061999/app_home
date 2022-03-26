@@ -5,10 +5,10 @@ import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.BindingFragmentBottomSheet
 import com.apion.apionhome.base.RxViewModel
-import com.apion.apionhome.databinding.BottomsheetSearchDetailBinding
+import com.apion.apionhome.databinding.FragmentSearchDetailBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class BottomSheetSearchDetailFragment : BindingFragmentBottomSheet<BottomsheetSearchDetailBinding>(BottomsheetSearchDetailBinding::inflate){
+class SearchDetailFragment : BindingFragment<FragmentSearchDetailBinding>(FragmentSearchDetailBinding::inflate){
     override val viewModel by sharedViewModel<SearchViewModel>()
 
     override fun setupView() {
@@ -25,6 +25,9 @@ class BottomSheetSearchDetailFragment : BindingFragmentBottomSheet<BottomsheetSe
 //        binding.edtStreet.setOnClickListener {
 //            this.findNavController().navigate(R.id.actionToSearchStreetFragment)
 //        }
+        binding.iconBack.setOnClickListener {
+            this.findNavController().popBackStack()
+        }
         binding.edtStreet.setOnClickListener {
             this.findNavController().navigate(R.id.actionToSearchStreetFragment)
         }

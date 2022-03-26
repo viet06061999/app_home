@@ -3,6 +3,7 @@ package com.apion.apionhome.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.data.model.User
 import com.apion.apionhome.data.repository.UserRepository
@@ -79,6 +80,7 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
                     {
                         _user.value = it
                         _loginSuccess.value = true to it.pincode
+                        MyApplication.sessionUser.value = it
                     }, {
                         if (it is HttpException) {
                             try {

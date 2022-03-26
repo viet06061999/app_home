@@ -5,10 +5,20 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <activity
+        android:id="@+id/activitylogin"
+        android:name="com.apion.apionhome.ui.geting_started.StartActivity" />
+
+    <action
+        android:id="@+id/actionToLogin"
+        app:destination="@+id/activitylogin"
+        />
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.apion.apionhome.ui.home.HomeFragment"
-        tools:layout="@layout/fragment_home">
+        tools:layout="@layout/fragment_home"
+        >
 
         <action
             android:id="@+id/actionToDetail"
@@ -33,6 +43,24 @@
         <!--            android:id="@+id/actionToBottomSheetPriceAcrea"-->
         <!--            app:destination="@id/bootomSheetPriceAcrea" />-->
     </fragment>
+
+    <action
+        android:id="@+id/actionToHome"
+        app:destination="@id/navigation_home"
+        app:popUpTo="@+id/mobile_navigation"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/actionToSearch"
+        app:destination="@id/navigation_search"
+        app:popUpTo="@+id/navigation_notification"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/actionToNotification"
+        app:destination="@id/navigation_notification"
+        app:popUpTo="@+id/navigation_notification"
+        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/actionToSearchDistrictFragment"
@@ -82,8 +110,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_community"
-        android:name="com.apion.apionhome.ui.community.CommunityFragment"
+        android:id="@+id/navigation_notification"
+        android:name="com.apion.apionhome.ui.notification.NotificationFragment"
         tools:layout="@layout/fragment_community" />
 
     <activity
@@ -102,8 +130,8 @@
         android:label="SearchProvinceFragment">
         <argument
             android:name="shareData1"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -112,9 +140,8 @@
         android:label="SearchDistrictFragment">
         <argument
             android:name="shareData2"
-            app:argType="boolean"
             android:defaultValue="true"
-            />
+            app:argType="boolean" />
     </fragment>
 
     <fragment
@@ -122,7 +149,7 @@
         android:name="com.apion.apionhome.ui.search.SelectLocationFragment" />
     <fragment
         android:id="@+id/searDetailResultFragment"
-        android:name="com.apion.apionhome.ui.search.SearchDetailResultFragment" >
+        android:name="com.apion.apionhome.ui.search.SearchDetailResultFragment">
         <action
             android:id="@+id/actionToDetailPost"
             app:destination="@id/activityDetail" />
@@ -131,21 +158,21 @@
     <fragment
         android:id="@+id/searchWardFragment"
         android:name="com.apion.apionhome.ui.search.SearchWardFragment"
-        android:label="SearchWardFragment" >
+        android:label="SearchWardFragment">
         <argument
             android:name="shareData3"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
         android:id="@+id/searchStreetFragment"
         android:name="com.apion.apionhome.ui.search.SearchStreetFragment"
-        android:label="SearchStreetFragment" >
+        android:label="SearchStreetFragment">
         <argument
             android:name="shareData4"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
     </fragment>
 
     <!--    <dialog-->

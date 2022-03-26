@@ -16,7 +16,7 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_community"
+        android:id="@+id/navigation_notification"
         android:icon="@drawable/ic_bell"
         android:title="@string/title_notification" />
     <item

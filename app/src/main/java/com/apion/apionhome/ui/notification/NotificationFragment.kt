@@ -1,6 +1,5 @@
-package com.apion.apionhome.ui.community
+package com.apion.apionhome.ui.notification
 
-import android.view.WindowManager
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
@@ -13,7 +12,7 @@ import com.apion.apionhome.ui.adapter.PostCommunityAdapter
 import com.apion.apionhome.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class CommunityFragment :
+class NotificationFragment :
     BindingFragment<FragmentCommunityBinding>(FragmentCommunityBinding::inflate) {
 
     override val viewModel by sharedViewModel<HomeViewModel>()

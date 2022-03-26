@@ -65,6 +65,7 @@ class SelectLocationFragment :
             view.systemUiVisibility = flags
         }
     }
+
     private fun listener() {
         binding.edtProvince.setOnClickListener {
             findNavController().navigate(R.id.actionToSearchProvinceFragment, bundleOf("shareData" to false))

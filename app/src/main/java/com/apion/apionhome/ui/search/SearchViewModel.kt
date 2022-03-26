@@ -14,7 +14,7 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.utils.setup
 
-class SearchViewModel(private val houseRepository: HouseRepository) : RxViewModel() {
+open class SearchViewModel(private val houseRepository: HouseRepository) : RxViewModel() {
 
     val title = MutableLiveData<String>()
 
@@ -88,18 +88,28 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
     val housesSearch: LiveData<List<House>>
         get() = _housesSearch
 
+    private val _isSearchDone = MutableLiveData<Boolean>(false)
+
+    val isSearchDone: LiveData<Boolean>
+        get() = _isSearchDone
+
+    fun setSearchDone(done:Boolean){
+        _isSearchDone.value = done
+    }
     fun getAddress(): String {
         var textAddress = ""
         street.value?.let {
-            textAddress += street.value?.name +", "
+            textAddress += street.value?.prefix+" " +street.value?.name
+            if(textAddress.isNotEmpty()) textAddress +=", "
         }
 
         ward.value?.let {
-            textAddress += ward.value?.name +", "
+            textAddress +=ward.value?.prefix+" " + ward.value?.name
+            if(ward.value?.name?.isNotEmpty() == true) textAddress +=", "
         }
-
         district.value?.let {
-            textAddress += district.value?.name +", "
+            textAddress += district.value?.name
+            if(district.value?.name?.isNotEmpty() == true) textAddress +=", "
         }
 
         province.value?.let {
@@ -195,6 +205,7 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
             .setup()
             .subscribe(
                 {
+                    println(it)
                     _locations.value = it
                 },
                 {
@@ -234,13 +245,15 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
     }
 
     fun searchHouse() {
+        _isLoading.value = true
+        _isSearchDone.value = false
         val param = SearchParam(
             title.value,
             province.value?.name,
             district.value?.name,
             ward.value?.name,
             street.value?.name,
-            RangeUI.houseTypeRangeUis.entries.toList()[houseDirectionIndex.value ?: 0].key,
+            RangeUI.houseTypeRangeUis.entries.toList()[houseTypeIndex.value ?: 0].key,
             RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value ?: 0].key,
             RangeUI.priceRangeUis.entries.toList()[priceIndex.value ?: 0].key,
             RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value ?: 0].key,
@@ -251,11 +264,13 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
         houseRepository
             .getSearchHouse(param)
             .setup()
+            .doOnTerminate {
+                _isLoading.value = false
+            }
             .subscribe(
                 {
-                    println("search house -----------------")
-                    println(it)
                     _housesSearch.value = it
+                    _isSearchDone.value = true
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -266,7 +281,9 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
 
     fun setProvince(province: Province?) {
         _province.value = province
-        _district.value = province?.districts?.first()
+        if(province?.districts?.isNotEmpty() == true){
+            _district.value = province.districts.first()
+        }
         _ward.value = null
         _street.value = null
     }
@@ -277,12 +294,12 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
         _street.value = null
     }
 
-    fun setWard(locationName: LocationName) {
+    fun setWard(locationName: LocationName?) {
         _ward.value = locationName
         _street.value = null
     }
 
-    fun setStreet(locationName: LocationName) {
+    fun setStreet(locationName: LocationName?) {
         _street.value = locationName
     }
 
@@ -309,5 +326,4 @@ class SearchViewModel(private val houseRepository: HouseRepository) : RxViewMode
     fun setBedroomsIndex(index: Int) {
         _bedroomIndex.value = index
     }
-
 }

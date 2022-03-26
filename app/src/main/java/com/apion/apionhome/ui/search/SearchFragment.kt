@@ -7,6 +7,7 @@ import android.view.WindowInsetsController
 import android.widget.SeekBar
 import androidx.navigation.fragment.findNavController
 import com.apion.apionhome.R
+import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.BindingFragmentBottomSheet
 import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.databinding.FragmentSearchBinding
@@ -15,10 +16,11 @@ import com.apion.apionhome.utils.showAction
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class SearchFragment :
-    BindingFragmentBottomSheet<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
+    BindingFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
     override val viewModel by sharedViewModel<SearchViewModel>()
-    override var isBackgroundTrans: Boolean = true
+    private var isFirstCome = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.initData()
@@ -28,6 +30,7 @@ class SearchFragment :
 
     override fun setupView() {
         binding.lifecycleOwner = this
+        binding.searchVM = viewModel
         observer()
         listener()
     }
@@ -51,7 +54,6 @@ class SearchFragment :
         super.onStop()
         val view = requireActivity().window.decorView
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            requireActivity().window.decorView.windowInsetsController?.hide(WindowInsets.Type.statusBars())
             view.windowInsetsController?.setSystemBarsAppearance(
                 0,
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -142,7 +144,12 @@ class SearchFragment :
             findNavController().navigate(R.id.actionToSelectLocation)
         }
         binding.btnSearch.setOnClickListener {
+            isFirstCome = false
             viewModel.searchHouse()
+        }
+        binding.icDeleteAddress.setOnClickListener {
+            viewModel.setProvince(null)
+            viewModel.setDistrict(null)
         }
     }
 
@@ -150,6 +157,19 @@ class SearchFragment :
         viewModel.province.observe(this) {
             if (it != null) {
                binding.textLayoutAddress.setText(viewModel.getAddress())
+            }else{
+                binding.textLayoutAddress.setText(getString(R.string.text_select_address))
+            }
+        }
+        viewModel.isSearchDone.observe(this){
+            println("search done $it")
+            if(it){
+                if(viewModel.housesSearch.value?.isNotEmpty() == true){
+                    viewModel.setSearchDone(false)
+                    findNavController().navigate(R.id.actionToDetailSearchResult)
+                }else{
+                    showToast("không tìm thấy kết quả nào")
+                }
             }
         }
     }

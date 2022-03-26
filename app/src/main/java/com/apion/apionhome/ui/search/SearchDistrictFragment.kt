@@ -3,12 +3,13 @@ package com.apion.apionhome.ui.search
 import com.apion.apionhome.data.model.local.District
 
 class SearchDistrictFragment : SearchLocationFragment<District>() {
+
     override fun onItemClick(item: District) {
-        viewModel.setDistrict(item)
+        setUpViewModel().setDistrict(item)
     }
 
     override fun onGetAll(query: String) {
-        viewModel.searchDistrict("")
+        setUpViewModel().searchDistrict(query)
     }
 
     override fun getHint(): String {

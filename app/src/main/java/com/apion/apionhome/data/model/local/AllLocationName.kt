@@ -5,19 +5,11 @@ import com.apion.apionhome.utils.removeSpecific
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-open class LocationName(
-    @SerializedName("id")
-    val id: Int = -1,
-    @SerializedName("name")
-    val name: String = "",
-    var district: District,
-    @SerializedName("prefix")
-    val prefix: String = ""
-) : ILocation {
+class AllLocationName() : LocationName(district = District(province = Province(districts = mutableListOf()))) {
 
-    override fun getTitle(): String = district.getTitle()
+    override fun getTitle(): String = "Tất cả vị trí"
 
-    override fun getContent(): String = "$prefix $name, ${district.getContent()}"
+    override fun getContent(): String = "Toàn bộ vị trí dưới đây"
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
         newItem is District && this.id == newItem.id
@@ -28,6 +20,4 @@ open class LocationName(
     override fun toString(): String {
         return "${getContent()}${getTitle()}".removeSpecific()
     }
-
-    fun getNameLocation() = "$prefix $name"
 }

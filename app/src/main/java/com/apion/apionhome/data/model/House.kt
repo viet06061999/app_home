@@ -1,12 +1,14 @@
 package com.apion.apionhome.data.model
 
 import android.os.Parcelable
-import com.apion.apionhome.utils.*
+import android.text.format.DateUtils
+import com.apion.apionhome.utils.TimeFormat
+import com.apion.apionhome.utils.toString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.roundToInt
+
 
 @Parcelize
 data class House(
@@ -104,9 +106,22 @@ data class House(
         } ?: ""
     }
 
+    fun getDateAgo(): String {
+        val date = SimpleDateFormat(
+            TimeFormat.TIME_FORMAT_API,
+            Locale.getDefault()
+        ).parse(updatedAt)
+        return DateUtils.getRelativeTimeSpanString(
+            date?.time ?: Calendar.getInstance().timeInMillis,
+            Calendar.getInstance().timeInMillis,
+            DateUtils.MINUTE_IN_MILLIS
+        ).toString()
+    }
+
     private fun checkPrice(number: Double): String {
-        val priceString = String.format("%.1f", number)
-        return if (priceString.last() == '0') priceString.split(".").first() else priceString
+        val priceString = String.format("%.2f", number)
+        return if (priceString.split(".").last() == "00") priceString.split(".")
+            .first() else priceString
 
     }
 }

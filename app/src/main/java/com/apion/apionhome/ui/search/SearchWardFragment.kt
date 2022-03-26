@@ -6,11 +6,11 @@ import com.apion.apionhome.data.model.local.LocationName
 class SearchWardFragment : SearchLocationFragment<LocationName>() {
 
     override fun onItemClick(item: LocationName) {
-        viewModel.setWard(item)
+        setUpViewModel().setWard(item)
     }
 
     override fun onGetAll(query: String) {
-        viewModel.searchWard(query)
+        setUpViewModel().searchWard(query)
     }
 
     override fun getHint(): String {

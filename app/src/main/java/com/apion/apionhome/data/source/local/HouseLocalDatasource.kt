@@ -1,9 +1,7 @@
 package com.apion.apionhome.data.source.local
 
 import android.content.Context
-import com.apion.apionhome.data.model.local.District
-import com.apion.apionhome.data.model.local.LocationName
-import com.apion.apionhome.data.model.local.Province
+import com.apion.apionhome.data.model.local.*
 import com.apion.apionhome.data.source.HouseDatasource
 import com.apion.apionhome.utils.removeSpecific
 import com.apion.apionhome.utils.smartContains
@@ -70,7 +68,7 @@ class HouseLocalDatasource(private val context: Context) : HouseDatasource.Local
     override fun searchDistrict(province: Province?, query: String): Maybe<List<District>> {
         val queryString = query.removeSpecific()
         return getAllProvince().map { data ->
-            val districts = mutableListOf<District>()
+            val districts = mutableListOf<District>(AllDistrict())
             if (province != null) {
                 data.firstOrNull() {
                     it.id == province.id
@@ -94,9 +92,8 @@ class HouseLocalDatasource(private val context: Context) : HouseDatasource.Local
 
     override fun searchWard(district: District?, query: String): Maybe<List<LocationName>> {
         val queryString = query.removeSpecific()
-        println("district $district")
         return getAllProvince().map { data ->
-            val wards = mutableListOf<LocationName>()
+            val wards = mutableListOf<LocationName>(AllLocationName())
             if (district != null) {
                 data.forEach {
                     it.districts.firstOrNull {
@@ -125,7 +122,7 @@ class HouseLocalDatasource(private val context: Context) : HouseDatasource.Local
     override fun searchStreet(district: District?, query: String): Maybe<List<LocationName>> {
         val queryString = query.removeSpecific()
         return getAllProvince().map { data ->
-            val streets = mutableListOf<LocationName>()
+            val streets = mutableListOf<LocationName>(AllLocationName())
 
             if (district != null) {
                 data.forEach {

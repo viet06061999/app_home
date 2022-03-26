@@ -31,7 +31,7 @@
     <string name="title_done">Xong</string>
     <string name="des_my_house">Nhà đất đang sở hữu</string>
     <string name="des_house_sold">Giao dịch đã thực hiện</string>
-    <string name="error_select_ward">Vui lòng chọn quận, huyện trước</string>
+    <string name="error_select_ward">Vui lòng chọn quận, huyện trước!</string>
     <string name="title_chat_now">Chat ngay</string>
     <string name="title_broker">Nhà môi giới đang online</string>
     <string name="title_for_sale">Nhà đất bán</string>
@@ -87,4 +87,6 @@
     <string name="title_select_province">Chọn tỉnh/thành phố *</string>
     <string name="title_select_district">Chọn quận/huyện *</string>
     <string name="title_select_street">Chọn đường phố</string>
+    <string name="title_all_house">Tất cả bất động sản</string>
+
 </resources>

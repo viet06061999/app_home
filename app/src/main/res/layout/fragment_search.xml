@@ -7,6 +7,8 @@
 
         <import type="com.apion.apionhome.data.model.RangeUI" />
 
+        <import type="android.view.View" />
+
         <variable
             name="searchVM"
             type="com.apion.apionhome.ui.search.SearchViewModel" />
@@ -145,11 +147,24 @@
                     android:layout_marginHorizontal="@dimen/dp_32"
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
-                    android:paddingHorizontal="@dimen/dp_8"
+                    android:paddingStart="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_32"
                     android:text="@string/text_select_address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textAddress" />
+
+                <ImageButton
+                    android:id="@+id/icDeleteAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:background="@null"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:visibility="@{searchVM.province == null ? View.GONE:View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/textLayoutAddress"
+                    app:layout_constraintEnd_toEndOf="@+id/textLayoutAddress"
+                    app:layout_constraintTop_toTopOf="@+id/textLayoutAddress" />
 
                 <TextView
                     android:id="@+id/textDirection"
@@ -320,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_32"
+                    android:layout_marginBottom="@dimen/dp_48"
                     android:background="@drawable/background_button1"
                     android:paddingVertical="@dimen/dp_8"
                     android:text="@string/title_search_button"

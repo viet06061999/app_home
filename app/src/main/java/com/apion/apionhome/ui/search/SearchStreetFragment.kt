@@ -10,10 +10,10 @@ class SearchStreetFragment : SearchLocationFragment<LocationName>() {
     }
 
     override fun onItemClick(item: LocationName) {
-        viewModel.setStreet(item)
+        setUpViewModel().setStreet(item)
     }
 
     override fun onGetAll(query: String) {
-        viewModel.searchStreet(query)
+        setUpViewModel().searchStreet(query)
     }
 }

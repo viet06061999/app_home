@@ -5,7 +5,7 @@ import com.apion.apionhome.utils.removeSpecific
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class District(
+open  class District(
     @SerializedName("id")
     val id: Int = -1,
     @SerializedName("name")

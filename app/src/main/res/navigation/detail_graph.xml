@@ -30,11 +30,11 @@
             app:destination="@id/activityDetail" />
     </fragment>
 
-    <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.apion.apionhome.ui.detail.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+<!--    <fragment-->
+<!--        android:id="@+id/mapsFragment"-->
+<!--        android:name="com.apion.apionhome.ui.detail.MapsFragment"-->
+<!--        android:label="fragment_maps"-->
+<!--        tools:layout="@layout/fragment_maps" />-->
 
     <activity
         android:id="@+id/activityDetail"

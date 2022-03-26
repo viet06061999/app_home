@@ -29,7 +29,6 @@ val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).mat
 
 val String.isValidPassword get() = !contains(REGEX_SPACE) && length > PASSWORD_MIN_LENGTH || isNullOrBlank()
 fun String.smartContains(query: String): Boolean {
-    println("raw $this query $query")
     if (query.isEmpty()) return true
     return this.contains(query, true)
 }

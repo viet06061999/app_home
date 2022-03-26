@@ -1,6 +1,7 @@
 package com.apion.apionhome.ui
 
 import android.os.Bundle
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ActivityNavigator
@@ -25,7 +26,28 @@ class MainActivity : AppCompatActivity() {
         navView.background = null
         navView.menu.getItem(2).isEnabled = false
         navView.setupWithNavController(navController)
-   }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in arrayListOf(
+                    R.id.searDetailResultFragment,
+                    R.id.selectLocationFragment
+                )
+            ) {
+                hideBottom()
+            } else {
+                showBottom()
+            }
+        }
+    }
+
+    private fun hideBottom() {
+        binding.bottomNavigationView.visibility = View.GONE
+        binding.fab.visibility = View.GONE
+    }
+
+    private fun showBottom() {
+        binding.bottomNavigationView.visibility = View.VISIBLE
+        binding.fab.visibility = View.VISIBLE
+    }
 
     override fun finish() {
         super.finish()

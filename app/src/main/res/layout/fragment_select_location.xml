@@ -30,7 +30,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <ImageButton
+            android:id="@+id/icBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_back"
+            app:tint="@color/color_text_primary"
+            android:layout_marginStart="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/titleSelectLocation"
+            app:layout_constraintTop_toTopOf="@+id/titleSelectLocation" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
@@ -85,7 +95,7 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.district.name}"
+                    android:text="@{searchVM.district.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textDistrict" />
@@ -107,7 +117,7 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.ward.name==null?@string/hint_ward:searchVM.ward.name}"
+                    android:text="@{searchVM.ward.content==null?@string/hint_ward:searchVM.ward.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textWard" />
@@ -129,7 +139,7 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.street.name==null?@string/hint_street:searchVM.street.name}"
+                    android:text="@{searchVM.street.content==null?@string/hint_street:searchVM.street.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textStreet" />
@@ -139,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_32"
+                    android:layout_marginVertical="@dimen/dp_32"
                     android:background="@drawable/background_button1"
                     android:paddingVertical="@dimen/dp_8"
                     android:text="@string/title_use_button"

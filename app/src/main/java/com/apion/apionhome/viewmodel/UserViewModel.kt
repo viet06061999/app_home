@@ -16,6 +16,7 @@ import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.lang.Exception
+import java.util.*
 
 class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
@@ -27,9 +28,15 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
 
     // khởi tạo biến _user, khai báo user  và gán _users cho nó
+
+
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
+
+    val nameRegister = MutableLiveData<String>()
+
+    val phoneRegister = MutableLiveData<String>()
 
     // khởi tạo biến _loginSuccess, khai báo loginSuccess  và gán _loginSuccess cho nó
     private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
@@ -45,9 +52,13 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
     // errorText laf 1 MediatorLivedata
     val errorText = MutableLiveData<String?>()
+    val dateRegister = MutableLiveData<Date>()
 
     fun setError(error : String?){
         errorText.value = error
+    }
+    fun setDate(date : Date){
+        dateRegister.value = date
     }
     fun getAllUser() {
         userRepository

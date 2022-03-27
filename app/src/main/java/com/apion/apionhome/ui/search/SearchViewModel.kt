@@ -42,14 +42,17 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     val street: LiveData<LocationName?>
         get() = _street
 
-
     private val _locations = MutableLiveData<List<ILocation>>()
     val locations: LiveData<List<ILocation>>
         get() = _locations
+    private val _frontWidth = MutableLiveData<Range?>()
 
-//    private val _texts = MutableLiveData<String>()
-//    val texts: LiveData<String>
-//        get() = _texts
+    val frontWidth: LiveData<Range?>
+        get() = _frontWidth
+
+    private val _texts = MutableLiveData<String>()
+    val texts: LiveData<String>
+        get() = _texts
 
     private val empty = emptyList<ILocation>()
 
@@ -57,6 +60,12 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     val priceIndex: LiveData<Int>
         get() = _priceIndex
+
+    private val _squareIndex = MutableLiveData<Int>(0)
+
+    val squareIndex: LiveData<Int>
+        get() = _squareIndex
+
 
     private val _acreageIndex = MutableLiveData<Int>(0)
 
@@ -170,20 +179,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             )
     }
 
-//    fun searchProvince(query: String) {
-//        println("province $province")
-//        houseRepository
-//            .searchProvince(query)
-//            .setup()
-//            .subscribe(
-//                {
-//                    _locations.value = it
-//                }, {
-//                    it.printStackTrace()
-//                    error.value = it.message
-//                }
-//            )
-//    }
+
 
     fun searchDistrict(query: String) {
         houseRepository
@@ -205,7 +201,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             .setup()
             .subscribe(
                 {
-                    println(it)
                     _locations.value = it
                 },
                 {
@@ -222,6 +217,8 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             .subscribe(
                 {
                     _locations.value = it
+                    print(_locations.value)
+                    print("PAT")
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -325,5 +322,9 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     fun setBedroomsIndex(index: Int) {
         _bedroomIndex.value = index
+    }
+
+    fun setSquareIndex(index: Int){
+        _squareIndex.value = index
     }
 }

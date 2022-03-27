@@ -24,7 +24,7 @@ open  class District(
         return District(id, name, province)
     }
 
-    override fun getTitle(): String = "${this.province.name}"
+    override fun getTitle(): String = "${this.name}"
 
     override fun getContent(): String = this.name
 

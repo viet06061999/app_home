@@ -50,6 +50,10 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
                 binding.validatePhone.visibility = View.INVISIBLE
             else
                 binding.validatePhone.visibility = View.VISIBLE
+                binding.validatePhone.text = "Định dạng không hợp lệ!"
+
+        })
+        viewModel.nameRegister.observe(this,{
 
         })
     }

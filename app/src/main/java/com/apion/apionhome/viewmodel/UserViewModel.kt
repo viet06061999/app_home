@@ -124,4 +124,5 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
         }
         return null
     }
+
 }

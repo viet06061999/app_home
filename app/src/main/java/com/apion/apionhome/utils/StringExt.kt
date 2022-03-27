@@ -6,6 +6,8 @@ import java.util.regex.Pattern
 const val PASSWORD_MIN_LENGTH = 5
 const val REGEX_SPACE = "\\s+"
 const val PHONE_PATTERN = "(84|0[3|5|7|8|9])+([0-9]{8})\\b"
+const val NAME_PATTERN = "([A-Za-z]*)\\b"
+
 fun String.removeSpecific(): String {
     var s = this
     return s.trim()
@@ -24,6 +26,7 @@ fun String.removeSpecific(): String {
 
 
 val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
+val String.isNameValid get() = Pattern.compile(NAME_PATTERN).matcher(this).matches() || isNullOrBlank()
 //val String.isPhoneValid = true
 
 

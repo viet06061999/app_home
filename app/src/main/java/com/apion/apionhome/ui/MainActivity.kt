@@ -26,13 +26,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // khai báo 1 NavigationController điều hướng fragment có id = nav_host_fragment_activity_main
-        val navController = this.findNavController(R.id.nav_host_fragment_activity_main)
+       val navController = this.findNavController(R.id.nav_host_fragment_activity_main)
 
         // khai báo navView là 1 BottomNavigationView
         navView = binding.bottomNavigationView
 //        navView.background = null
         navView.menu.getItem(2).isEnabled = false
 //        navView.setupWithNavController(navController)
+
+
         if (MyApplication.tabToNavigate.value == 3){
             navView.menu.getItem(3).isChecked = true
             MyApplication.tabToNavigate.value = null
@@ -44,12 +46,15 @@ class MainActivity : AppCompatActivity() {
         dialog.setPositiveButton("Đăng nhập") { _, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
             navController.navigate(MobileNavigationDirections.actionToLogin())
+ //           navController.navigate(R.id.actionToLogin)
         }
         dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
             MyApplication.tabToNavigate.value = null
             dialogShow.dismiss()
         }
+
+
         navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_home -> {
@@ -72,6 +77,8 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in arrayListOf(
                     R.id.searDetailResultFragment,
@@ -88,6 +95,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+
     }
 
     private fun hideBottom() {

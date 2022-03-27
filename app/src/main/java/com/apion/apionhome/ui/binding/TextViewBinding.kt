@@ -56,3 +56,18 @@ fun joinCommunity(view: Button, communityId: Int) {
         view.setTextColor(Color.WHITE)
     }
 }
+
+@BindingAdapter(value = ["textCustom", "tail"], requireAll = false)
+fun setTextCustom(view: TextView, text: String, tail: String){
+    when {
+        text.contains("Tất cả") -> {
+            view.text = "Tất cả $tail"
+        }
+        text.contains("Toàn bộ") -> {
+            view.text = tail
+        }
+        else -> {
+            view.text = text
+        }
+    }
+}

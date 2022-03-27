@@ -15,6 +15,9 @@ class BottomSheetPriceFragment : BindingFragmentBottomSheet<BottomsheetPriceBind
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.searchVM = viewModel
+        viewModel.priceIndex.value?.let {
+            binding.seekBarHome.progress = it
+        }
         listener()
     }
 

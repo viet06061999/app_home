@@ -45,10 +45,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     private val _locations = MutableLiveData<List<ILocation>>()
     val locations: LiveData<List<ILocation>>
         get() = _locations
-    private val _frontWidth = MutableLiveData<Range?>()
-
-    val frontWidth: LiveData<Range?>
-        get() = _frontWidth
 
     private val _texts = MutableLiveData<String>()
     val texts: LiveData<String>
@@ -60,12 +56,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     val priceIndex: LiveData<Int>
         get() = _priceIndex
-
-    private val _squareIndex = MutableLiveData<Int>(0)
-
-    val squareIndex: LiveData<Int>
-        get() = _squareIndex
-
 
     private val _acreageIndex = MutableLiveData<Int>(0)
 
@@ -109,7 +99,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
         var textAddress = ""
         street.value?.let {
             textAddress += street.value?.prefix+" " +street.value?.name
-            if(textAddress.isNotEmpty()) textAddress +=", "
+            if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
         }
 
         ward.value?.let {
@@ -158,6 +148,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
         _houseTypeIndex.value = 0
         _bedroomIndex.value = 0
         _acreageIndex.value = 0
+        _isSearchDone.value = false
     }
 
 
@@ -275,7 +266,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             )
     }
 
-
     fun setProvince(province: Province?) {
         _province.value = province
         if(province?.districts?.isNotEmpty() == true){
@@ -293,7 +283,6 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     fun setWard(locationName: LocationName?) {
         _ward.value = locationName
-        _street.value = null
     }
 
     fun setStreet(locationName: LocationName?) {
@@ -324,7 +313,4 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
         _bedroomIndex.value = index
     }
 
-    fun setSquareIndex(index: Int){
-        _squareIndex.value = index
-    }
 }

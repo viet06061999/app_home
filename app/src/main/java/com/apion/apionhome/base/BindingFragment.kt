@@ -47,7 +47,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
 
     private var exceptionDialog: AlertDialog? = null
 
-    private val dialog by lazy {
+    val dialog by lazy {
         requireContext().createProgressDialog()
     }
 

@@ -15,14 +15,17 @@ class BottomSheetSquareFragment : BindingFragmentBottomSheet<BottomsheetSquareBi
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.searchVM = viewModel
+        viewModel.acreageIndex.value?.let {
+            binding.seekBarHome.progress = it
+        }
         listener()
     }
     private fun listener(){
         binding.seekBarHome.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                viewModel.setSquareIndex(p1)
+                viewModel.setAcreageIndex(p1)
                 binding.txtSquare.text =
-                    RangeUI.acreageRangeUis.values.toMutableList()[viewModel.squareIndex.value ?: 0]
+                    RangeUI.acreageRangeUis.values.toMutableList()[viewModel.acreageIndex.value ?: 0]
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

@@ -162,7 +162,6 @@ class SearchFragment :
             }
         }
         viewModel.isSearchDone.observe(this){
-            println("search done $it")
             if(it){
                 if(viewModel.housesSearch.value?.isNotEmpty() == true){
                     viewModel.setSearchDone(false)

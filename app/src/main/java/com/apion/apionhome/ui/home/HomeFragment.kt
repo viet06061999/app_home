@@ -21,6 +21,7 @@ import com.apion.apionhome.ui.adapter.HouseAdapter
 import com.apion.apionhome.ui.adapter.ImageSliderAdapter
 import com.apion.apionhome.ui.adapter.UserOnlineAdapter
 import com.apion.apionhome.ui.search.SearchViewModel
+import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -54,6 +55,7 @@ class HomeFragment :
         ViewTreeObserver.OnGlobalLayoutListener {
 //            binding.swipeLayout.isEnabled = binding.layoutHeader.root.isVisible
         }
+    private var isFirstCome = true
 
     private val runnable by lazy {
         Runnable {
@@ -93,8 +95,6 @@ class HomeFragment :
     }
 
     private fun setupListener() {
-
-
         binding.editTextSquare.setOnClickListener {
             this.findNavController().navigate(R.id.actionToBottomSheetSquareFragment)
         }
@@ -110,7 +110,10 @@ class HomeFragment :
         binding.layoutWardStreet.setOnClickListener{
             findNavController().navigate(R.id.actionToSearchDetailFragment)
         }
-
+        binding.txtSearch.setOnClickListener {
+            isFirstCome = false
+            searchViewModel.searchHouse()
+        }
     }
 
     override fun onStop() {
@@ -119,14 +122,33 @@ class HomeFragment :
         sliderHandler.removeCallbacks(runnable)
     }
     private fun setupObserve(){
-        searchViewModel.priceIndex.observe(this, {
+        searchViewModel.priceIndex.observe(this) {
             binding.editTextPrice.text =
                 RangeUI.priceRangeUis.values.toMutableList()[searchViewModel.priceIndex.value ?: 0]
-        })
-        searchViewModel.squareIndex.observe(this, {
+        }
+        searchViewModel.acreageIndex.observe(this) {
             binding.editTextSquare.text =
-                RangeUI.acreageRangeUis.values.toMutableList()[searchViewModel.squareIndex.value ?: 0]
-        })
+                RangeUI.acreageRangeUis.values.toMutableList()[searchViewModel.acreageIndex.value
+                    ?: 0]
+        }
+        searchViewModel.frontWidthIndex.observe(this) {
+            binding.textFront.text =
+                RangeUI.frontWidthRangeUis.values.toMutableList()[searchViewModel.frontWidthIndex.value
+                    ?: 0]
+        }
+        searchViewModel.isSearchDone.observe(this){
+            if(it){
+                if(searchViewModel.housesSearch.value?.isNotEmpty() == true){
+                    searchViewModel.setSearchDone(false)
+                    findNavController().navigate(R.id.actionToDetailSearchResult)
+                }else{
+                    showToast("không tìm thấy kết quả nào")
+                }
+            }
+        }
+        searchViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) dialog.show() else dialog.dismiss()
+        }
     }
     private fun setupRefresh() {
         binding.swipeLayout.apply {

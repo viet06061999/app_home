@@ -95,8 +95,8 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.district.content}"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    tail="@{`Quận, huyện`}"
+                    textCustom="@{searchVM.district.title == null?@string/hint_district:searchVM.district.title}"                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textDistrict" />
 
@@ -117,7 +117,8 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.ward.content==null?@string/hint_ward:searchVM.ward.content}"
+                    tail="@{`Phường xã`}"
+                    textCustom="@{searchVM.ward.content==null?@string/hint_ward:searchVM.ward.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textWard" />
@@ -139,7 +140,8 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{searchVM.street.content==null?@string/hint_street:searchVM.street.content}"
+                    tail="@{`Đường phố`}"
+                    textCustom="@{searchVM.street.content==null?@string/hint_street:searchVM.street.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textStreet" />

@@ -19,23 +19,22 @@ class SelectLocationFragment :
 
     override val viewModel by sharedViewModel<SearchViewModel>()
     private val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
-    override var isBackgroundTrans: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("lai vao set up view")
-        viewModel.initData()
         searchViewModelTmp.initData()
-        viewModel.setProvince(null)
-        viewModel.setDistrict(null)
+        searchViewModelTmp.setProvince(viewModel.province.value)
+        searchViewModelTmp.setDistrict(viewModel.district.value)
+        searchViewModelTmp.setWard(viewModel.ward.value)
+        searchViewModelTmp.setStreet(viewModel.street.value)
     }
 
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.searchVM = searchViewModelTmp
-        initParam()
         listener()
     }
+
     override fun onResume() {
         super.onResume()
         val view = requireActivity().window.decorView
@@ -97,8 +96,5 @@ class SelectLocationFragment :
         binding.icBack.setOnClickListener {
             findNavController().popBackStack()
         }
-    }
-
-    private fun initParam() {
     }
 }

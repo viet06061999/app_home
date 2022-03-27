@@ -31,5 +31,6 @@ class MyApplication : Application() {
 
     companion object {
         var sessionUser: MutableLiveData<User?> = MutableLiveData(null)
+        var tabToNavigate: MutableLiveData<Int?> = MutableLiveData(null)
     }
 }

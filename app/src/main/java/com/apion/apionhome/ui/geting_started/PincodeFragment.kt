@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.RxViewModel
@@ -128,7 +129,7 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
     private fun isValidPinCode() {
         val pin =
             binding.etPassword1.text.toString() + binding.etPassword2.text.toString() + binding.etPassword3.text.toString() + binding.etPassword4.text.toString()
-        if (args?.pinCode == pin){
+        if (args.pinCode == pin){
             findNavController().navigate(PincodeFragmentDirections.actionToMain())
             requireActivity().finish()
         }

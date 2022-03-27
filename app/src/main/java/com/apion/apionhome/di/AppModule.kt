@@ -4,6 +4,7 @@ import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.ui.detail.DetailViewModel
 import com.apion.apionhome.ui.home.HomeViewModel
 import com.apion.apionhome.ui.search.SearchViewModel
+import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.apion.apionhome.ui.search.SearchViewModelTmp
 import com.apion.apionhome.viewmodel.CommunityViewModel
 import com.apion.apionhome.viewmodel.HouseViewModel
@@ -18,6 +19,7 @@ val viewModelModule = module {
     viewModel { HouseViewModel(get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { SearchViewModelTmp(get()) }
+    viewModel { SearchViewModelHome(get()) }
     viewModel { CommunityViewModel(get()) }
     viewModel { DetailViewModel(get(), get()) }
 }

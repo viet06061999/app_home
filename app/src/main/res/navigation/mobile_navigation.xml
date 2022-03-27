@@ -98,6 +98,10 @@
         app:popEnterAnim="@anim/fade_in"
         app:popExitAnim="@anim/slide_bottom" />
 
+    <action
+        android:id="@+id/actionToDetailSearchResult"
+        app:destination="@id/searDetailResultFragment" />
+
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.apion.apionhome.ui.search.SearchFragment">
@@ -108,9 +112,6 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_bottom" />
-        <action
-            android:id="@+id/actionToDetailSearchResult"
-            app:destination="@id/searDetailResultFragment" />
     </fragment>
 
     <fragment

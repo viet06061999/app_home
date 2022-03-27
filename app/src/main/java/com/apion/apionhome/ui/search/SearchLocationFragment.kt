@@ -19,6 +19,8 @@ abstract class SearchLocationFragment<I : ILocation>() :
 
     override val viewModel by sharedViewModel<SearchViewModel>()
     val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
+    val searchViewModelHome by sharedViewModel<SearchViewModelHome>()
+
     abstract fun onItemClick(item: I)
     abstract fun onGetAll(query: String)
     abstract fun getHint(): String
@@ -29,6 +31,8 @@ abstract class SearchLocationFragment<I : ILocation>() :
 
     fun setUpViewModel(): SearchViewModel {
         val isShare = arguments?.getBoolean("shareData", true) ?: true
+        val isHome =  arguments?.getBoolean("isHome", false) ?: false
+        if (isHome) return searchViewModelHome
         return if (isShare) viewModel else searchViewModelTmp
     }
 

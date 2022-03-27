@@ -1,9 +1,14 @@
 package com.apion.apionhome.ui.detail
 
+import android.app.Activity
+import android.content.IntentSender
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -14,6 +19,8 @@ import com.apion.apionhome.databinding.FragmentDetailHouseBinding
 import com.apion.apionhome.ui.adapter.HouseAdapter
 import com.apion.apionhome.ui.adapter.ImageDetailBannerAdapter
 import com.apion.apionhome.ui.home.HomeFragmentDirections
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -47,9 +54,17 @@ class DetailHouseFragment :
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
-        val apionHome = LatLng(20.995195733794585, 105.86181631094217)
-        googleMap.addMarker(MarkerOptions().position(apionHome).title("Apion Home"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(apionHome, 18f))
+        val address = Geocoder(
+            requireActivity()
+        ).getFromLocationName(args.houseDetail.address, 1)
+        var latLng = LatLng(20.995195733794585, 105.86181631094217)
+        if (address.isNotEmpty()) {
+            val fist = address.first()
+            if (fist.hasLatitude() && fist.hasLongitude())
+                latLng = LatLng(fist.latitude, fist.longitude)
+        }
+        googleMap.addMarker(MarkerOptions().position(latLng).title("Apion Home"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
     }
 
     override fun setupView() {

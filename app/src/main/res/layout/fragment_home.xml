@@ -46,26 +46,32 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="#478C51"
-                        android:src="@drawable/ic_search_2"
-                        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginEnd="27dp"
-                        android:background="#478C51"
+                        android:id="@+id/buttonNotification"
+                        android:layout_width="@dimen/dp_24"
+                        android:layout_height="@dimen/dp_24"
+                        android:layout_marginTop="@dimen/dp_48"
+                        android:layout_marginEnd="@dimen/dp_24"
+                        android:background="@drawable/ripple"
                         android:src="@drawable/ic_notification"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_12"
+                        android:background="@drawable/bg_badge"
+                        android:gravity="center"
+                        android:minWidth="@dimen/dp_12"
+                        android:minHeight="@dimen/dp_12"
+                        android:paddingHorizontal="@dimen/dp_2"
+                        android:paddingVertical="@dimen/dp_1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintBottom_toTopOf="@+id/buttonNotification"
+                        app:layout_constraintEnd_toEndOf="@+id/buttonNotification"
+                        app:layout_constraintStart_toEndOf="@+id/buttonNotification"
+                        app:layout_constraintTop_toTopOf="@+id/buttonNotification" />
 
                     <View
                         android:id="@+id/view2"
@@ -75,7 +81,7 @@
                         android:background="#BBB5B5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+                        app:layout_constraintTop_toBottomOf="@+id/buttonNotification" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout"

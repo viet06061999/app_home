@@ -2,6 +2,7 @@ package com.apion.apionhome.di
 
 import android.util.Log
 import com.apion.apionhome.BuildConfig
+import com.apion.apionhome.MyApplication
 import com.apion.apionhome.utils.ApiConfig.BASE_URL
 
 import okhttp3.*
@@ -26,7 +27,7 @@ val networkModule = module {
             val requestBuilder: Request.Builder = original.newBuilder()
                 .url(url)
             val request: Request = requestBuilder
-                .header("Authorization", "Bearer 1")
+                .header("Authorization", "Bearer ${MyApplication.sessionUser.value?.rememberToken}")
                 .build()
             if (BuildConfig.DEBUG) Log.d(logTagRequest, request.toString())
             val response = chain.proceed(request)

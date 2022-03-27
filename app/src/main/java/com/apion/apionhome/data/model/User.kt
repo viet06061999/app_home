@@ -11,10 +11,10 @@ data class User(
     val id: Int,
     @SerializedName("name")
     val name: String,
-    @SerializedName("remember_token")
-    val token: String,
     @SerializedName("phone")
     val phone: String,
+    @SerializedName("remember_token")
+    val rememberToken: String?,
     @SerializedName("referal")
     val refer: String?,
     @SerializedName("dob")

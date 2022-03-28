@@ -85,6 +85,11 @@
         tools:layout="@layout/bottomsheet_search_location_register"
         />
     <fragment
+        android:id="@+id/selectWardFragment"
+        android:name="com.apion.apionhome.ui.geting_started.SelectWardFragment"
+        tools:layout="@layout/bottomsheet_search_location_register"
+        />
+    <fragment
         android:id="@+id/addressSelectLocationFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectLocationFragment"
         tools:layout="@layout/fragment_select_location">
@@ -99,6 +104,14 @@
         <action
             android:id="@+id/actionToSelectDistrictFragment"
             app:destination="@id/selectDistrictFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_bottom"
+            />
+        <action
+            android:id="@+id/actionToSelectWardFragment"
+            app:destination="@id/selectWardFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"

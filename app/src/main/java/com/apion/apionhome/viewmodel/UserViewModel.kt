@@ -87,6 +87,14 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         _ward.value = null
         _street.value = null
     }
+    fun setWard(locationName: LocationName?) {
+        println("PQTHANh")
+        println(locationName?.getContent())
+        _ward.value = locationName
+        _street.value = null
+
+    }
+
 
 
     fun setError(error : String?){
@@ -159,6 +167,21 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                     error.value = it.message
                 })
 
+    }
+    fun searchWard(query: String) {
+        houseRepository
+            .searchWard(_district.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                    print(_locations.value)
+                    print("PAT")
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
     }
     fun setProvince(province: Province?) {
         _province.value = province

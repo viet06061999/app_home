@@ -39,7 +39,7 @@ class SelectLocationFragment : BindingFragmentBottomSheet<FragmentSelectLocation
             this.findNavController().navigate(R.id.actionToSelectDistrictFragment)
         }
         binding.edtWard.setOnClickListener {
-
+            this.findNavController().navigate(R.id.actionToSelectWardFragment)
         }
         binding.edtStreet.setOnClickListener {
 

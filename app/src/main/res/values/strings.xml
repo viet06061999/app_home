@@ -100,6 +100,18 @@
     <string name="title_address_register">Địa chỉ (tuỳ chọn)</string>
     <string name="hint_address_register">Chọn địa chỉ</string>
     <string name="title_detail_register">Chọn chi tiết</string>
+    <string name="text_warning_fomat_name">Vui lòng không nhập các ký tự đặc biệt.</string>
+    <string name="text_warning_null_name">Vui lòng nhập họ tên.</string>
+    <string name="text_warning_fomat_phone">Định dạng không hợp lệ.</string>
+    <string name="text_warning_null_phone">Vui lòng nhập số điện thoại.</string>
+
+
+    <!--    Create House-->
+    <string name="title_create_house">Ký nhà</string>
+    <string name="text_warning_create">Không nhập các ký tự đặc biệt !@#$%^&amp;*()_+{}|:?></string>
+    <string name="title_type_house">Loại nhà đất *</string>
+    <string name="text_type_house">Nhà đất</string>
+
 
 
 

@@ -6,6 +6,11 @@ import androidx.lifecycle.map
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.data.model.User
+import com.apion.apionhome.data.model.local.District
+import com.apion.apionhome.data.model.local.ILocation
+import com.apion.apionhome.data.model.local.LocationName
+import com.apion.apionhome.data.model.local.Province
+import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
 import com.apion.apionhome.data.source.remote.response_entity.UserResponse
 import com.apion.apionhome.utils.isPhoneValid
@@ -18,7 +23,7 @@ import retrofit2.HttpException
 import java.lang.Exception
 import java.util.*
 
-class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
+class UserViewModel(val userRepository: UserRepository,private val houseRepository: HouseRepository) : RxViewModel() {
 
 
     // khởi tạo biến _users, khai báo users  và gán _users cho nó
@@ -43,6 +48,27 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
     val loginSuccess: LiveData<Pair<Boolean, String?>>
         get() = _loginSuccess
 
+    private val _district = MutableLiveData<District?>()
+    val district: LiveData<District?>
+        get() = _district
+
+    private val _locations = MutableLiveData<List<ILocation>>()
+    val locations: LiveData<List<ILocation>>
+        get() = _locations
+
+    private val _province = MutableLiveData<Province?>()
+    val province: LiveData<Province?>
+        get() = _province
+
+
+    private val _ward = MutableLiveData<LocationName?>()
+    val ward: LiveData<LocationName?>
+        get() = _ward
+
+    private val _street = MutableLiveData<LocationName?>()
+
+    val street: LiveData<LocationName?>
+        get() = _street
 
 
     val phone = MutableLiveData<String>()
@@ -52,10 +78,25 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
     // errorText laf 1 MediatorLivedata
     val errorText = MutableLiveData<String?>()
+    val errorName = MutableLiveData<String?>()
+    val errorPhone = MutableLiveData<String?>()
+
     val dateRegister = MutableLiveData<Date>()
+    fun setDistrict(district: District?) {
+        _district.value = district
+        _ward.value = null
+        _street.value = null
+    }
+
 
     fun setError(error : String?){
         errorText.value = error
+    }
+    fun setErrorName(error : String?){
+        errorName.value = error
+    }
+    fun setErrorPhone(error : String?){
+        errorPhone.value = error
     }
     fun setDate(date : Date){
         dateRegister.value = date
@@ -73,6 +114,60 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
                     error.value = it.message
                 }
             )
+    }
+    override fun initData(){
+        _province.value = Province(
+            id = 2,
+            name = "Hà Nội",
+            code = "HN",
+            districts = mutableListOf()
+        )
+        _district.value = District(
+            id = 25,
+            name = "Ba Đình",
+            province = Province(
+                id = 2,
+                name = "Hà Nội",
+                code = "HN",
+                districts = mutableListOf()
+            )
+        )
+    }
+    fun searchDistrict(query: String) {
+        houseRepository
+            .searchDistrict(_province.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+    fun searchProvince(query: String) {
+        houseRepository
+            .searchProvince(query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                },
+                {
+                    it.printStackTrace()
+                    error.value = it.message
+                })
+
+    }
+    fun setProvince(province: Province?) {
+        _province.value = province
+        if(province?.districts?.isNotEmpty() == true){
+            _district.value = province.districts.first()
+        }
+        println("da gan")
+        _ward.value = null
+        _street.value = null
     }
 
     fun login() {

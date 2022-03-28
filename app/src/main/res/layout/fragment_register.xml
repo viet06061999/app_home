@@ -67,7 +67,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtName" />
-
+            <TextView
+                android:id="@+id/validateName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_37"
+                android:textSize="@dimen/dp_12"
+                android:textColor="@color/color_red"
+                android:visibility="invisible"
+                android:text="Vui lòng không nhập các ký tự đặc biệt."
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtName"
+                />
 
             <TextView
                 android:id="@+id/txtPhoneNumber"
@@ -271,7 +282,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/radioGroupJob"
                 android:layout_width="0dp"
                 android:layout_height="49dp"
                 android:layout_marginStart="20dp"
@@ -308,7 +319,7 @@
                 android:text="@string/title_address_register"
                 android:textSize="@dimen/sp_15"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/radioGroupJob" />
             <TextView
                 android:id="@+id/edtAddress"
                 android:inputType="textPersonName"

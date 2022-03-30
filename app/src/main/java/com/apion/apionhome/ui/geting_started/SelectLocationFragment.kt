@@ -42,9 +42,16 @@ class SelectLocationFragment : BindingFragmentBottomSheet<FragmentSelectLocation
             this.findNavController().navigate(R.id.actionToSelectWardFragment)
         }
         binding.edtStreet.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToSelectStreetFragment)
+        }
+        binding.btnUse.setOnClickListener{
+            this.findNavController().popBackStack()
+//            println(viewModel.province.value)
 
         }
 
 
     }
+
+
 }

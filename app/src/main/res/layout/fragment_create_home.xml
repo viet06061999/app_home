@@ -5,8 +5,11 @@
     <data>
         <variable
             name="houseVM"
-            type="com.apion.apionhome.viewmodel.HouseViewModel" />
+            type="com.apion.apionhome.viewmodel.AddHouseViewModel" />
     </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -30,14 +33,14 @@
             android:layout_marginHorizontal="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_24"
             android:text="Tiêu đề *"
-            android:textColor="@color/black"
+            android:textColor="#6C6C6F"
             android:textSize="@dimen/sp_15"
             app:layout_constraintTop_toBottomOf="@+id/textContent"
             tools:layout_editor_absoluteX="0dp" />
 
         <EditText
             android:id="@+id/edtTitle"
-            style="@style/StyleEditTextCreate"
+            style="@style/StyleEditTextCreate1"
             android:hint="Nhập tiêu đề"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +54,7 @@
             android:layout_marginTop="@dimen/dp_1"
             android:text="@string/text_warning_create"
             android:textSize="@dimen/sp_15"
-            android:textColor="@color/black"
+            android:textColor="#6C6C6F"
 
             app:layout_constraintTop_toBottomOf="@+id/edtTitle"
             tools:layout_editor_absoluteX="0dp" />
@@ -63,19 +66,191 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="@string/title_type_house"
             android:textSize="@dimen/sp_15"
-            android:textColor="@color/black"
+            android:textColor="#6C6C6F"
             app:layout_constraintTop_toBottomOf="@+id/txtWarning"
             tools:layout_editor_absoluteX="0dp" />
         <TextView
             android:id="@+id/edtTypeHouse"
-            style="@style/StyleEditTextCreate"
+            style="@style/StyleEditTextCreate1"
             android:textColor="@color/black"
-
             android:text="@string/text_type_house"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTypeHouse" />
+        <LinearLayout
+            android:id="@+id/layout_title"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/edtTypeHouse"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Giá(VNĐ)"
+                android:textSize="@dimen/sp_15"
 
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Diện tích(m2)"
+                android:gravity="center"
+                android:textSize="@dimen/sp_15"
+
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mặt tiền(m)"
+                android:gravity="center"
+                android:textSize="@dimen/sp_15"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/price_square_front"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_1"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layout_title"
+            >
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/StyleEditTextCreate"
+                android:textSize="@dimen/sp_15"
+                android:hint="@string/hint_price_house"
+                android:layout_marginEnd="@dimen/dp_8"
+                />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/StyleEditTextCreate"
+                android:gravity="left"
+                android:textSize="@dimen/sp_15"
+                android:hint="@string/hint_square_house"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/StyleEditTextCreate"
+                android:gravity="left"
+                android:textSize="@dimen/sp_15"
+                android:hint="@string/hint_front_house"
+                android:layout_marginStart="@dimen/dp_8"
+                />
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textContentHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/title_content_house"
+            android:textSize="@dimen/sp_15"
+            android:textColor="#6C6C6F"
+            app:layout_constraintTop_toBottomOf="@+id/price_square_front"
+            tools:layout_editor_absoluteX="0dp" />
+        <EditText
+            android:id="@+id/edtContentHouse"
+            android:gravity="top|left"
+            style="@style/StyleEditTextCreate2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textContentHouse" />
+        <TextView
+            android:id="@+id/textAddressHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/title_address_house"
+            android:textSize="@dimen/sp_15"
+            android:textColor="#6C6C6F"
+            app:layout_constraintTop_toBottomOf="@+id/edtContentHouse"
+            tools:layout_editor_absoluteX="0dp" />
+        <TextView
+            android:id="@+id/edtAddressHouse"
+            style="@style/StyleEditTextCreate1"
+            android:textColor="@color/black"
+            android:text="@string/text_address_house"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textAddressHouse" />
+        <TextView
+            android:id="@+id/textDirectionHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/title_direction_house"
+            android:textSize="@dimen/sp_15"
+            android:textColor="#6C6C6F"
+            app:layout_constraintTop_toBottomOf="@+id/edtAddressHouse"
+            tools:layout_editor_absoluteX="0dp" />
+        <TextView
+            android:id="@+id/edtDirectionHouse"
+            style="@style/StyleEditTextCreate1"
+            android:textColor="@color/black"
+            android:text="@string/title_direction_house"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDirectionHouse" />
+        <TextView
+            android:id="@+id/textRoomHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/title_room_house"
+            android:textSize="@dimen/sp_15"
+            android:textColor="#6C6C6F"
+            app:layout_constraintTop_toBottomOf="@+id/edtDirectionHouse"
+            tools:layout_editor_absoluteX="0dp" />
+        <EditText
+            android:id="@+id/edtRoomHouse"
+            style="@style/StyleEditTextCreate1"
+            android:hint="@string/hint_bonus_house"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRoomHouse" />
+
+        <TextView
+            android:id="@+id/textImageHouse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/title_image_house"
+            android:textSize="@dimen/sp_15"
+            android:textColor="#6C6C6F"
+            app:layout_constraintTop_toBottomOf="@+id/edtRoomHouse"
+            tools:layout_editor_absoluteX="0dp" />
+        <ImageButton
+            android:id="@+id/image"
+            android:layout_width="@dimen/dp_106"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginStart="@dimen/dp_20"
+            android:src="@drawable/ic_plus"
+            android:backgroundTint="#FFF4E1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textImageHouse"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

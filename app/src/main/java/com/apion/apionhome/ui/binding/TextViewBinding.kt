@@ -57,7 +57,7 @@ fun joinCommunity(view: Button, communityId: Int) {
     }
 }
 
-@BindingAdapter(value = ["textCustom", "tail"], requireAll = false)
+@BindingAdapter(value = ["textCustom", "tail"])
 fun setTextCustom(view: TextView, text: String, tail: String){
     when {
         text.contains("Tất cả") -> {
@@ -71,3 +71,5 @@ fun setTextCustom(view: TextView, text: String, tail: String){
         }
     }
 }
+
+

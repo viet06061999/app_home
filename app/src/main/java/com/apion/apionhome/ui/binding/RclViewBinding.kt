@@ -18,6 +18,6 @@ fun <T> setText(txtView: TextView, text : String) {
 }
 @Suppress("UNCHECKED_CAST")
 @BindingAdapter("dataSlider")
-fun <T> setRecyclerViewProperties(viewPager2: ViewPager2, data: List<T>?) {
-    (viewPager2.adapter as? BindAbleAdapter<List<T>>)?.setData(data)
+fun <C> setRecyclerViewProperties(viewPager2: ViewPager2, data: List<C>?) {
+    (viewPager2.adapter as? BindAbleAdapter<List<C>>)?.setData(data)
 }

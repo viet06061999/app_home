@@ -1,41 +1,48 @@
 {
   "project_info": {
-    "project_number": "514302464884",
-    "firebase_url": "https://apionhome-4afed-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "apionhome-4afed",
-    "storage_bucket": "apionhome-4afed.appspot.com"
+    "project_number": "939423264463",
+    "project_id": "demomvvm-94eb6",
+    "storage_bucket": "demomvvm-94eb6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:514302464884:android:935a0a7d6efd0a1fca5221",
+        "mobilesdk_app_id": "1:939423264463:android:4b7f755165fd6fc68b11ba",
         "android_client_info": {
           "package_name": "com.apion.apionhome"
         }
       },
       "oauth_client": [
         {
-          "client_id": "514302464884-ng6p7sb6cbcd5953fm69u3024pgdk056.apps.googleusercontent.com",
+          "client_id": "939423264463-racklat4gsgmvfodpf25oguascfoig80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apion.apionhome",
+            "certificate_hash": "bc9046b614e405d1aeb5aeb29aa484f115d3d167"
+          }
+        },
+        {
+          "client_id": "939423264463-4vpkmmupac4qctm61sc4ms9ehhs48icl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDpMg9TYGd_SG__5TLIPTlGFlWl5T6Y2vw"
+          "current_key": "AIzaSyDaPFKtAfrIPKxf4o3qVm7cvE47gf9-3YY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "514302464884-ng6p7sb6cbcd5953fm69u3024pgdk056.apps.googleusercontent.com",
+              "client_id": "939423264463-4vpkmmupac4qctm61sc4ms9ehhs48icl.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "514302464884-91j4koicho12pvtjh9dscsna1h3cs9od.apps.googleusercontent.com",
+              "client_id": "939423264463-i8ng9d8hfevuo4rhrm3q9921nnblf5vg.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "trinhvancuong.apionhome"
+                "bundle_id": "vn.vnpt.DEMO-MVVM"
               }
             }
           ]

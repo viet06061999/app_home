@@ -73,6 +73,22 @@
             app:popExitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_in_right"
             />
+        <action
+            android:id="@+id/actionToVerifyPhone"
+            app:destination="@id/verifyPhoneFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyPhoneFragment"
+        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneFragment"
+        tools:layout="@layout/fragment_verify_phone"
+        >
+
+
     </fragment>
     <fragment
         android:id="@+id/selectProvinceFragment"
@@ -87,6 +103,11 @@
     <fragment
         android:id="@+id/selectWardFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectWardFragment"
+        tools:layout="@layout/bottomsheet_search_location_register"
+        />
+    <fragment
+        android:id="@+id/selectStreetFragment"
+        android:name="com.apion.apionhome.ui.geting_started.SelectStreetFragment"
         tools:layout="@layout/bottomsheet_search_location_register"
         />
     <fragment
@@ -112,6 +133,14 @@
         <action
             android:id="@+id/actionToSelectWardFragment"
             app:destination="@id/selectWardFragment"
+            app:enterAnim="@anim/slide_up"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_bottom"
+            />
+        <action
+            android:id="@+id/actionToSelectStreetFragment"
+            app:destination="@id/selectStreetFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"

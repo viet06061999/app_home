@@ -40,13 +40,19 @@ class MainActivity : AppCompatActivity() {
             MyApplication.tabToNavigate.value = null
             navController.navigate(R.id.actionToNotification)
         }
+        if (MyApplication.tabToNavigate.value == 2){
+            navView.menu.getItem(2).isChecked = true
+            MyApplication.tabToNavigate.value = null
+            println("da vao den 2")
+            navController.navigate(R.id.actionToAdd)
+        }
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Yêu cầu đăng nhập!")
         dialog.setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
         dialog.setPositiveButton("Đăng nhập") { _, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
-            navController.navigate(MobileNavigationDirections.actionToLogin())
- //           navController.navigate(R.id.actionToLogin)
+//            navController.navigate(MobileNavigationDirections.actionToLogin())
+            navController.navigate(R.id.actionToLogin)
         }
         dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
@@ -76,6 +82,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             true
+        }
+        binding.fab.setOnClickListener {
+//            if (MyApplication.sessionUser.value != null) {
+//                currentIndex = 2
+                navController.navigate(R.id.actionToAdd)
+//            } else {
+//                MyApplication.tabToNavigate.value = 2
+//                dialog.show()
+//            }
         }
 
 

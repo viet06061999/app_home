@@ -13,6 +13,7 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
 import com.apion.apionhome.data.source.remote.response_entity.UserResponse
+import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
 import com.apion.apionhome.utils.setup
 import com.apion.apionhome.utils.transform
@@ -34,6 +35,14 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
 
     // khởi tạo biến _user, khai báo user  và gán _users cho nó
 
+
+    private val _resultAddress = MutableLiveData<String>()
+    val resultAddress: LiveData<String>
+        get() = _resultAddress
+
+    private val _codeSent = MutableLiveData<String>()
+    val codeSent: LiveData<String>
+        get() = _codeSent
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
@@ -70,6 +79,13 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val street: LiveData<LocationName?>
         get() = _street
 
+    private val _isCreateDone = MutableLiveData<Boolean>(false)
+
+    val isCreateDone: LiveData<Boolean>
+        get() = _isCreateDone
+
+
+
 
     val phone = MutableLiveData<String>()
 //    phone.phone
@@ -82,18 +98,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val errorPhone = MutableLiveData<String?>()
 
     val dateRegister = MutableLiveData<Date>()
-    fun setDistrict(district: District?) {
-        _district.value = district
-        _ward.value = null
-        _street.value = null
-    }
-    fun setWard(locationName: LocationName?) {
-        println("PQTHANh")
-        println(locationName?.getContent())
-        _ward.value = locationName
-        _street.value = null
 
-    }
 
 
 
@@ -123,6 +128,28 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
+    fun getAddress(): String {
+        var textAddress = ""
+        street.value?.let {
+            textAddress += street.value?.prefix+" " +street.value?.name
+            if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+
+        ward.value?.let {
+            textAddress +=ward.value?.prefix+" " + ward.value?.name
+            if(ward.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+        district.value?.let {
+            textAddress += district.value?.name
+            if(district.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+
+        province.value?.let {
+            textAddress += province.value?.name
+        }
+
+        return textAddress
+    }
     override fun initData(){
         _province.value = Province(
             id = 2,
@@ -144,6 +171,42 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     fun searchDistrict(query: String) {
         houseRepository
             .searchDistrict(_province.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+    fun setCodeSent(codeSent: String) {
+        _codeSent.value = codeSent
+
+    }
+    fun setCreateDone(){
+        _isCreateDone.value = (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid ?: false)
+    }
+    fun setDistrict(district: District?) {
+        _district.value = district
+        _ward.value = null
+        _street.value = null
+    }
+    fun setWard(locationName: LocationName?) {
+        println("PQTHANh")
+        println(locationName?.getContent())
+        _ward.value = locationName
+        _street.value = null
+
+    }
+    fun setStreet(locationName: LocationName?) {
+        _street.value = locationName
+    }
+    fun searchStreet(query: String) {
+        println("province $province")
+        houseRepository
+            .searchStreet(_district.value, query)
             .setup()
             .subscribe(
                 {

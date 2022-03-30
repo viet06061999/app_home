@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View"/>
         <variable
             name="registerVM"
             type="com.apion.apionhome.viewmodel.UserViewModel"
@@ -330,6 +331,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtAddress"
                 />
+            <ImageButton
+                android:id="@+id/icDeleteAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:background="@null"
+                android:src="@drawable/ic_baseline_close_24"
+                android:visibility="@{registerVM.province == null ? View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@+id/edtAddress"
+                app:layout_constraintEnd_toEndOf="@+id/edtAddress"
+                app:layout_constraintTop_toTopOf="@+id/edtAddress" />
 
 <!--            <EditText-->
 <!--                android:id="@+id/edtAddress"-->

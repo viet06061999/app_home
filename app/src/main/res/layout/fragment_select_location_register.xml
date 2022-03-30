@@ -95,7 +95,8 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{selectVM.district.name}"
+                    tail="@{`Quận huyện`}"
+                    textCustom="@{selectVM.district.content==null?@string/hint_ward:selectVM.district.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textDistrict" />
@@ -117,7 +118,8 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="@{selectVM.ward.title}"
+                    tail="@{`Phường xã`}"
+                    textCustom="@{selectVM.ward.content==null?@string/hint_ward:selectVM.ward.content}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textWard" />
@@ -139,12 +141,13 @@
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
                     android:paddingHorizontal="@dimen/dp_8"
-                    android:text="Đường phố"
+                    tail="@{`Đường phố`}"
+                    textCustom="@{selectVM.street.title == null?`Đường phố`:selectVM.street.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textStreet" />
                 <Button
-                    android:id="@+id/btnSearch"
+                    android:id="@+id/btnUse"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_24"

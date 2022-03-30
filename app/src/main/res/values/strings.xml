@@ -105,13 +105,26 @@
     <string name="text_warning_fomat_phone">Định dạng không hợp lệ.</string>
     <string name="text_warning_null_phone">Vui lòng nhập số điện thoại.</string>
 
+<!--    Verify-->
+    <string name="title_verify">Xác thực mã OTP</string>
+    <string name="button_verify">Xác thực</string>
 
     <!--    Create House-->
     <string name="title_create_house">Ký nhà</string>
     <string name="text_warning_create">Không nhập các ký tự đặc biệt !@#$%^&amp;*()_+{}|:?></string>
     <string name="title_type_house">Loại nhà đất *</string>
     <string name="text_type_house">Nhà đất</string>
-
+    <string name="title_content_house">Nội dung*</string>
+    <string name="title_address_house">Địa điểm</string>
+    <string name="title_direction_house">Hướng nhà</string>
+    <string name="title_room_house">Nhập số phòng ngủ</string>
+    <string name="title_bonus_house">Nhập tỉ lệ hoa hồng</string>
+    <string name="title_image_house">Chọn ảnh căn nhà</string>
+    <string name="text_address_house">Chọn địa điểm</string>
+    <string name="hint_bonus_house">Nhập số phòng ngủ</string>
+    <string name="hint_price_house">Giá</string>
+    <string name="hint_square_house">Diện tích</string>
+    <string name="hint_front_house">Mặt tiền</string>
 
 
 

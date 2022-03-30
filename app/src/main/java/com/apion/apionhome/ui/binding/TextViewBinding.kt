@@ -22,12 +22,57 @@ fun houseType(view: TextView, type: String) {
 
 @BindingAdapter("status")
 fun houseStatus(view: TextView, status: String) {
-    val text = if (status == "Ready For Sale") {
-        view.context.getString(R.string.title_ready_for_sale)
-    } else {
-        view.context.getString(R.string.title_status_default)
+    val text = when (status) {
+        "Ready For Sale" -> {
+            view.context.getString(R.string.title_ready_for_sale)
+        }
+        "In Review" -> {
+            "Đang review"
+        }
+        "Removed" -> {
+            "Đã xóa"
+        }
+        "Sold" -> {
+            "Đã bán"
+        }
+        else -> {
+            "Đang bán"
+        }
     }
     view.text = text
+}
+
+@BindingAdapter(value = ["position", "permission"])
+fun userPositionPermission(view: TextView, permission: String, position: String) {
+    val textPer = if (permission == "Host Side") {
+        "đầu chủ"
+    } else {
+        "đầu khách"
+    }
+    val textPos = when (position) {
+        "Director" -> {
+            "Giám đốc"
+        }
+        "Earl" -> {
+            "Bá tước"
+        }
+        "Manager" -> {
+            "Trưởng phòng"
+        }
+        "Leader" -> {
+            "Trưởng nhóm"
+        }
+        "Captain" -> {
+            "Đội trưởng"
+        }
+        "Expert" -> {
+            "Chuyên viên"
+        }
+        else -> {
+            "Đang bán"
+        }
+    }
+    view.text = "$textPos $textPer"
 }
 
 @BindingAdapter("direction")
@@ -58,7 +103,7 @@ fun joinCommunity(view: Button, communityId: Int) {
 }
 
 @BindingAdapter(value = ["textCustom", "tail"])
-fun setTextCustom(view: TextView, text: String, tail: String){
+fun setTextCustom(view: TextView, text: String, tail: String) {
     when {
         text.contains("Tất cả") -> {
             view.text = "Tất cả $tail"

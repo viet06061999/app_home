@@ -105,10 +105,10 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
 
             }
             override fun onVerificationFailed(p0: FirebaseException) {
-
-                println("Sent That Bai")
-
-
+                println(p0)
+                if(p0 is FirebaseAuthInvalidCredentialsException){
+                }else{
+                }
             }
             override fun onCodeSent(verfication: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(verfication, p1)
@@ -122,7 +122,7 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
 
         mAuth = FirebaseAuth.getInstance()
         val options = PhoneAuthOptions.newBuilder(mAuth)
-            .setPhoneNumber("+84981813596") // Phone number to verify
+            .setPhoneNumber("+8498181359") // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(requireActivity()) // Activity (for callback binding)
             .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks

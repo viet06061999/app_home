@@ -77,13 +77,7 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
 
         return try {
             backend.login(body).map {
-                println("response")
                 if (it.isSuccess) {
-//                    if (it.user.pincode == pinCode) {
-//                        it.user
-//                    } else {
-//                        throw IllegalArgumentException(AUTHEN_EXCEPTION)
-//                    }
                     it.user
                 } else {
                     throw IllegalArgumentException(it.message)

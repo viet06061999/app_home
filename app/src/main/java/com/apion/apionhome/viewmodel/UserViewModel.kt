@@ -257,7 +257,6 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     }
 
     fun login() {
-        var name : String = "Viet"
         // ? để check null. khi null thì ko thực hiện scope function apply
         //
         _isLoading.value = true
@@ -273,6 +272,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                         _user.value = it
                         _loginSuccess.value = true to it.pincode
                         MyApplication.sessionUser.value = it
+                        println("myapplication ${ MyApplication.sessionUser.value}")
                     }, {
                         if (it is HttpException) {
                             try {

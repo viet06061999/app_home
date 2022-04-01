@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (MyApplication.tabToNavigate.value == 3){
+            println("sang noti")
             navView.menu.getItem(3).isChecked = true
             MyApplication.tabToNavigate.value = null
             navController.navigate(R.id.actionToNotification)
@@ -51,15 +52,13 @@ class MainActivity : AppCompatActivity() {
         dialog.setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
         dialog.setPositiveButton("Đăng nhập") { _, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
-//            navController.navigate(MobileNavigationDirections.actionToLogin())
-            navController.navigate(R.id.actionToLogin)
+            navController.navigate(MobileNavigationDirections.actionToLogin())
         }
         dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
             navView.menu.getItem(currentIndex).isChecked = true
             MyApplication.tabToNavigate.value = null
             dialogShow.dismiss()
         }
-
 
         navView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -97,7 +96,8 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in arrayListOf(
                     R.id.searDetailResultFragment,
-                    R.id.selectLocationFragment
+                    R.id.selectLocationFragment,
+                    R.id.personProfileFragment
                 )
             ) {
                 hideBottom()

@@ -3,6 +3,7 @@ package com.apion.apionhome.ui.binding
 import android.graphics.Color
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.apion.apionhome.MyApplication
@@ -117,4 +118,28 @@ fun setTextCustom(view: TextView, text: String, tail: String) {
     }
 }
 
-
+@BindingAdapter("checkFollow")
+fun checkFollow(view: Button, userId: String) {
+    println("user ${MyApplication.sessionUser.value}")
+    val userFollowings = MyApplication.sessionUser.value?.following
+    var isFollow = false
+    println("$userId $userFollowings")
+    userFollowings?.let {
+        for (element in it) {
+            println("$userId ${element.beingFollowedId}")
+            if(element.beingFollowedId == userId){
+                isFollow = true
+                break
+            }
+        }
+    }
+   if(isFollow){
+       view.text = "Bỏ theo dõi"
+       view.background = AppCompatResources.getDrawable(view.context, R.drawable.bg_button)
+       view.setTextColor(view.context.getColor(R.color.white))
+   }  else{
+       view.text = "Theo dõi"
+       view.background = AppCompatResources.getDrawable(view.context, R.drawable.bg_button_outlined)
+       view.setTextColor(view.context.getColor(R.color.color_primary))
+   }
+}

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.RxViewModel
+import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.User
 import com.apion.apionhome.data.model.local.District
 import com.apion.apionhome.data.model.local.ILocation
@@ -13,6 +14,7 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
 import com.apion.apionhome.data.source.remote.response_entity.UserResponse
+import com.apion.apionhome.utils.*
 import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
 import com.apion.apionhome.utils.setup
@@ -44,22 +46,45 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val resultAddress: LiveData<String>
         get() = _resultAddress
 
-    private val _codeSent = MutableLiveData<String>()
-    val codeSent: LiveData<String>
-        get() = _codeSent
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
 
-    val nameRegister = MutableLiveData<String>()
+    private val _userRegister = MutableLiveData<User>()
+    val userRegister: LiveData<User>
+        get() = _userRegister
 
-    val phoneRegister = MutableLiveData<String>()
+    val codeSent              = MutableLiveData<String>()
+    val nameRegister              = MutableLiveData<String>()
+    val phoneRegister             = MutableLiveData<String>()
+    val phoneReferalRegister      = MutableLiveData<String?>()
+    val dobRegister               = MutableLiveData<Calendar?>()
+    val sexIndexRegister          = MutableLiveData<Int>()
+    val levelIndexRegister        = MutableLiveData<Int?>()
+    val jobIndexRegister          = MutableLiveData<Int>()
+    val addressRegister           = MutableLiveData<String?>()
+    val biosRegister              = MutableLiveData<String?>()
 
+
+
+    fun setJobIndex(index: Int) {
+        jobIndexRegister.value = index
+    }
+    fun setSexIndex(index: Int) {
+        sexIndexRegister.value = index
+    }
+    fun setLevelIndex(index: Int) {
+        levelIndexRegister.value = index
+    }
     // khởi tạo biến _loginSuccess, khai báo loginSuccess  và gán _loginSuccess cho nó
     private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
     val loginSuccess: LiveData<Pair<Boolean, String?>>
         get() = _loginSuccess
+
+    private val _registerSuccess = MutableLiveData<Boolean>()
+    val registerSuccess: LiveData<Boolean>
+        get() = _registerSuccess
 
     private val _district = MutableLiveData<District?>()
     val district: LiveData<District?>
@@ -83,6 +108,8 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val street: LiveData<LocationName?>
         get() = _street
 
+
+
     private val _isCreateDone = MutableLiveData<Boolean>(false)
 
     val isCreateDone: LiveData<Boolean>
@@ -101,7 +128,8 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val errorName = MutableLiveData<String?>()
     val errorPhone = MutableLiveData<String?>()
 
-    val dateRegister = MutableLiveData<Date>()
+    val resultSentSMS = MutableLiveData<Boolean>()
+
 
 
 
@@ -114,9 +142,6 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     }
     fun setErrorPhone(error : String?){
         errorPhone.value = error
-    }
-    fun setDate(date : Date){
-        dateRegister.value = date
     }
     fun getAllUser() {
         userRepository
@@ -154,6 +179,29 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
 
         return textAddress
     }
+    fun getDobAPI(): String{
+
+        var result = Calendar.getInstance().time.toString(TimeFormat.TIME_FORMAT_API_1)
+        dobRegister.value?.let {
+            var date = it.time
+            date.let {
+                result = it.toString(TimeFormat.TIME_FORMAT_API)
+            }
+        }
+        return result
+    }
+    fun getPhoneFirebase(): String {
+        phoneRegister.value?.let {
+            var length = it.length
+            if(length>1){
+            var subSequence = it.subSequence(1,length)
+            return "+84"+subSequence
+            }
+        }
+
+
+        return ""
+    }
     override fun initData(){
         _province.value = Province(
             id = 2,
@@ -185,10 +233,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
-    fun setCodeSent(codeSent: String) {
-        _codeSent.value = codeSent
 
-    }
     fun setCreateDone(){
         _isCreateDone.value = (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid ?: false)
     }
@@ -307,6 +352,65 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 )
         }
 
+    }
+    fun getUser() : User = User(
+        name  = nameRegister.value?.toString(),
+        phone = phoneRegister.value?.toString(),
+        refer = phoneReferalRegister.value?.toString(),
+        dateOfBirth = getDobAPI(),
+        address = getAddress(),
+        sex = RangeUI.sexUis.entries.toList()[sexIndexRegister.value ?: 0].key,
+        academicLevel = RangeUI.levelUis.entries.toList()[levelIndexRegister.value ?: 0].key,
+        job = RangeUI.jobUis.entries.toList()[jobIndexRegister.value ?: 1].key,
+        position = "Expert",
+        permission = "Host Side",
+        role = "User"
+
+    )
+    fun register() {
+        val user = User(
+            name  = nameRegister.value?.toString(),
+            phone = phoneRegister.value?.toString(),
+            refer = phoneReferalRegister.value?.toString(),
+            dateOfBirth = dobRegister.value?.toString(),
+            address = getAddress(),
+            sex = RangeUI.sexUis.entries.toList()[sexIndexRegister.value ?: 0].key,
+            academicLevel = RangeUI.levelUis.entries.toList()[levelIndexRegister.value ?: 0].key,
+            job = RangeUI.jobUis.entries.toList()[jobIndexRegister.value ?: 1].key,
+            position = "Expert",
+            permission = "Host Side",
+            role = "User"
+
+            )
+        userRepository
+            .createUser(user)
+            .setup()
+            .doOnTerminate {
+                //_isLoading.value = false
+            }
+            .subscribe(
+                {
+                    _userRegister.value = it
+                    _registerSuccess.value = true
+                }, {
+                    if (it is HttpException) {
+                        try {
+                            val jsonError = JSONObject(
+                                String(
+                                    it.response()?.errorBody()?.bytes() ?: byteArrayOf(),
+                                    charset("UTF-8")
+                                )
+                            )
+                            errorText.value = jsonError.getString("message")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            errorText.value = it.message
+                        }
+                    } else {
+                        errorText.value = it.message
+                    }
+                }
+            )
     }
 
 

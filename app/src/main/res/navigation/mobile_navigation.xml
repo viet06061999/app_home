@@ -68,6 +68,11 @@
         app:popUpTo="@+id/navigation_notification"
         app:popUpToInclusive="true" />
     <action
+        android:id="@+id/actionToProfile"
+        app:destination="@id/navigation_profile"
+        app:popUpTo="@+id/navigation_profile"
+        app:popUpToInclusive="true" />
+    <action
         android:id="@+id/actionToAdd"
         app:destination="@id/navigation_add"
         app:popUpTo="@+id/navigation_add"
@@ -130,6 +135,11 @@
         android:id="@+id/navigation_add"
         android:name="com.apion.apionhome.ui.add_home.AddFragment"
         tools:layout="@layout/fragment_create_home"
+        />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.apion.apionhome.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile"
         />
 
     <activity

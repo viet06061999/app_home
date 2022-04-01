@@ -46,6 +46,7 @@
         </activity>
 
         <activity android:name=".ui.geting_started.StartActivity" />
+        <activity android:name=".ui.geting_started.VerifyPhoneActivity" />
         <service
             android:name=".service.MyFirebaseMessagingService"
             android:exported="false">

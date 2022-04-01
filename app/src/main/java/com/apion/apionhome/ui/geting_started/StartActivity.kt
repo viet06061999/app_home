@@ -6,4 +6,7 @@ import com.apion.apionhome.databinding.ActivityStartBinding
 
 class StartActivity : BindingActivity<ActivityStartBinding>() {
     override fun getLayoutResId() = R.layout.activity_start
+    override fun setupView() {
+        println("OK")
+    }
 }

@@ -4,57 +4,62 @@ import android.os.Parcelable
 import com.apion.apionhome.data.model.community.Participant
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 
 @Parcelize
-data class User(
+data class User (
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("phone")
-    val phone: String,
-    @SerializedName("remember_token")
-    val rememberToken: String?,
+    val phone: String? = null,
+
     @SerializedName("referal")
-    val refer: String?,
+    val refer: String?= null,
     @SerializedName("dob")
-    val dateOfBirth: String,
+    val dateOfBirth: String?= null,
     @SerializedName("address")
-    val address: String,
-    @SerializedName("avatar")
-    val avatar: String?,
+    val address: String? = null,
     @SerializedName("sex")
-    val sex: String,
+    val sex: String? = null,
     @SerializedName("academicLevel")
-    val academicLevel: String,
+    val academicLevel: String? = null,
     @SerializedName("job")
-    val job: String,
+    val job: String?= null,
     @SerializedName("pincode")
-    val pincode: String,
+    val pincode: String? = null,
     @SerializedName("isFirst")
-    val isFirst: String,
+    val isFirst: String?= null,
     @SerializedName("position")
-    val position: String,
+    val position: String?= null,
     @SerializedName("permission")
-    val permission: String,
+    val permission: String?= null,
     @SerializedName("email")
-    val email: String,
+    val email: String? = null,
     @SerializedName("facebook_id")
-    val facebook_id: String?,
+    val facebook_id: String?= null,
+    @SerializedName("role")
+    val role: String? = null,
+
+    @SerializedName("remember_token")
+    val rememberToken: String? = null,
+    @SerializedName("avatar")
+    val avatar: String? = null,
     @SerializedName("created_at")
-    val created_at: String,
+    val created_at: String? = null,
     @SerializedName("updated_at")
-    val updated_at: String,
+    val updated_at: String? = null,
     @SerializedName("my_staff")
-    val myStaff: List<User>?,
+    val myStaff: List<User>? = null,
     @SerializedName("boss")
     val boss: User? = null,
     @SerializedName("house_sold")
-    val houseSold: List<House>?,
+    val houseSold: List<House>? = null,
     @SerializedName("my_houses")
-    val myHouses: List<House>?,
+    val myHouses: List<House>? = null,
     @SerializedName("participants")
-    val participants: List<Participant>?,
+    val participants: List<Participant>? = null,
     @SerializedName("houses_bookmark")
     val bookmarks: List<BookMark>?,
     @SerializedName("followed")

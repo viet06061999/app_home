@@ -43,9 +43,12 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
     @Throws(IllegalArgumentException::class)
     override fun updateUser(user: User): Maybe<User> {
         return try {
-            backend.updateUser(user.id, user).map {
-                if (it.isSuccess) it.user else throw IllegalArgumentException(it.message)
-            }
+            user.id?.let {
+                backend.updateUser(user.id, user).map {
+                    if (it.isSuccess) it.user else throw IllegalArgumentException(it.message)
+                }
+            }?:Maybe.error(Exception("khong tim thay user"))
+
         } catch (exception: Exception) {
             Maybe.error(exception)
         }

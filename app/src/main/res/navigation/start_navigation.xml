@@ -75,21 +75,21 @@
             />
         <action
             android:id="@+id/actionToVerifyPhone"
-            app:destination="@id/verifyPhoneFragment"
+            app:destination="@id/verifyPhoneActivity"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_in_right"
             />
     </fragment>
-    <fragment
-        android:id="@+id/verifyPhoneFragment"
-        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneFragment"
-        tools:layout="@layout/fragment_verify_phone"
+    <activity
+        android:id="@+id/verifyPhoneActivity"
+        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneActivity"
+        tools:layout="@layout/activity_verify_phone"
         >
 
 
-    </fragment>
+    </activity>
     <fragment
         android:id="@+id/selectProvinceFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectProvinceFragment"

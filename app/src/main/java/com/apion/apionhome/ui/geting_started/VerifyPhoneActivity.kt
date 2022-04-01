@@ -1,5 +1,6 @@
 package com.apion.apionhome.ui.geting_started
 
+import android.app.AlertDialog
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -7,10 +8,17 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navArgs
+import com.apion.apionhome.MobileNavigationDirections
+import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
+import com.apion.apionhome.base.BindingActivity
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.RxViewModel
-import com.apion.apionhome.databinding.FragmentVerifyPhoneBinding
+import com.apion.apionhome.data.model.User
+import com.apion.apionhome.databinding.ActivityVerifyPhoneBinding
+import com.apion.apionhome.utils.createProgressDialog
 import com.apion.apionhome.viewmodel.UserViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -18,20 +26,46 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(FragmentVerifyPhoneBinding::inflate) {
-    override val viewModel by sharedViewModel<UserViewModel>()
+class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
+    val viewModel by viewModel<UserViewModel>()
+    val dialog by lazy {
+        this.createProgressDialog()
+    }
     override fun setupView() {
         binding.lifecycleOwner = this
+        binding.verifyVM = viewModel
+        val user = intent.extras?.getSerializable("USER") as User
+//        val verifyId = intent.extras?.getSerializable("verifyId") as String
+
+        viewModel.phoneRegister.value = user.phone
+//        viewModel.codeSent.value = verifyId
+//        if(result.toString() == "true"){
+//            setDialog1()
+//        }
+        println("CHECK")
+        println(user.toString())
         setListener()
         setupEdit()
     }
     fun setListener(){
         binding.imageBack.setOnClickListener {
-            this.findNavController().popBackStack()
+            this.finish()
+        }
+        binding.txtAnswer.setOnClickListener {
+
         }
     }
-
+//    private fun setDialog1(){
+//        val dialog = AlertDialog.Builder(this)
+//        dialog.setMessage("Đã có lỗi xảy ra")
+//        dialog.setPositiveButton("Đóng") { _, _ ->
+//           this.finish()
+////            navController.navigate(R.id.actionToLogin)
+//        }
+//        dialog.show()
+//    }
     private fun setupEdit() {
 //        binding.etPassword1.isCursorVisible = true
         binding.etPassword2.isCursorVisible = false
@@ -176,6 +210,7 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
 
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword6.text.toString().length == 1) {
+                    viewModel._isLoading.value = true
                     isValidVerify()
                 }
             }
@@ -189,10 +224,15 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
         val pin = binding.etPassword1.text.toString() + binding.etPassword2.text.toString() +
                 binding.etPassword3.text.toString() + binding.etPassword4.text.toString() +
                 binding.etPassword5.text.toString() + binding.etPassword6.text.toString()
-        println(viewModel.codeSent.value)
-        val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(viewModel.codeSent.value ?: "", pin)
+        println("PHAM ANH TUAN")
 
-        signIn(credential)
+
+        viewModel.codeSent.value?. let{
+            val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(viewModel.codeSent.value ?: "", pin)
+
+            signIn(credential)
+        }
+
 
     }
     private fun signIn (credential: PhoneAuthCredential) {
@@ -202,6 +242,7 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                     task: Task<AuthResult> ->
                 if (task.isSuccessful) {
                     println("Đăng nhập thành công")
+                    viewModel.register()
                 }
                 else{
                     println("Xác thực thất bại")
@@ -226,5 +267,9 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
         }
 
 
+    }
+
+    override fun getLayoutResId() : Int {
+        return R.layout.activity_verify_phone
     }
 }

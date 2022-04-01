@@ -126,6 +126,9 @@
     <string name="hint_square_house">Diện tích</string>
     <string name="hint_front_house">Mặt tiền</string>
 
+<!--    Profile-->
+    <string name="version_profile">\@ApionHome - v4.5.21</string>
+
 
 
     <string name="title_select_location">Chọn địa chỉ</string>

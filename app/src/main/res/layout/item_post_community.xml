@@ -91,7 +91,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageHouse"
-                image="@{house.images.get(0)}"
+                image="@{house.defaultImage}"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_80"
                 android:layout_marginHorizontal="@dimen/dp_8"

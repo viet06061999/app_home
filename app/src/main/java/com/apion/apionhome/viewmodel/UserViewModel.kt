@@ -6,8 +6,14 @@ import androidx.lifecycle.map
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.data.model.User
+import com.apion.apionhome.data.model.local.District
+import com.apion.apionhome.data.model.local.ILocation
+import com.apion.apionhome.data.model.local.LocationName
+import com.apion.apionhome.data.model.local.Province
+import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
 import com.apion.apionhome.data.source.remote.response_entity.UserResponse
+import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
 import com.apion.apionhome.utils.setup
 import com.apion.apionhome.utils.transform
@@ -18,7 +24,7 @@ import retrofit2.HttpException
 import java.lang.Exception
 import java.util.*
 
-class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
+class UserViewModel(val userRepository: UserRepository,private val houseRepository: HouseRepository) : RxViewModel() {
 
 
     // khởi tạo biến _users, khai báo users  và gán _users cho nó
@@ -29,6 +35,14 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
     // khởi tạo biến _user, khai báo user  và gán _users cho nó
 
+
+    private val _resultAddress = MutableLiveData<String>()
+    val resultAddress: LiveData<String>
+        get() = _resultAddress
+
+    private val _codeSent = MutableLiveData<String>()
+    val codeSent: LiveData<String>
+        get() = _codeSent
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
@@ -43,6 +57,34 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
     val loginSuccess: LiveData<Pair<Boolean, String?>>
         get() = _loginSuccess
 
+    private val _district = MutableLiveData<District?>()
+    val district: LiveData<District?>
+        get() = _district
+
+    private val _locations = MutableLiveData<List<ILocation>>()
+    val locations: LiveData<List<ILocation>>
+        get() = _locations
+
+    private val _province = MutableLiveData<Province?>()
+    val province: LiveData<Province?>
+        get() = _province
+
+
+    private val _ward = MutableLiveData<LocationName?>()
+    val ward: LiveData<LocationName?>
+        get() = _ward
+
+    private val _street = MutableLiveData<LocationName?>()
+
+    val street: LiveData<LocationName?>
+        get() = _street
+
+    private val _isCreateDone = MutableLiveData<Boolean>(false)
+
+    val isCreateDone: LiveData<Boolean>
+        get() = _isCreateDone
+
+
 
 
     val phone = MutableLiveData<String>()
@@ -52,10 +94,22 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
 
     // errorText laf 1 MediatorLivedata
     val errorText = MutableLiveData<String?>()
+    val errorName = MutableLiveData<String?>()
+    val errorPhone = MutableLiveData<String?>()
+
     val dateRegister = MutableLiveData<Date>()
+
+
+
 
     fun setError(error : String?){
         errorText.value = error
+    }
+    fun setErrorName(error : String?){
+        errorName.value = error
+    }
+    fun setErrorPhone(error : String?){
+        errorPhone.value = error
     }
     fun setDate(date : Date){
         dateRegister.value = date
@@ -74,9 +128,135 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
                 }
             )
     }
+    fun getAddress(): String {
+        var textAddress = ""
+        street.value?.let {
+            textAddress += street.value?.prefix+" " +street.value?.name
+            if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+
+        ward.value?.let {
+            textAddress +=ward.value?.prefix+" " + ward.value?.name
+            if(ward.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+        district.value?.let {
+            textAddress += district.value?.name
+            if(district.value?.name?.isNotEmpty() == true) textAddress +=", "
+        }
+
+        province.value?.let {
+            textAddress += province.value?.name
+        }
+
+        return textAddress
+    }
+    override fun initData(){
+        _province.value = Province(
+            id = 2,
+            name = "Hà Nội",
+            code = "HN",
+            districts = mutableListOf()
+        )
+        _district.value = District(
+            id = 25,
+            name = "Ba Đình",
+            province = Province(
+                id = 2,
+                name = "Hà Nội",
+                code = "HN",
+                districts = mutableListOf()
+            )
+        )
+    }
+    fun searchDistrict(query: String) {
+        houseRepository
+            .searchDistrict(_province.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+    fun setCodeSent(codeSent: String) {
+        _codeSent.value = codeSent
+
+    }
+    fun setCreateDone(){
+        _isCreateDone.value = (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid ?: false)
+    }
+    fun setDistrict(district: District?) {
+        _district.value = district
+        _ward.value = null
+        _street.value = null
+    }
+    fun setWard(locationName: LocationName?) {
+        println("PQTHANh")
+        println(locationName?.getContent())
+        _ward.value = locationName
+        _street.value = null
+
+    }
+    fun setStreet(locationName: LocationName?) {
+        _street.value = locationName
+    }
+    fun searchStreet(query: String) {
+        println("province $province")
+        houseRepository
+            .searchStreet(_district.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+    fun searchProvince(query: String) {
+        houseRepository
+            .searchProvince(query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                },
+                {
+                    it.printStackTrace()
+                    error.value = it.message
+                })
+
+    }
+    fun searchWard(query: String) {
+        houseRepository
+            .searchWard(_district.value, query)
+            .setup()
+            .subscribe(
+                {
+                    _locations.value = it
+                    print(_locations.value)
+                    print("PAT")
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+    fun setProvince(province: Province?) {
+        _province.value = province
+        if(province?.districts?.isNotEmpty() == true){
+            _district.value = province.districts.first()
+        }
+        println("da gan")
+        _ward.value = null
+        _street.value = null
+    }
 
     fun login() {
-        var name : String = "Viet"
         // ? để check null. khi null thì ko thực hiện scope function apply
         //
         _isLoading.value = true
@@ -92,6 +272,7 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
                         _user.value = it
                         _loginSuccess.value = true to it.pincode
                         MyApplication.sessionUser.value = it
+                        println("myapplication ${ MyApplication.sessionUser.value}")
                     }, {
                         if (it is HttpException) {
                             try {
@@ -124,4 +305,5 @@ class UserViewModel(val userRepository: UserRepository) : RxViewModel() {
         }
         return null
     }
+
 }

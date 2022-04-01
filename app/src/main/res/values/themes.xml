@@ -97,6 +97,29 @@
         <item name="android:textSize">@dimen/sp_15</item>
         <item name="android:background">@drawable/background_view_3</item>
     </style>
+    <style name= "StyleEditTextCreate">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:layout_marginTop">@dimen/dp_4</item>
+        <item name="android:paddingLeft">@dimen/dp_17</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:background">@drawable/background_view_3</item>
+    </style>
+    <style name= "StyleEditTextCreate2" parent="StyleEditTextCreate">
+        <item name="android:minHeight">@dimen/dp_180</item>
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+
+    </style>
+    <style name= "StyleEditTextCreate1" parent="StyleEditTextCreate">
+
+        <item name="android:layout_marginStart">@dimen/dp_20</item>
+        <item name="android:layout_marginEnd">@dimen/dp_20</item>
+
+    </style>
+
 
     <style name="StyleTextDetail">
 

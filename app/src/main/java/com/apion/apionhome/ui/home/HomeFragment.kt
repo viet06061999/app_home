@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.apion.apionhome.MobileNavigationDirections
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
@@ -37,7 +38,7 @@ class HomeFragment :
 
     private val adapterImage = ImageSliderAdapter(::onItemBannerClick)
 
-    private val adapterFeature = HouseAdapter(){house ->
+    private val adapterFeature = HouseAdapter() { house ->
         onItemHouseClick(house)
     }
 
@@ -46,7 +47,7 @@ class HomeFragment :
     private val adapterSaiGon = HouseAdapter(::onItemHouseClick)
 
     private val adapterUserOnline by lazy {
-        UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick,requireContext())
+        UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick, requireContext())
     }
 
     private var isCheck = false
@@ -107,7 +108,7 @@ class HomeFragment :
         binding.editTextPrice.setOnClickListener {
             findNavController().navigate(R.id.actionToBottomSheetPriceFragment)
         }
-        binding.layoutWardStreet.setOnClickListener{
+        binding.layoutWardStreet.setOnClickListener {
             findNavController().navigate(R.id.actionToSearchDetailFragment)
         }
         binding.txtSearch.setOnClickListener {
@@ -121,7 +122,8 @@ class HomeFragment :
         //binding.layoutHeader.root.viewTreeObserver.removeOnGlobalLayoutListener(observerVisible)
         sliderHandler.removeCallbacks(runnable)
     }
-    private fun setupObserve(){
+
+    private fun setupObserve() {
         searchViewModel.priceIndex.observe(this) {
             binding.editTextPrice.text =
                 RangeUI.priceRangeUis.values.toMutableList()[searchViewModel.priceIndex.value ?: 0]
@@ -136,12 +138,12 @@ class HomeFragment :
                 RangeUI.frontWidthRangeUis.values.toMutableList()[searchViewModel.frontWidthIndex.value
                     ?: 0]
         }
-        searchViewModel.isSearchDone.observe(this){
-            if(it){
-                if(searchViewModel.housesSearch.value?.isNotEmpty() == true){
+        searchViewModel.isSearchDone.observe(this) {
+            if (it) {
+                if (searchViewModel.housesSearch.value?.isNotEmpty() == true) {
                     searchViewModel.setSearchDone(false)
                     findNavController().navigate(R.id.actionToDetailSearchResult)
-                }else{
+                } else {
                     showToast("không tìm thấy kết quả nào")
                 }
             }
@@ -150,6 +152,7 @@ class HomeFragment :
             if (it) dialog.show() else dialog.dismiss()
         }
     }
+
     private fun setupRefresh() {
         binding.swipeLayout.apply {
             //binding.layoutHeader.root.viewTreeObserver.addOnGlobalLayoutListener(observerVisible)
@@ -196,6 +199,7 @@ class HomeFragment :
     }
 
     private fun onItemUserOnlineClick(user: User) {
-        println(user)
+        val action = MobileNavigationDirections.actionToPersonProfile(user)
+        findNavController().navigate(action)
     }
 }

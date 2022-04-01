@@ -40,7 +40,7 @@ data class User(
     @SerializedName("email")
     val email: String,
     @SerializedName("facebook_id")
-    val facebook_id: String,
+    val facebook_id: String?,
     @SerializedName("created_at")
     val created_at: String,
     @SerializedName("updated_at")
@@ -57,6 +57,18 @@ data class User(
     val participants: List<Participant>?,
     @SerializedName("houses_bookmark")
     val bookmarks: List<BookMark>?,
+    @SerializedName("followed")
+    val followed: List<UserFollowed>?,
+    @SerializedName("following")
+    val following: List<UserFollowing>?,
+    @SerializedName("following_count")
+    val followingCount: Int,
+    @SerializedName("followed_count")
+    val followedCount: Int,
+    @SerializedName("my_houses_count")
+    val myHousesCount: Int,
+    @SerializedName("bios")
+    val bios: String,
 ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =

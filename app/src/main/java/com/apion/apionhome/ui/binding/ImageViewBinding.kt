@@ -48,6 +48,8 @@ fun loadImage(view: ImageView, imageUrl: String?, sex: String?) {
         view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_male))
     } else if (!sex.isNullOrEmpty() && sex == "Female") {
         view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_female))
+    }else{
+        view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_no_image_to_show))
     }
 }
 

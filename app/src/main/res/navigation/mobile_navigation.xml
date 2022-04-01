@@ -65,6 +65,12 @@
         app:destination="@id/navigation_notification"
         app:popUpTo="@+id/navigation_notification"
         app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/actionToAdd"
+        app:destination="@id/navigation_add"
+        app:popUpTo="@+id/navigation_add"
+        app:popUpToInclusive="true"
+        />
 
     <action
         android:id="@+id/actionToSearchDistrictFragment"
@@ -118,6 +124,11 @@
         android:id="@+id/navigation_notification"
         android:name="com.apion.apionhome.ui.notification.NotificationFragment"
         tools:layout="@layout/fragment_community" />
+    <fragment
+        android:id="@+id/navigation_add"
+        android:name="com.apion.apionhome.ui.add_home.AddFragment"
+        tools:layout="@layout/fragment_create_home"
+        />
 
     <activity
         android:id="@+id/activityDetail"
@@ -213,4 +224,31 @@
         android:name="com.apion.apionhome.ui.search.SearchDetailFragment"
         tools:layout="@layout/fragment_search_detail"
         />
+    <action
+        android:id="@+id/actionToPersonProfile"
+        app:destination="@id/personProfileFragment"
+        />
+    <fragment
+        android:id="@+id/personProfileFragment"
+        android:name="com.apion.apionhome.ui.person.PersonProfileFragment">
+        <action
+            android:id="@+id/actionProfileToDetail"
+            app:destination="@id/activityDetail" />
+        <argument
+            android:name="userProfile"
+            app:argType="com.apion.apionhome.data.model.User" />
+        <action
+            android:id="@+id/actionToMyHouses"
+            app:destination="@id/myHousesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myHousesFragment"
+        android:name="com.apion.apionhome.ui.person.MyHouseFragment">
+        <action
+            android:id="@+id/actionMyHouseToDetail"
+            app:destination="@id/activityDetail" />
+        <argument
+            android:name="userProfile"
+            app:argType="com.apion.apionhome.data.model.User" />
+    </fragment>
 </navigation>

@@ -94,6 +94,7 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
         <EditText
@@ -106,6 +107,7 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
         <EditText
@@ -118,6 +120,7 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
         <EditText
@@ -130,6 +133,7 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
         <EditText
@@ -142,6 +146,7 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
         <EditText
@@ -153,12 +158,14 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
 
             />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/txtWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gửi lại mã xác thực sau 01:59"

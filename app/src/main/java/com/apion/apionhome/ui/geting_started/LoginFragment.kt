@@ -29,6 +29,11 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
                 findNavController().navigate(action)
             }
         }
+        viewModel.phone.observe(this) { error: String ->
+            val errorText = if (error.isPhoneValid) null else "Định dạng không hợp lệ!"
+            viewModel.setError(errorText)
+            binding.editPhoneNumber.error = errorText
+        }
     }
 
     private fun listener() {
@@ -38,10 +43,9 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
         binding.textRegister.setOnClickListener {
             this.findNavController().navigate(R.id.actionToRegister)
         }
-        viewModel.phone.observe(this) { error: String ->
-            val errorText = if (error.isPhoneValid) null else "Định dạng không hợp lệ!"
-            viewModel.setError(errorText)
-            binding.editPhoneNumber.error = errorText
+        binding.txtPhoneForget.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToPhoneForget)
         }
+
     }
 }

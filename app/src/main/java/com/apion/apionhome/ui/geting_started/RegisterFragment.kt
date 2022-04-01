@@ -117,37 +117,24 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
             }
             override fun onVerificationFailed(p0: FirebaseException) {
                 println(p0)
-                if(p0 is FirebaseAuthInvalidCredentialsException){
-                    val dialog = AlertDialog.Builder(requireContext())
-                    dialog.setMessage("Số điện thoại trên không hợp lệ!")
-                    dialog.setPositiveButton("Đóng") { _, _ ->
-                        viewModel._isLoading.value = false
-                    }
-                    dialog.show()
-                }else{
-                    val bundle = Bundle();
-                    bundle.putSerializable("USER", viewModel.getUser())
+                val dialog = AlertDialog.Builder(requireContext())
+                dialog.setTitle("Thông báo")
+                dialog.setMessage(p0.message)
+                dialog.setPositiveButton("Đóng") { _, _ ->
                     viewModel._isLoading.value = false
-                    findNavController().navigate(R.id.actionToVerifyPhone,bundle)
-                    return
                 }
+                dialog.show()
 
-
-//                viewModel._isLoading.value = false
-//                val bundle = Bundle();
-//                bundle.putSerializable("USER", true)
-//                findNavController().navigate(R.id.actionToVerifyPhone,bundle)
             }
             override fun onCodeSent(verfication: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(verfication, p1)
                 viewModel._isLoading.value = false
-                val bundle = Bundle();
-                bundle.putSerializable("USER", viewModel.getUser())
-                bundle.putString("verifyId",verfication)
-                println(verfication)
-
+                viewModel.codeSent.value   =  verfication
+//                val bundle = Bundle();
+//                bundle.putSerializable("USER", viewModel.getUser())
+//                bundle.putString("verifyId",verfication)
 //                println("SENT THANH CONG")
-                findNavController().navigate(R.id.actionToVerifyPhone,bundle)
+                findNavController().navigate(R.id.actionToVerifyPhone)
             }
         }
     }

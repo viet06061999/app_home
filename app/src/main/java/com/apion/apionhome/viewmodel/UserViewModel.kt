@@ -55,7 +55,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val userRegister: LiveData<User>
         get() = _userRegister
 
-    val codeSent              = MutableLiveData<String>()
+    val codeSent                  = MutableLiveData<String>()
     val nameRegister              = MutableLiveData<String>()
     val phoneRegister             = MutableLiveData<String>()
     val phoneReferalRegister      = MutableLiveData<String?>()
@@ -63,7 +63,6 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val sexIndexRegister          = MutableLiveData<Int>()
     val levelIndexRegister        = MutableLiveData<Int?>()
     val jobIndexRegister          = MutableLiveData<Int>()
-    val addressRegister           = MutableLiveData<String?>()
     val biosRegister              = MutableLiveData<String?>()
 
 
@@ -157,8 +156,8 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
-    fun getAddress(): String {
-        var textAddress = ""
+    fun getAddress(): String? {
+        var textAddress : String? = null
         street.value?.let {
             textAddress += street.value?.prefix+" " +street.value?.name
             if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
@@ -368,25 +367,14 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
 
     )
     fun register() {
-        val user = User(
-            name  = nameRegister.value?.toString(),
-            phone = phoneRegister.value?.toString(),
-            refer = phoneReferalRegister.value?.toString(),
-            dateOfBirth = dobRegister.value?.toString(),
-            address = getAddress(),
-            sex = RangeUI.sexUis.entries.toList()[sexIndexRegister.value ?: 0].key,
-            academicLevel = RangeUI.levelUis.entries.toList()[levelIndexRegister.value ?: 0].key,
-            job = RangeUI.jobUis.entries.toList()[jobIndexRegister.value ?: 1].key,
-            position = "Expert",
-            permission = "Host Side",
-            role = "User"
-
-            )
+        val user = getUser()
+        println("USER: ")
+        println(user.toString())
         userRepository
             .createUser(user)
             .setup()
             .doOnTerminate {
-                //_isLoading.value = false
+                _isLoading.value = false
             }
             .subscribe(
                 {

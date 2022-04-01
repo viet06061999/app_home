@@ -128,6 +128,16 @@
 
 <!--    Profile-->
     <string name="version_profile">\@ApionHome - v4.5.21</string>
+<!--Forget pincode-->
+    <string name="title_forget_pincode">Quên pin code</string>
+    <string name="hint_edt_phone_forget">Nhập số điện thoại đăng ký tài khoản của bạn</string>
+    <string name="button_sent_forget">Gửi</string>
+
+<!--    Get pincode-->
+    <string name="title_get_getcode">Đổi pin code</string>
+    <string name="hint_new_pincode">Pin code mới</string>
+    <string name="hint_confirm_pincode">Nhập lại pin code</string>
+    <string name="button_sent_pincode">Đổi pin code</string>
 
 
 

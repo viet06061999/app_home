@@ -1,24 +1,16 @@
 package com.apion.apionhome.ui.geting_started
 
 import android.app.AlertDialog
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.navArgs
-import com.apion.apionhome.MobileNavigationDirections
-import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
-import com.apion.apionhome.base.BindingActivity
 import com.apion.apionhome.base.BindingFragment
-import com.apion.apionhome.base.RxViewModel
-import com.apion.apionhome.data.model.User
-import com.apion.apionhome.databinding.ActivityVerifyPhoneBinding
-import com.apion.apionhome.utils.createProgressDialog
+import com.apion.apionhome.databinding.FragmentVerifyPhoneBinding
 import com.apion.apionhome.viewmodel.UserViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -26,32 +18,39 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
-    val viewModel by viewModel<UserViewModel>()
-    val dialog by lazy {
-        this.createProgressDialog()
-    }
+class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(FragmentVerifyPhoneBinding::inflate){
+    override val viewModel by sharedViewModel<UserViewModel>()
+
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.verifyVM = viewModel
-        val user = intent.extras?.getSerializable("USER") as User
+        object : CountDownTimer(20000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                binding.txtWarning.setText("Gửi lại mã xác thực sau: " + millisUntilFinished / 1000)
+            }
+
+            override fun onFinish() {
+                binding.txtWarning.setText("done!")
+            }
+        }.start()
 //        val verifyId = intent.extras?.getSerializable("verifyId") as String
 
-        viewModel.phoneRegister.value = user.phone
 //        viewModel.codeSent.value = verifyId
 //        if(result.toString() == "true"){
 //            setDialog1()
 //        }
         println("CHECK")
-        println(user.toString())
         setListener()
+        setupObserver()
         setupEdit()
     }
     fun setListener(){
         binding.imageBack.setOnClickListener {
-            this.finish()
+            this.findNavController().popBackStack()
+            viewModel._isLoading.value = false
+
         }
         binding.txtAnswer.setOnClickListener {
 
@@ -66,6 +65,20 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
 //        }
 //        dialog.show()
 //    }
+    private fun setupObserver(){
+        viewModel.registerSuccess.observe(this){
+            setDialogCreateSuccess()
+        }
+    }
+    private fun setDialogCreateSuccess(){
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle("Thông báo")
+        dialog.setMessage("Đăng ký thành công.")
+        dialog.setPositiveButton("Đóng") { _, _ ->
+            findNavController().navigate(R.id.actionToLogin)
+        }
+        dialog.show()
+    }
     private fun setupEdit() {
 //        binding.etPassword1.isCursorVisible = true
         binding.etPassword2.isCursorVisible = false
@@ -74,38 +87,44 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
         binding.etPassword5.isCursorVisible = false
         binding.etPassword6.isCursorVisible = false// ẩn con trỏ chuột
 
+        binding.etPassword2.isEnabled = true
+        binding.etPassword3.isEnabled = false
+        binding.etPassword4.isEnabled = false
+        binding.etPassword5.isEnabled = false
+        binding.etPassword6.isEnabled = false
+
         binding.etPassword1.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword1,
                 null
             )
         )
         binding.etPassword2.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword2,
                 binding.etPassword1
             )
         )
         binding.etPassword3.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword3,
                 binding.etPassword2
             )
         )
         binding.etPassword4.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword4,
                 binding.etPassword3
             )
         )
         binding.etPassword5.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword5,
                 binding.etPassword4
             )
         )
         binding.etPassword6.setOnKeyListener(
-            PincodeFragment.GenericKeyEvent(
+            GenericKeyEvent(
                 binding.etPassword6,
                 binding.etPassword5
             )
@@ -125,7 +144,10 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword1.text.toString().length == 1) //size as per your requirement
                 {
+                    binding.etPassword2.isEnabled = true
                     binding.etPassword2.requestFocus()
+//                    binding.etPassword1.isEnabled = false
+
                 }
             }
         })
@@ -142,7 +164,10 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword2.text.toString().length == 1) //size as per your requirement
                 {
+                    binding.etPassword3.isEnabled = true
                     binding.etPassword3.requestFocus()
+//                    binding.etPassword2.isEnabled = false
+
                 }
             }
         })
@@ -159,7 +184,10 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword3.text.toString().length == 1) //size as per your requirement
                 {
+                    binding.etPassword4.isEnabled = true
                     binding.etPassword4.requestFocus()
+//                    binding.etPassword3.isEnabled = false
+
                 }
             }
         })
@@ -176,7 +204,10 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword4.text.toString().length == 1) //size as per your requirement
                 {
+                    binding.etPassword5.isEnabled = true
                     binding.etPassword5.requestFocus()
+//                    binding.etPassword4.isEnabled = false
+
                 }
             }
         })
@@ -193,7 +224,10 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
             override fun afterTextChanged(s: Editable) {
                 if (binding.etPassword5.text.toString().length == 1) //size as per your requirement
                 {
+                    binding.etPassword6.isEnabled = true
                     binding.etPassword6.requestFocus()
+//                    binding.etPassword5.isEnabled = false
+
                 }
             }
         })
@@ -224,17 +258,15 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
         val pin = binding.etPassword1.text.toString() + binding.etPassword2.text.toString() +
                 binding.etPassword3.text.toString() + binding.etPassword4.text.toString() +
                 binding.etPassword5.text.toString() + binding.etPassword6.text.toString()
-        println("PHAM ANH TUAN")
-
-
+        println("CODE SENT: ")
+        println(viewModel.codeSent.value)
         viewModel.codeSent.value?. let{
             val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(viewModel.codeSent.value ?: "", pin)
-
             signIn(credential)
         }
 
-
     }
+
     private fun signIn (credential: PhoneAuthCredential) {
          var mAuth = FirebaseAuth.getInstance()
         mAuth.signInWithCredential(credential)
@@ -260,6 +292,7 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
                 //If current is empty then previous EditText's number will also be deleted
                 previousView!!.text = null
                 currentView.isCursorVisible = false
+                currentView.isEnabled = false
                 previousView.requestFocus()
                 return true
             }
@@ -269,7 +302,4 @@ class VerifyPhoneActivity : BindingActivity<ActivityVerifyPhoneBinding>() {
 
     }
 
-    override fun getLayoutResId() : Int {
-        return R.layout.activity_verify_phone
-    }
 }

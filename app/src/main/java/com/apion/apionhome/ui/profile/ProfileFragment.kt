@@ -12,10 +12,18 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(FragmentProfileB
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.profileVM = viewModel
+        listener()
     }
-    override fun listener(){
+     fun listener(){
         binding.btnLogout.setOnClickListener {
 
         }
+        binding.txtFeedback.setOnClickListener {
+
+        }
+        binding.txtFacebook.setOnClickListener {
+
+        }
+
     }
 }

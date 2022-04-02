@@ -14,6 +14,8 @@ object ApiEndPoint {
     const val PATH_LOGOUT = "logout/{id}"
     const val PATH_LOGIN = "login"
     const val PATH_UPDATE_PIN = "update-pincode"
+    const val PATH_FOLLOW = "userfollow"
+    const val PATH_UN_FOLLOW = "unfollow"
 
     const val PATH_HOUSES = "houses"
     const val PATH_HOUSES_BY_ID = "houses/{id}"

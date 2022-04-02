@@ -84,9 +84,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_notification -> {
                     if (MyApplication.sessionUser.value != null) {
                         currentIndex = 3
+                        println("da vao den đây")
                         navController.navigate(R.id.actionToNotification)
                     } else {
-                        MyApplication.tabToNavigate.value = TabApp.NOTIFICATION
+                        MyApplication.tabToNavigate.value = 3
                         dialog.show()
                     }
                 }

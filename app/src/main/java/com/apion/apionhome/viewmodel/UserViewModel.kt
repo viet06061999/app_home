@@ -14,6 +14,13 @@ import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
 import com.apion.apionhome.data.source.remote.response_entity.UserResponse
+import com.apion.apionhome.utils.isNameValid
+import com.apion.apionhome.utils.isPhoneValid
+import com.apion.apionhome.utils.setup
+import com.apion.apionhome.utils.transform
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.apion.apionhome.utils.*
 import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
@@ -237,7 +244,10 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
+    fun setCodeSent(codeSent: String) {
+        _codeSent.value = codeSent
 
+    }
     fun setCreateDone(){
         _isCreateDone.value = (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid ?: false)
     }

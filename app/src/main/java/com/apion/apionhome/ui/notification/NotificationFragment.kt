@@ -1,47 +1,47 @@
 package com.apion.apionhome.ui.notification
 
-import com.apion.apionhome.MyApplication
+import android.os.Bundle
+import androidx.navigation.fragment.findNavController
+import com.apion.apionhome.MobileNavigationDirections
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
-import com.apion.apionhome.data.model.community.Community
-import com.apion.apionhome.data.model.community.Participant
-import com.apion.apionhome.databinding.FragmentCommunityBinding
-import com.apion.apionhome.ui.adapter.CommunityAdapter
-import com.apion.apionhome.ui.adapter.MyCommunityAdapter
-import com.apion.apionhome.ui.adapter.PostCommunityAdapter
-import com.apion.apionhome.ui.home.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import com.apion.apionhome.databinding.FragmentNotificationBinding
+import com.apion.apionhome.ui.adapter.NotificationAdapter
+import com.apion.apionhome.viewmodel.HouseViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationFragment :
-    BindingFragment<FragmentCommunityBinding>(FragmentCommunityBinding::inflate) {
+    BindingFragment<FragmentNotificationBinding>(FragmentNotificationBinding::inflate) {
 
-    override val viewModel by sharedViewModel<HomeViewModel>()
+    override val viewModel by viewModel<HouseViewModel>()
+    private val adapter = NotificationAdapter(::onItemClick)
 
-    private val postCommunityAdapter = PostCommunityAdapter(::onItemPostClick)
 
-    private val communityAdapter = CommunityAdapter(::onItemCommunityClick, ::onButtonJoinClick)
-    private val myCommunityAdapter = MyCommunityAdapter(::onItemCommunityClick)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getNotification(null)
+    }
 
     override fun setupView() {
         binding.lifecycleOwner = this
-        binding.homeVM = viewModel
-        binding.yourGroups =
-            MyApplication.sessionUser.value?.participants ?: emptyList<Participant>()
-        binding.layoutFeatureCommunity.recyclerViewFeatureCommunity.adapter = postCommunityAdapter
-        binding.layoutCommunity.recyclerViewCommunity.adapter = communityAdapter
-        binding.recyclerViewMyCommunity.adapter = myCommunityAdapter
+        binding.notificationVM = viewModel
+        binding.recyclerViewNotification.adapter = adapter
+        setupRefresh()
     }
 
-
-    private fun onItemPostClick(house: House) {
-        println(house)
+    private fun setupRefresh(){
+        binding.notificationRefresh.apply {
+            //binding.layoutHeader.root.viewTreeObserver.addOnGlobalLayoutListener(observerVisible)
+            setOnRefreshListener {
+                viewModel.getNotification {
+                   this.isRefreshing = false
+                }
+            }
+        }
     }
 
-    private fun onItemCommunityClick(community: Community) {
-        println(community)
-    }
-
-    private fun onButtonJoinClick(isJoinCommunity: Boolean) {
-        println(isJoinCommunity)
+    private fun onItemClick(house: House) {
+        val action = MobileNavigationDirections.actionMainToDetail(house)
+        findNavController().navigate(action)
     }
 }

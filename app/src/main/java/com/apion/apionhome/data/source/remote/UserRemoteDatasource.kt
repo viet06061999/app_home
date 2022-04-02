@@ -1,9 +1,14 @@
 package com.apion.apionhome.data.source.remote
 
 import com.apion.apionhome.data.model.User
+import com.apion.apionhome.data.model.UserFollowRequest
+import com.apion.apionhome.data.model.UserFollowed
 import com.apion.apionhome.data.source.UserDatasource
 import com.apion.apionhome.data.source.remote.utils.UserAPIService
 import com.apion.apionhome.utils.ApiEndPoint
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.rxjava3.core.Completable
@@ -102,6 +107,52 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
             backend.logout(id, body).map {
                 if (it.isSuccess) {
                     it.user
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: HttpException) {
+            Maybe.error(exception)
+        }
+    }
+
+    override fun follow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+
+
+        val body = UserFollowRequest(followerId, beingFollowedId)
+        return try {
+            backend.follow(body).map {
+                if (it.isSuccess) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
+                    it.userFollow
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: HttpException) {
+            Maybe.error(exception)
+        }
+    }
+
+    override fun unFollow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+
+        val body = UserFollowRequest(followerId, beingFollowedId)
+        return try {
+            backend.unFollow(body).map {
+                if (it.isSuccess) {
+                    FirebaseMessaging.getInstance()
+                        .unsubscribeFromTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
+                    it.userFollow
                 } else {
                     throw IllegalArgumentException(it.message)
                 }

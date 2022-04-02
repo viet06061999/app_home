@@ -76,4 +76,49 @@ data class User(
 
     override fun areContentsTheSame(newItem: GeneraEntity): Boolean =
         newItem is User && this == newItem
+
+    fun isFollowing(userId:String):Boolean{
+        var isFollow = false
+        following?.let {
+            for (element in it) {
+                if(element.beingFollowedId == userId){
+                    isFollow = true
+                    break
+                }
+            }
+        }
+        return isFollow
+    }
+
+    fun getPositionPermission():String{
+        val textPer = if (permission == "Host Side") {
+            "đầu chủ"
+        } else {
+            "đầu khách"
+        }
+        val textPos = when (position) {
+            "Director" -> {
+                "Giám đốc"
+            }
+            "Earl" -> {
+                "Bá tước"
+            }
+            "Manager" -> {
+                "Trưởng phòng"
+            }
+            "Leader" -> {
+                "Trưởng nhóm"
+            }
+            "Captain" -> {
+                "Đội trưởng"
+            }
+            "Expert" -> {
+                "Chuyên viên"
+            }
+            else -> {
+                "Đang bán"
+            }
+        }
+        return "$textPos $textPer"
+    }
 }

@@ -59,5 +59,5 @@ interface CommunityAPIService {
     ): Maybe<ParticipantResponse>
 
     @POST(PATH_LEAVE_COMMUNITY)
-    fun leaveCommunity(@Path(PATH_PARAM_ID) id: Int,@Body body: RequestBody): Completable
+    fun leaveCommunity(@Path(PATH_PARAM_ID) id: Int, @Body body: RequestBody): Completable
 }

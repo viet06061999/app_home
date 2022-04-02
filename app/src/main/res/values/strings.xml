@@ -42,13 +42,13 @@
     <string name="title_detail_house">Chi tiết nhà ở</string>
     <string name="title_ready_for_sale">Đang bán</string>
     <string name="title_status_default">Chưa xác nhận</string>
-    <string name="title_descript">Mô tả:</string>
+    <string name="title_descript">Nội dung:</string>
     <string name="title_address">Địa chỉ</string>
     <string name="title_house_direction">Hướng nhà</string>
     <string name="title_new_type">Loại tin rao</string>
     <string name="title_room_count">Phòng ngủ</string>
     <string name="title_create_date">Ngày đăng</string>
-    <string name="title_relate">Bất động sản tương tụ</string>
+    <string name="title_relate">Bất động sản tương tự</string>
     <string name="title_community">Cộng đồng</string>
     <string name="title_your_group">Nhóm của bạn</string>
     <string name="title_view_all">Chi tiết</string>
@@ -115,7 +115,7 @@
     <string name="title_type_house">Loại nhà đất *</string>
     <string name="text_type_house">Nhà đất</string>
     <string name="title_content_house">Nội dung*</string>
-    <string name="title_address_house">Địa điểm</string>
+    <string name="title_address_house">Địa điểm*</string>
     <string name="title_direction_house">Hướng nhà</string>
     <string name="title_room_house">Nhập số phòng ngủ</string>
     <string name="title_bonus_house">Nhập tỉ lệ hoa hồng</string>

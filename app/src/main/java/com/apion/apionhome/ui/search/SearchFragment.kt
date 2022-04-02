@@ -20,6 +20,8 @@ class SearchFragment :
 
     override val viewModel by sharedViewModel<SearchViewModel>()
     private var isFirstCome = true
+    private var isShowType = false
+    private var isShowDirection = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,23 +124,37 @@ class SearchFragment :
         })
         binding.textLayoutHouseType.setOnClickListener {
             val data = ArrayList(RangeUI.houseTypeRangeUis.values)
-            requireContext().showAction("Chọn loại nhà đất", data, object : ActionSheetCallBack {
-                override fun data(data: String, position: Int) {
-                    println(position)
-                    viewModel.setHouseTypeIndex(position)
-                    binding.textLayoutHouseType.setText(data)
+            if (!isShowType) {
+                isShowType = true
+                requireContext().showAction(
+                    "Chọn loại nhà đất",
+                    data,
+                    object : ActionSheetCallBack {
+                        override fun data(data: String, position: Int) {
+                            isShowType = false
+                            viewModel.setHouseTypeIndex(position)
+                            binding.textLayoutHouseType.setText(data)
+                        }
+                    }) {
+                    isShowType = false
                 }
-            })
+            }
         }
         binding.textLayoutDirection.setOnClickListener {
             val data = ArrayList(RangeUI.homeDirectionRangeUis.values)
-            requireContext().showAction("Chọn hướng nhà", data, object : ActionSheetCallBack {
-                override fun data(data: String, position: Int) {
-                    println(position)
-                    viewModel.setHouseDirectionIndex(position)
-                    binding.textLayoutDirection.setText(data)
+            if (!isShowDirection) {
+                isShowDirection = true
+                requireContext().showAction("Chọn hướng nhà", data, object : ActionSheetCallBack {
+                    override fun data(data: String, position: Int) {
+                        println(position)
+                        viewModel.setHouseDirectionIndex(position)
+                        binding.textLayoutDirection.setText(data)
+                        isShowDirection = false
+                    }
+                }) {
+                    isShowDirection = false
                 }
-            })
+            }
         }
         binding.textLayoutAddress.setOnClickListener {
             findNavController().navigate(R.id.actionToSelectLocation)
@@ -156,17 +172,17 @@ class SearchFragment :
     private fun observer() {
         viewModel.province.observe(this) {
             if (it != null) {
-               binding.textLayoutAddress.setText(viewModel.getAddress())
-            }else{
+                binding.textLayoutAddress.setText(viewModel.getAddress())
+            } else {
                 binding.textLayoutAddress.setText(getString(R.string.text_select_address))
             }
         }
-        viewModel.isSearchDone.observe(this){
-            if(it){
-                if(viewModel.housesSearch.value?.isNotEmpty() == true){
+        viewModel.isSearchDone.observe(this) {
+            if (it) {
+                if (viewModel.housesSearch.value?.isNotEmpty() == true) {
                     viewModel.setSearchDone(false)
                     findNavController().navigate(R.id.actionToDetailSearchResult)
-                }else{
+                } else {
                     showToast("không tìm thấy kết quả nào")
                 }
             }

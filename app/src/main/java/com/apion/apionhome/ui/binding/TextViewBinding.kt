@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.data.model.community.Community
@@ -31,9 +32,11 @@ fun houseStatus(view: TextView, status: String) {
             "Đang review"
         }
         "Removed" -> {
+            view.setBackgroundColor(view.context.getColor(R.color.color_red))
             "Đã xóa"
         }
         "Sold" -> {
+            view.setBackgroundColor(view.context.getColor(R.color.color_red))
             "Đã bán"
         }
         else -> {
@@ -70,7 +73,7 @@ fun userPositionPermission(view: TextView, permission: String, position: String)
             "Chuyên viên"
         }
         else -> {
-            "Đang bán"
+            "Chuyên viên"
         }
     }
     view.text = "$textPos $textPer"
@@ -121,25 +124,29 @@ fun setTextCustom(view: TextView, text: String, tail: String) {
 @BindingAdapter("checkFollow")
 fun checkFollow(view: Button, userId: String) {
     println("user ${MyApplication.sessionUser.value}")
-    val userFollowings = MyApplication.sessionUser.value?.following
-    var isFollow = false
-    println("$userId $userFollowings")
-    userFollowings?.let {
-        for (element in it) {
-            println("$userId ${element.beingFollowedId}")
-            if(element.beingFollowedId == userId){
-                isFollow = true
-                break
+    view.findViewTreeLifecycleOwner()?.let {
+        MyApplication.sessionUser.observe(it) {
+            var isFollow = it?.isFollowing(userId) ?: false
+            when {
+                it?.id.toString() == userId -> {
+                    view.text = "Ký nhà"
+                    view.background =
+                        AppCompatResources.getDrawable(view.context, R.drawable.bg_button)
+                    view.setTextColor(view.context.getColor(R.color.white))
+                }
+                isFollow -> {
+                    view.text = "Bỏ theo dõi"
+                    view.background =
+                        AppCompatResources.getDrawable(view.context, R.drawable.bg_button_outlined)
+                    view.setTextColor(view.context.getColor(R.color.color_primary))
+                }
+                else -> {
+                    view.text = "Theo dõi"
+                    view.background =
+                        AppCompatResources.getDrawable(view.context, R.drawable.bg_button)
+                    view.setTextColor(view.context.getColor(R.color.white))
+                }
             }
         }
     }
-   if(isFollow){
-       view.text = "Bỏ theo dõi"
-       view.background = AppCompatResources.getDrawable(view.context, R.drawable.bg_button)
-       view.setTextColor(view.context.getColor(R.color.white))
-   }  else{
-       view.text = "Theo dõi"
-       view.background = AppCompatResources.getDrawable(view.context, R.drawable.bg_button_outlined)
-       view.setTextColor(view.context.getColor(R.color.color_primary))
-   }
 }

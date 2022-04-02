@@ -13,7 +13,9 @@
         android:id="@+id/actionToLogin"
         app:destination="@+id/activitylogin"
         />
-
+    <action
+        android:id="@+id/actionMainToDetail"
+        app:destination="@id/activityDetail" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.apion.apionhome.ui.home.HomeFragment"
@@ -107,23 +109,23 @@
     <action
         android:id="@+id/actionToDetailSearchResult"
         app:destination="@id/searDetailResultFragment" />
-
+    <action
+        android:id="@+id/actionToSelectLocation"
+        app:destination="@id/selectLocationFragment"
+        app:enterAnim="@anim/slide_up"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_bottom" />
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.apion.apionhome.ui.search.SearchFragment">
-        <action
-            android:id="@+id/actionToSelectLocation"
-            app:destination="@id/selectLocationFragment"
-            app:enterAnim="@anim/slide_up"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_bottom" />
+
     </fragment>
 
     <fragment
         android:id="@+id/navigation_notification"
         android:name="com.apion.apionhome.ui.notification.NotificationFragment"
-        tools:layout="@layout/fragment_community" />
+        tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/navigation_add"
         android:name="com.apion.apionhome.ui.add_home.AddFragment"
@@ -251,4 +253,12 @@
             android:name="userProfile"
             app:argType="com.apion.apionhome.data.model.User" />
     </fragment>
+
+    <action
+        android:id="@+id/actionToSelectLocationCreateHous"
+        app:destination="@id/selectLocationCreateHouse" />
+
+    <fragment
+        android:id="@+id/selectLocationCreateHouse"
+        android:name="com.apion.apionhome.ui.add_home.SelectLocationCreateHouseFragment" />
 </navigation>

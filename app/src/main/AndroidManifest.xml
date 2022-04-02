@@ -12,6 +12,12 @@
             <data android:scheme="smsto"/>
         </intent>
     </queries>
+    <queries>
+        <package android:name="com.facebook.katana"/>
+    </queries>
+    <queries>
+        <package android:name="com.zing.zalo"/>
+    </queries>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"

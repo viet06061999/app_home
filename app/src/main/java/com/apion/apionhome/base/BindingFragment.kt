@@ -91,7 +91,9 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.errorException.observe(viewLifecycleOwner) {
-            showToast(getString(R.string.default_error))
+            if (it!=null){
+                showToast(getString(R.string.default_error))
+            }
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) dialog.show() else dialog.dismiss()
@@ -170,7 +172,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
     }
 
     open fun onActivityResult(result: ActivityResult) {
-        Log.e("DEBUG", "${result.resultCode} = ${result.data}")
+        Log.d("DEBUG", "${result.resultCode} = ${result.data}")
     }
 
     fun startActivityForResultSafely(intent: Intent) {

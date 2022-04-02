@@ -18,4 +18,5 @@ object TimeFormat {
     const val TIME_FORMAT_APP = "EEE, dd MMM HH:mm"
     const val TIME_FORMAT_APP_EXPAND = "EEE, dd MMM yyyy"
     const val DATE_TIME_FORMAT_APP_FULL = "EEE, dd MMM yyyy HH:mm"
+    const val DATE_FORMAT = "dd/MM/YYYY"
 }

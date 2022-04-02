@@ -1,37 +1,43 @@
 package com.apion.apionhome.ui.detail
 
-import android.app.Activity
-import android.content.IntentSender
+import android.app.AlertDialog
 import android.location.Geocoder
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
+import com.apion.apionhome.DetailGraDirections
+import com.apion.apionhome.MobileNavigationDirections
+import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
 import com.apion.apionhome.databinding.FragmentDetailHouseBinding
 import com.apion.apionhome.ui.adapter.HouseAdapter
 import com.apion.apionhome.ui.adapter.ImageDetailBannerAdapter
-import com.apion.apionhome.ui.home.HomeFragmentDirections
-import com.google.android.gms.common.api.ResolvableApiException
+import com.apion.apionhome.ui.person.UserProfileViewModel
+import com.apion.apionhome.utils.TabApp
+import com.apion.apionhome.utils.toMessage
+import com.apion.apionhome.utils.toPhone
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.gms.maps.model.PolylineOptions
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.io.IOException
+
 
 class DetailHouseFragment :
     BindingFragment<FragmentDetailHouseBinding>(FragmentDetailHouseBinding::inflate) {
     override val viewModel by sharedViewModel<DetailViewModel>()
+    val userViewModel by sharedViewModel<UserProfileViewModel>()
 
     private val args by navArgs<DetailActivityArgs>()
 
@@ -40,7 +46,6 @@ class DetailHouseFragment :
     private val adapterImage = ImageDetailBannerAdapter(::onItemBannerClick)
 
     private val adapterRelated = HouseAdapter(::onItemHouseClick)
-
     private val runnable by lazy {
         Runnable {
             var current = binding.imageSlider.currentItem
@@ -53,18 +58,28 @@ class DetailHouseFragment :
         }
     }
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        val address = Geocoder(
-            requireActivity()
-        ).getFromLocationName(args.houseDetail.address, 1)
-        var latLng = LatLng(20.995195733794585, 105.86181631094217)
-        if (address.isNotEmpty()) {
-            val fist = address.first()
-            if (fist.hasLatitude() && fist.hasLongitude())
-                latLng = LatLng(fist.latitude, fist.longitude)
+    private val callback by lazy {
+        OnMapReadyCallback { googleMap ->
+            try {
+                Thread {
+                    val address = Geocoder(
+                        requireActivity()
+                    ).getFromLocationName(args.houseDetail.address, 1)
+                    var latLng = LatLng(20.995195733794585, 105.86181631094217)
+                    if (address.isNotEmpty()) {
+                        val fist = address.first()
+                        if (fist.hasLatitude() && fist.hasLongitude())
+                            latLng = LatLng(fist.latitude, fist.longitude)
+                    }
+                    activity?.runOnUiThread {
+                        googleMap.addMarker(MarkerOptions().position(latLng).title("Apion Home"))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
+                    }
+                }.start()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
         }
-        googleMap.addMarker(MarkerOptions().position(latLng).title("Apion Home"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
     }
 
     override fun setupView() {
@@ -76,6 +91,46 @@ class DetailHouseFragment :
         setupBanner()
         binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+        binding.buttonFollow.setOnClickListener {
+            val dialog = AlertDialog.Builder(requireContext())
+            dialog.setTitle("Yêu cầu đăng nhập!")
+            dialog.setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
+            dialog.setPositiveButton("Đăng nhập") { _, _ ->
+                findNavController().navigate(DetailGraDirections.actionDetailToLogin())
+                MyApplication.tabToNavigate.value = TabApp.DETAIL_HOUSE
+                MyApplication.houseNavigate.value = viewModel.houseDetail.value
+            }
+            dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
+                MyApplication.tabToNavigate.value = null
+                MyApplication.houseNavigate.value = null
+                dialogShow.dismiss()
+            }
+            if (MyApplication.sessionUser.value != null) {
+                val isFollow =
+                    MyApplication.sessionUser.value!!.isFollowing(viewModel.houseDetail.value?.owner?.id.toString())
+                if (MyApplication.sessionUser.value!!.id == viewModel.houseDetail.value?.owner?.id) {
+                    findNavController().navigate(R.id.actionToAdd)
+                } else if (isFollow) {
+                    userViewModel.unFollow(
+                        MyApplication.sessionUser.value!!.id,
+                        viewModel.houseDetail.value?.owner?.id ?: -1
+                    )
+                } else {
+                    userViewModel.follow(
+                        MyApplication.sessionUser.value!!.id,
+                        viewModel.houseDetail.value?.owner?.id ?: -1
+                    )
+                }
+            } else {
+                dialog.show()
+            }
+        }
+        binding.buttonCall.setOnClickListener {
+            requireContext().toPhone(viewModel.houseDetail.value?.owner?.phone!!)
+        }
+        binding.buttonMessage.setOnClickListener {
+            requireContext().toMessage(viewModel.houseDetail.value?.owner?.phone!!)
         }
     }
 

@@ -42,6 +42,8 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     val street: LiveData<LocationName?>
         get() = _street
 
+    val detailAddress = MutableLiveData<String?>()
+
     private val _locations = MutableLiveData<List<ILocation>>()
     val locations: LiveData<List<ILocation>>
         get() = _locations
@@ -97,18 +99,30 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     }
     fun getAddress(): String {
         var textAddress = ""
+        detailAddress.value?.let {
+            if(detailAddress.value?.isNotEmpty() == true){
+                textAddress += detailAddress.value?:""
+                textAddress +=", "
+            }
+        }
         street.value?.let {
-            textAddress += street.value?.prefix+" " +street.value?.name
-            if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
+            if(street.value?.name?.isNotEmpty() == true){
+                textAddress += street.value?.prefix+" " +street.value?.name
+                textAddress +=", "
+            }
         }
 
         ward.value?.let {
-            textAddress +=ward.value?.prefix+" " + ward.value?.name
-            if(ward.value?.name?.isNotEmpty() == true) textAddress +=", "
+            if(ward.value?.name?.isNotEmpty() == true){
+                textAddress +=ward.value?.prefix+" " + ward.value?.name
+                textAddress +=", "
+            }
         }
         district.value?.let {
-            textAddress += district.value?.name
-            if(district.value?.name?.isNotEmpty() == true) textAddress +=", "
+            if(district.value?.name?.isNotEmpty() == true){
+                textAddress += district.value?.name
+                textAddress +=", "
+            }
         }
 
         province.value?.let {
@@ -149,6 +163,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
         _bedroomIndex.value = 0
         _acreageIndex.value = 0
         _isSearchDone.value = false
+        detailAddress.value = null
     }
 
 

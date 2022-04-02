@@ -14,6 +14,11 @@ import com.apion.apionhome.MobileNavigationDirections
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.databinding.ActivityMainBinding
+import com.apion.apionhome.utils.TabApp
+import com.apion.apionhome.utils.createProgressDialog
+import com.apion.apionhome.utils.showToast
+import com.apion.apionhome.viewmodel.HouseViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,32 +26,12 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var navView: BottomNavigationView
     private var currentIndex = 0
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        // khai báo 1 NavigationController điều hướng fragment có id = nav_host_fragment_activity_main
-       val navController = this.findNavController(R.id.nav_host_fragment_activity_main)
-
-        // khai báo navView là 1 BottomNavigationView
-        navView = binding.bottomNavigationView
-//        navView.background = null
-        navView.menu.getItem(2).isEnabled = false
-//        navView.setupWithNavController(navController)
-
-
-        if (MyApplication.tabToNavigate.value == 3){
-            println("sang noti")
-            navView.menu.getItem(3).isChecked = true
-            MyApplication.tabToNavigate.value = null
-            navController.navigate(R.id.actionToNotification)
-        }
-        if (MyApplication.tabToNavigate.value == 2){
-            navView.menu.getItem(2).isChecked = true
-            MyApplication.tabToNavigate.value = null
-            println("da vao den 2")
-            navController.navigate(R.id.actionToAdd)
-        }
+    private val viewModel by viewModel<HouseViewModel>()
+    private lateinit var navController: NavController
+    val dialogLoading by lazy {
+        createProgressDialog()
+    }
+    private val dialog by lazy {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Yêu cầu đăng nhập!")
         dialog.setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
@@ -59,7 +44,33 @@ class MainActivity : AppCompatActivity() {
             MyApplication.tabToNavigate.value = null
             dialogShow.dismiss()
         }
+        dialog
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        navController = this.findNavController(R.id.nav_host_fragment_activity_main)
+        navView = binding.bottomNavigationView
+        navView.menu.getItem(2).isEnabled = false
+        setupNotificationPush()
+        setupToCurrentTab()
+        setupListener()
+        setupObserver()
+    }
+
+    private fun setupObserver(){
+        viewModel.errorException.observe(this) {
+            if (it!=null){
+                showToast(getString(R.string.default_error))
+            }
+        }
+        viewModel.isLoading.observe(this) {
+            if (it) dialogLoading.show() else dialogLoading.dismiss()
+        }
+    }
+    private fun setupListener() {
         navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_home -> {
@@ -75,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         currentIndex = 3
                         navController.navigate(R.id.actionToNotification)
                     } else {
-                        MyApplication.tabToNavigate.value = 3
+                        MyApplication.tabToNavigate.value = TabApp.NOTIFICATION
                         dialog.show()
                     }
                 }
@@ -87,11 +98,10 @@ class MainActivity : AppCompatActivity() {
 //                currentIndex = 2
                 navController.navigate(R.id.actionToAdd)
 //            } else {
-//                MyApplication.tabToNavigate.value = 2
+//                MyApplication.tabToNavigate.value = TabApp.CREATE_HOUSE
 //                dialog.show()
 //            }
         }
-
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in arrayListOf(
@@ -110,8 +120,48 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun setupNotificationPush() {
+        val houseId = intent.getStringExtra("house_id")
+        houseId?.let {
+            viewModel.getHouseById(houseId.toInt())
+            viewModel.house.observe(this) {
+                val action = MobileNavigationDirections.actionMainToDetail(it)
+                navController.navigate(action)
+            }
+        }
+    }
 
+    private fun setupToCurrentTab() {
+        when (MyApplication.tabToNavigate.value) {
+            TabApp.NOTIFICATION -> {
+                println("sang noti")
+                navView.menu.getItem(3).isChecked = true
+                MyApplication.tabToNavigate.value = null
+                navController.navigate(R.id.actionToNotification)
+            }
+            TabApp.CREATE_HOUSE -> {
+                navView.menu.getItem(2).isChecked = true
+                MyApplication.tabToNavigate.value = null
+                println("da vao den 2")
+                navController.navigate(R.id.actionToAdd)
+            }
+            TabApp.PROFILE_PERSON -> {
+                MyApplication.tabToNavigate.value = null
+                MyApplication.profileUserNavigate.value?.let {
+                    val action = MobileNavigationDirections.actionToPersonProfile(it)
+                    navController.navigate(action)
+                }
+            }
+            TabApp.DETAIL_HOUSE -> {
+                MyApplication.tabToNavigate.value = null
+                MyApplication.houseNavigate.value?.let {
+                    val action = MobileNavigationDirections.actionMainToDetail(it)
+                    navController.navigate(action)
+                }
+            }
+        }
     }
 
     private fun hideBottom() {

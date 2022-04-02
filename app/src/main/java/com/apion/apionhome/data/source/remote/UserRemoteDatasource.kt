@@ -6,6 +6,9 @@ import com.apion.apionhome.data.model.UserFollowed
 import com.apion.apionhome.data.source.UserDatasource
 import com.apion.apionhome.data.source.remote.utils.UserAPIService
 import com.apion.apionhome.utils.ApiEndPoint
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.rxjava3.core.Completable
@@ -120,6 +123,12 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
         return try {
             backend.follow(body).map {
                 if (it.isSuccess) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
                     it.userFollow
                 } else {
                     throw IllegalArgumentException(it.message)
@@ -136,6 +145,13 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
         return try {
             backend.unFollow(body).map {
                 if (it.isSuccess) {
+                    FirebaseMessaging.getInstance()
+                        .unsubscribeFromTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
                     it.userFollow
                 } else {
                     throw IllegalArgumentException(it.message)

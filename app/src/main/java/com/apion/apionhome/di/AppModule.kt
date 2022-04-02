@@ -1,8 +1,10 @@
 package com.apion.apionhome.di
 
 import com.apion.apionhome.base.RxViewModel
+import com.apion.apionhome.ui.add_home.AddHouseViewModel
 import com.apion.apionhome.ui.detail.DetailViewModel
 import com.apion.apionhome.ui.home.HomeViewModel
+import com.apion.apionhome.ui.person.UserProfileViewModel
 import com.apion.apionhome.ui.search.SearchViewModel
 import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.apion.apionhome.ui.search.SearchViewModelTmp
@@ -21,5 +23,8 @@ val viewModelModule = module {
     viewModel { SearchViewModelTmp(get()) }
     viewModel { SearchViewModelHome(get()) }
     viewModel { CommunityViewModel(get()) }
+    viewModel { UserProfileViewModel(get()) }
+    viewModel { AddHouseViewModel(get()) }
+
     viewModel { DetailViewModel(get(), get()) }
 }

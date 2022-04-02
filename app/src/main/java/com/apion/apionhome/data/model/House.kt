@@ -13,13 +13,13 @@ import java.util.*
 @Parcelize
 data class House(
     @SerializedName("id")
-    val id: Int,
+    val id: Int = -1,
     @SerializedName("news_type")
-    val newsType: String?,
+    val newsType: String? = "For Sale",
     @SerializedName("houseType")
     val houseType: String?,
     @SerializedName("status")
-    val status: String?,
+    val status: String? = null,
     @SerializedName("title")
     val title: String?,
     @SerializedName("content")
@@ -29,17 +29,17 @@ data class House(
     @SerializedName("district")
     val district: String?,
     @SerializedName("ward")
-    val ward: String?,
+    val ward: String? = null,
     @SerializedName("street")
-    val street: String?,
+    val street: String? = null,
     @SerializedName("detail_address")
-    val address: String?,
+    val address: String? = null,
     @SerializedName("price")
-    val price: Long?,
+    val price: Long? = 0,
     @SerializedName("frontWidth")
     val frontWidth: Double?,
     @SerializedName("acreage")
-    val acreage: Double?,
+    val acreage: Double? = 0.0,
     @SerializedName("homeDirection")
     val homeDirection: String?,
     @SerializedName("bedrooms")
@@ -47,20 +47,23 @@ data class House(
     @SerializedName("user_id")
     val userId: Int?,
     @SerializedName("seller_id")
-    val sellerId: Int?,
+    val sellerId: Int? = null,
     @SerializedName("owner")
-    val owner: User?,
+    val owner: User? = null,
     @SerializedName("seller")
-    val seller: User?,
+    val seller: User? = null,
     @SerializedName("images")
-    var images: List<String>?,
+    var images: List<String>? = null,
     @SerializedName("related_houses")
-    val relatedHouses: List<House>?,
+    val relatedHouses: List<House>? = null,
     @SerializedName("created_at")
-    val createdAt: String?,
+    val createdAt: String? = null,
     @SerializedName("updated_at")
-    val updatedAt: String?,
-) : GeneraEntity, Parcelable {
+    val updatedAt: String? = null,
+    @SerializedName("commission_rate")
+    val commissionRate: String? = "3",
+
+    ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
         newItem is House && this.id == newItem.id
@@ -87,13 +90,64 @@ data class House(
         }
     }
 
+    fun getCommissionConvert(): String {
+        var tmpPrice = (price ?: 0) * (commissionRate?.toInt() ?: 3) / 100
+        if (status == "In Review") tmpPrice = 0
+        return when {
+            tmpPrice / 1000000000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000000000.0
+                return "${checkPrice(value)} tỷ"
+            }
+            tmpPrice / 1000000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000000.0
+                return "${checkPrice(value)} triệu"
+            }
+            tmpPrice / 1000.0 >= 1.0 -> {
+                val value = tmpPrice / 1000.0
+                return "${checkPrice(value)} nghìn"
+            }
+            else -> "$tmpPrice đồng"
+        }
+    }
+
     fun getDefaultImage(): String? {
         return if (!images.isNullOrEmpty()) images?.get(0)
         else null
     }
 
     fun getDetailAddress(): String {
-        return "$address $street, $ward, $district, $province"
+        var textAddress = ""
+        address.let {
+            if (address?.isNotEmpty() == true) {
+                textAddress += address
+                textAddress += ", "
+            }
+        }
+        street.let {
+            if (street?.isNotEmpty() == true) {
+                textAddress += street
+                textAddress += ", "
+            }
+        }
+
+        ward.let {
+            if (ward?.isNotEmpty() == true) {
+                textAddress += ward
+                textAddress += ", "
+            }
+        }
+        district.let {
+            if (district?.isNotEmpty() == true) {
+                textAddress += district
+                textAddress += ", "
+            }
+        }
+
+        province.let {
+            textAddress += province
+        }
+
+        return textAddress
     }
 
     fun getCreateDate(): String {
@@ -102,7 +156,7 @@ data class House(
             Locale.getDefault()
         ).parse(createdAt)
         return date?.let {
-            date.toString(TimeFormat.DATE_TIME_FORMAT_APP_FULL)
+            date.toString(TimeFormat.DATE_FORMAT)
         } ?: ""
     }
 

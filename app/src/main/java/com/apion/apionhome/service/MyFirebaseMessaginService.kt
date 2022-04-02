@@ -40,8 +40,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.notification != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.notification?.body)
-
-            sendNotification(remoteMessage.notification?.title, remoteMessage.notification?.body)
+            println(remoteMessage.data)
+            sendNotification(remoteMessage.notification?.title, remoteMessage.notification?.body, remoteMessage.data["house_id"])
         }
     }
 
@@ -55,13 +55,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val token = task.result
 
             Log.d(TAG, token.toString())
-            Toast.makeText(baseContext, "Old token: $token", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(baseContext, "Old token: $token", Toast.LENGTH_SHORT).show()
         })
     }
 
-    private fun sendNotification(tittle: String?, messageBody: String?) {
+    private fun sendNotification(tittle: String?, messageBody: String?, houseId: String?) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        intent.putExtra("house_id", houseId)
         val pendingIntent =
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

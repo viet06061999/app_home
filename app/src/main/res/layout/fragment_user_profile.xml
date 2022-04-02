@@ -283,6 +283,7 @@
                     android:layout_marginTop="@dimen/dp_16"
                     android:drawableEnd="@drawable/ic_arrow_circle"
                     android:drawablePadding="@dimen/dp_4"
+                    android:visibility="@{user.myHouses.size()>0?View.VISIBLE:View.GONE}"
                     android:text="Xem thêm"
                     android:textColor="@color/color_text_primary"
                     android:textSize="@dimen/sp_14"
@@ -297,7 +298,6 @@
                     android:layout_marginTop="@dimen/dp_16"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@+id/textView19"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/textView12"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />

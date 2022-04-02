@@ -1,60 +1,159 @@
 package com.apion.apionhome.ui.add_home
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
-import com.apion.apionhome.base.BindingFragment
+import android.os.Bundle
+import android.view.View
+import android.view.WindowInsetsController
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.apion.apionhome.R
+import com.apion.apionhome.base.BindingFragmentPickImage
+import com.apion.apionhome.data.model.RangeUI
+import com.apion.apionhome.data.model.ImagePicker as ImagePickerData
 import com.apion.apionhome.databinding.FragmentCreateHomeBinding
-import com.apion.apionhome.viewmodel.UserViewModel
+import com.apion.apionhome.ui.adapter.ImagePickerAdapter
+import com.apion.apionhome.ui.search.SearchViewModelTmp
+import com.apion.apionhome.utils.customview.actionsheet.callback.ActionSheetCallBack
+import com.apion.apionhome.utils.showAction
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class AddFragment :
+    BindingFragmentPickImage<FragmentCreateHomeBinding>(FragmentCreateHomeBinding::inflate) {
+    override val viewModel by viewModel<AddHouseViewModel>()
+    private val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
 
-class AddFragment : BindingFragment<FragmentCreateHomeBinding>(FragmentCreateHomeBinding::inflate){
-    override val viewModel by viewModel<UserViewModel>()
-    val PICK_IMAGE = 1
+    private val adapterImage by lazy {
+        ImagePickerAdapter(
+            requireContext(),
+            mutableListOf(ImagePickerData(ImagePickerAdapter.VIEW_TYPE_TWO, null)),
+            ::onPickerImage
+        )
+    }
+
+    private var isShowType = false
+    private var isShowDirection = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        searchViewModelTmp.initData()
+        searchViewModelTmp.setProvince(null)
+        searchViewModelTmp.setDistrict(null)
+    }
 
     override fun setupView() {
-        binding.lifecycleOwner= this
+        binding.lifecycleOwner = this
         listener()
+        binding.recyclerViewPickerImage.adapter = adapterImage
+        binding.addHouseVM = viewModel
+        setupObserver()
     }
-    fun  listener(){
+
+    override fun onResume() {
+        super.onResume()
+        val view = requireActivity().window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//          requireActivity().window.decorView.windowInsetsController?.hide(WindowInsets.Type.statusBars())
+            view.windowInsetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            view.systemUiVisibility =
+                view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val view = requireActivity().window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            view.windowInsetsController?.setSystemBarsAppearance(
+                0,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            var flags = view.systemUiVisibility
+            flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            view.systemUiVisibility = flags
+        }
+    }
+
+    fun listener() {
+        binding.btnCreate.setOnClickListener {
+            viewModel.createHouse(
+                searchViewModelTmp.province.value?.name,
+                searchViewModelTmp.district.value?.name,
+                searchViewModelTmp.ward.value?.name,
+                searchViewModelTmp.street.value?.name,
+                searchViewModelTmp.detailAddress.value,
+                adapterImage.list.map { it.data }
+            )
+        }
+
         binding.edtTypeHouse.setOnClickListener {
-
+            val data = ArrayList(RangeUI.houseTypeRangeUis.values)
+            data.removeFirst()
+            if (!isShowType) {
+                isShowType = true
+                requireContext().showAction(
+                    "Chọn loại nhà đất",
+                    data,
+                    object : ActionSheetCallBack {
+                        override fun data(data: String, position: Int) {
+                            viewModel.setHouseTypeIndex(position)
+                            binding.edtTypeHouse.setText(data)
+                            isShowType = false
+                        }
+                    }) {
+                    isShowType = false
+                }
+            }
         }
+
         binding.edtDirectionHouse.setOnClickListener {
-
+            val data = ArrayList(RangeUI.homeDirectionRangeUis.values)
+            if (!isShowDirection) {
+                isShowDirection = true
+                requireContext().showAction("Chọn hướng nhà", data, object : ActionSheetCallBack {
+                    override fun data(data: String, position: Int) {
+                        viewModel.setHouseDirectionIndex(position)
+                        binding.edtDirectionHouse.setText(data)
+                        isShowDirection = false
+                    }
+                }) {
+                    isShowDirection = false
+                }
+            }
         }
-        binding.image.setOnClickListener {
-//            val intent = Intent()
-//            intent.type = "image/*"
-//            intent.action = Intent.ACTION_GET_CONTENT
-//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
-
-
-            if (Build.VERSION.SDK_INT < 19) {
-                var intent = Intent()
-                intent.type = "image/*"
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(
-                    Intent.createChooser(intent, "Select Picture")
-                    , PICK_IMAGE
-                )
+        binding.edtAddressHouse.setOnClickListener {
+            if (searchViewModelTmp.province.value != null) {
+                findNavController().navigate(R.id.actionToSelectLocationCreateHous)
             } else {
-                var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "image/*"
-                startActivityForResult(intent, PICK_IMAGE);
+                findNavController().navigate(
+                    R.id.actionToSelectLocationCreateHous,
+                    bundleOf("isClear" to true)
+                )
             }
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == PICK_IMAGE) {
-                val selectedImage: Uri? = data?.getData()
-                binding.image.setImageURI(selectedImage)
-        }
 
+    private fun setupObserver() {
+        searchViewModelTmp.province.observe(this) {
+            if (it != null) {
+                binding.edtAddressHouse.setText(searchViewModelTmp.getAddress())
+            } else {
+                binding.edtAddressHouse.setText(getString(R.string.text_select_address))
+            }
         }
     }
+
+    private fun onPickerImage() {
+        pickImageSafety()
+    }
+
+    override fun onImagesSelect(path: String) {
+        adapterImage.addImage(path)
+        println(path)
+    }
+}

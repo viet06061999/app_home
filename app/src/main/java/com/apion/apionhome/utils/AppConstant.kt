@@ -6,6 +6,16 @@ object ApiConfig {
     const val BASE_URL = "http://apionhome.com/api/v1/"
 }
 
+object TabApp {
+    const val HOME = 1
+    const val SEARCH = 2
+    const val CREATE_HOUSE = 3
+    const val NOTIFICATION = 4
+    const val PERSON = 5
+    const val PROFILE_PERSON = 6
+    const val DETAIL_HOUSE = 7
+}
+
 object ApiEndPoint {
     const val PATH_USERS = "users"
     const val PATH_USERS_BY_ID = "users/{id}"
@@ -23,7 +33,7 @@ object ApiEndPoint {
 
     const val PATH_DASHBOARD = "dashboards"
     const val PATH_GET_HOUSE_BY_USER = "get-houses-by-user-id/{id}"
-
+    const val PATH_GET_NOTIFICATION_BY_USER = "houses-notification"
     const val PATH_SEARCH = "search"
 
     const val PATH_COMMUNITY = "communities"

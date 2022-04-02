@@ -6,6 +6,7 @@ import com.apion.apionhome.data.model.SearchParam
 import com.apion.apionhome.data.model.local.District
 import com.apion.apionhome.data.model.local.LocationName
 import com.apion.apionhome.data.model.local.Province
+import com.apion.apionhome.data.source.remote.response_entity.AllHouseResponse
 import io.reactivex.rxjava3.core.Maybe
 
 interface HouseDatasource {
@@ -50,5 +51,7 @@ interface HouseDatasource {
         fun createHouse(images: List<String>, house: House): Maybe<House>
 
         fun updateHouse(images: List<String>, house: House): Maybe<House>
+
+        fun getNotificationByUser(): Maybe<List<House>>
     }
 }

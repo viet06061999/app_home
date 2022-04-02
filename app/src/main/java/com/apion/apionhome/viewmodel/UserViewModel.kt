@@ -17,11 +17,15 @@ import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
 import com.apion.apionhome.utils.setup
 import com.apion.apionhome.utils.transform
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class UserViewModel(val userRepository: UserRepository,private val houseRepository: HouseRepository) : RxViewModel() {
@@ -272,6 +276,15 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                         _user.value = it
                         _loginSuccess.value = true to it.pincode
                         MyApplication.sessionUser.value = it
+                        it.following?.forEach {
+                            FirebaseMessaging.getInstance().subscribeToTopic("ApionHome${it.beingFollowedId}")
+                                .addOnCompleteListener { task ->
+                                    if (!task.isSuccessful) {
+                                        task.exception?.printStackTrace()
+//                                        throw IllegalArgumentException(task.exception)
+                                    }
+                                }
+                        }
                         println("myapplication ${ MyApplication.sessionUser.value}")
                     }, {
                         if (it is HttpException) {

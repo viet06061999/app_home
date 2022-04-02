@@ -12,6 +12,8 @@ import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.databinding.FragmentPincodeBinding
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeBinding::inflate) {
@@ -26,100 +28,49 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
     }
 
     private fun setupEdit() {
-        binding.etPassword1.isCursorVisible = false
+        binding.etPassword1.isCursorVisible = true
         binding.etPassword2.isCursorVisible = false
         binding.etPassword3.isCursorVisible = false
-        binding.etPassword4.isCursorVisible = false// ẩn con trỏ chuột
+        binding.etPassword4.isCursorVisible = false
 
-        binding.etPassword1.setOnKeyListener(GenericKeyEvent(binding.etPassword1, null))
-        binding.etPassword2.setOnKeyListener(
+        binding.etPassword1.isEnabled = true
+        binding.etPassword2.isEnabled = false
+        binding.etPassword3.isEnabled = false
+        binding.etPassword4.isEnabled = false
+
+        binding.etPassword1.setOnKeyListener(
             GenericKeyEvent(
                 binding.etPassword2,
-                binding.etPassword1
+                binding.etPassword1,
+                null,
+                ::isValidPinCode)
+        )
+        binding.etPassword2.setOnKeyListener(
+            GenericKeyEvent(
+                binding.etPassword3,
+                binding.etPassword2,
+                binding.etPassword1,
+                ::isValidPinCode
             )
         )
         binding.etPassword3.setOnKeyListener(
             GenericKeyEvent(
+                binding.etPassword4,
                 binding.etPassword3,
-                binding.etPassword2
+                binding.etPassword2,
+                ::isValidPinCode
             )
         )
         binding.etPassword4.setOnKeyListener(
             GenericKeyEvent(
+                null,
                 binding.etPassword4,
-                binding.etPassword3
+                binding.etPassword3,
+                ::isValidPinCode
             )
         )
 
-        binding.etPassword1.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                if (binding.etPassword1.text.toString().length == 1) //size as per your requirement
-                {
-                    binding.etPassword2.requestFocus()
-                }
-            }
-        })
-        binding.etPassword2.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                if (binding.etPassword2.text.toString().length == 1) //size as per your requirement
-                {
-                    binding.etPassword3.requestFocus()
-                }
-            }
-        })
-        binding.etPassword3.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                if (binding.etPassword3.text.toString().length == 1) //size as per your requirement
-                {
-                    binding.etPassword4.requestFocus()
-                }
-            }
-        })
-
-        binding.etPassword4.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                if (binding.etPassword3.text.toString().length == 1) {
-                    isValidPinCode()
-                }
-            }
-        })
 
         binding.buttonlogin.setOnClickListener {
             isValidPinCode()
@@ -134,55 +85,55 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
             requireActivity().finish()
         }
     }
+    private fun checkPincode() : Boolean{
+        val pin =
+            binding.etPassword1.text.toString() + binding.etPassword2.text.toString() + binding.etPassword3.text.toString() + binding.etPassword4.text.toString()
+        if (args.pinCode == pin){
+            return true
+        }else{
+            return false
+        }
+    }
 
-//     fun showDialog() {
-//        val inflater = layoutInflater
-//        val alertLayout = inflater.inflate(R.layout.layout_custom_dialog,null)
-//        val alert = AlertDialog.Builder(this)
-//        alert.setView(alertLayout)
-//        val dialog = alert.create()
-//        var text = alertLayout.findViewById(R.id.content) as TextView?
-//        var button = alertLayout.findViewById(R.id.buttonClose) as Button?
-//        text?.setText("Pincode không trùng khớp")
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
-//        dialog.getWindow()?.setLayout(800, 450)
-//
-//        button?.setOnClickListener{
-//            dialog.dismiss()
-//        }
-//    }
-//
-//    override fun showDialog2(){
-//        val inflater = layoutInflater
-//        val alertLayout = inflater.inflate(R.layout.layout_custom_dialog,null)
-//        val alert = AlertDialog.Builder(this)
-//        alert.setView(alertLayout)
-//        val dialog = alert.create()
-//        var text = alertLayout.findViewById(R.id.content) as TextView?
-//        var button = alertLayout.findViewById(R.id.buttonClose) as Button?
-//        text?.setText("Vui lòng nhập đầy đủ pincode!")
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
-//        dialog.getWindow()?.setLayout(800, 450)
-//
-//        button?.setOnClickListener{
-//            dialog.dismiss()
-//        }
-//    }
+
 
     class GenericKeyEvent internal constructor(
+        private val nextView: EditText?,
         private val currentView: EditText,
-        private val previousView: EditText?
+        private val previousView: EditText?,
+        private val isValidVerify : ()->Unit
     ) : View.OnKeyListener {
 
         override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
+            if(currentView.id == R.id.etPassword1){
+                currentView.isCursorVisible = true
+            }
             if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etPassword1 && currentView.text.isEmpty()) {
                 //If current is empty then previous EditText's number will also be deleted
                 previousView!!.text = null
                 currentView.isCursorVisible = false
+                currentView.isEnabled = false
+                previousView.isEnabled = true
                 previousView.requestFocus()
                 return true
+            }
+            if (  currentView.id != R.id.etPassword6 && !currentView.text.isEmpty() ) {
+                if(keyCode == KeyEvent.KEYCODE_0 || keyCode == KeyEvent.KEYCODE_1 || keyCode == KeyEvent.KEYCODE_2 ||
+                    keyCode == KeyEvent.KEYCODE_3 || keyCode == KeyEvent.KEYCODE_4 || keyCode == KeyEvent.KEYCODE_5 ||
+                    keyCode == KeyEvent.KEYCODE_6 || keyCode == KeyEvent.KEYCODE_7 || keyCode == KeyEvent.KEYCODE_8 || keyCode == KeyEvent.KEYCODE_9
+                ){
+                    currentView.setText((keyCode-7).toString())
+                }
+
+                nextView!!.isEnabled = true
+                nextView!!.requestFocus()
+                currentView.isCursorVisible = false
+                currentView.isEnabled = false
+//                previousView.requestFocus()
+                return true
+            }
+            if(currentView.id == R.id.etPassword6 && !currentView.text.isEmpty() ){
+                isValidVerify()
             }
             return false
         }

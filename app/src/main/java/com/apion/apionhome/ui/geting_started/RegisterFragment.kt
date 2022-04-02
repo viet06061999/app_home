@@ -35,6 +35,7 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.registerVM = viewModel
+        viewModel._isCreateDone.value = false
         println(viewModel.province.value)
         setupListerner()
         setObserve()
@@ -124,16 +125,12 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
                     viewModel._isLoading.value = false
                 }
                 dialog.show()
-
             }
             override fun onCodeSent(verfication: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(verfication, p1)
                 viewModel._isLoading.value = false
                 viewModel.codeSent.value   =  verfication
-//                val bundle = Bundle();
-//                bundle.putSerializable("USER", viewModel.getUser())
-//                bundle.putString("verifyId",verfication)
-//                println("SENT THANH CONG")
+
                 findNavController().navigate(R.id.actionToVerifyPhone)
             }
         }
@@ -145,13 +142,11 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
 //        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true)
         val options = PhoneAuthOptions.newBuilder(mAuth)
             .setPhoneNumber(viewModel.getPhoneFirebase()) // Phone number to verify
-            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+            .setTimeout(120, TimeUnit.SECONDS) // Timeout and unit
             .setActivity(requireActivity()) // Activity (for callback binding)
             .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-
-
     }
 
     fun setupCheck(){
@@ -160,8 +155,8 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
         dialog.setPositiveButton("Đóng") { _, _ ->
         }
 
-        var check1 = viewModel.phoneRegister.value == null
-        var check2 = viewModel.nameRegister.value == null
+        var check1 = viewModel.phoneRegister.value.isNullOrBlank()
+        var check2 = viewModel.nameRegister.value.isNullOrBlank()
         if( check1 && check2){
             dialog.setMessage("Vui lòng nhập đầy đủ thông tin.")
         }else if(check1){
@@ -186,11 +181,31 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
             if(it){
                 println("SĐT : ${viewModel.getPhoneFirebase()}")
                 viewModel._isLoading.value = true
-                verify()
+                viewModel.checkExits()
+                //verify()
 
             }else{
                 println("That bai kiem tra lai thong tin")
             }
+        }
+        viewModel.checkExistPhone.observe(this){
+
+
+            it?. let{
+                if(it) {
+                    viewModel._isLoading.value = false
+                    val dialog = AlertDialog.Builder(requireContext())
+                    dialog.setTitle("Thông báo")
+                    dialog.setMessage(viewModel.textCheckExistPhone.value)
+                    dialog.setPositiveButton("Đóng") { _, _ ->
+                    }
+                    dialog.show()
+                }else{
+                    verify()
+                }
+            }
+
+
         }
         viewModel.phoneRegister.observe(this, {
             val errorTextPhone = if (it.isPhoneValid) null else "Định dạng không hợp lệ."

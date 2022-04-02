@@ -66,7 +66,6 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val biosRegister              = MutableLiveData<String?>()
 
 
-
     fun setJobIndex(index: Int) {
         jobIndexRegister.value = index
     }
@@ -109,7 +108,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
 
 
 
-    private val _isCreateDone = MutableLiveData<Boolean>(false)
+    var _isCreateDone = MutableLiveData<Boolean>()
 
     val isCreateDone: LiveData<Boolean>
         get() = _isCreateDone
@@ -128,6 +127,12 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val errorPhone = MutableLiveData<String?>()
 
     val resultSentSMS = MutableLiveData<Boolean>()
+
+    val checkExistPhone = MutableLiveData<Boolean?>()
+    val textCheckExistPhone = MutableLiveData<String?>()
+
+    val errorRegister = MutableLiveData<String?>()
+    val errorLogin = MutableLiveData<String?>()
 
 
 
@@ -157,7 +162,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
             )
     }
     fun getAddress(): String? {
-        var textAddress : String? = null
+        var textAddress  =""
         street.value?.let {
             textAddress += street.value?.prefix+" " +street.value?.name
             if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
@@ -184,7 +189,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         dobRegister.value?.let {
             var date = it.time
             date.let {
-                result = it.toString(TimeFormat.TIME_FORMAT_API)
+                result = it.toString(TimeFormat.TIME_FORMAT_API_1)
             }
         }
         return result
@@ -339,17 +344,63 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                                         charset("UTF-8")
                                     )
                                 )
-                                errorText.value = jsonError.getString("message")
+                                errorLogin.value = jsonError.getString("message")
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                errorText.value = it.message
+                                errorLogin.value = it.message
                             }
                         } else {
-                            errorText.value = it.message
+                            errorLogin.value = it.message
+
                         }
                     }
                 )
         }
+
+    }
+    fun checkExits() {
+        // ? để check null. khi null thì ko thực hiện scope function apply
+        //
+        userRepository
+                .login(phoneRegister.value!!)
+                .setup()
+                .doOnTerminate {
+                }
+                .subscribe(
+                    {
+                        _isLoading.value = false
+                        textCheckExistPhone.value = "Số điện thoại này đã tồn tại."
+                        checkExistPhone.value = true
+
+                    }, {
+                        if (it is HttpException) {
+                            try {
+                                val jsonError = JSONObject(
+                                    String(
+                                        it.response()?.errorBody()?.bytes() ?: byteArrayOf(),
+                                        charset("UTF-8")
+                                    )
+                                )
+//                                errorTextPhone.value =
+                                jsonError.getString("message").equals("Số điện thoại này không tồn tại trên hệ thống.")?.let {
+                                    checkExistPhone.value = false
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                _isLoading.value = false
+                                textCheckExistPhone.value = "Có lỗi xảy ra."
+                                checkExistPhone.value = true
+
+                            }
+                        } else {
+                            _isLoading.value = false
+                            textCheckExistPhone.value = "Có lỗi xảy ra."
+                            checkExistPhone.value = true
+
+                        }
+                    }
+                )
+
 
     }
     fun getUser() : User = User(
@@ -375,11 +426,13 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
             .setup()
             .doOnTerminate {
                 _isLoading.value = false
+
             }
             .subscribe(
                 {
                     _userRegister.value = it
                     _registerSuccess.value = true
+
                 }, {
                     if (it is HttpException) {
                         try {
@@ -389,13 +442,13 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                                     charset("UTF-8")
                                 )
                             )
-                            errorText.value = jsonError.getString("message")
+                            errorRegister.value = jsonError.getString("message")
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            errorText.value = it.message
+                            errorRegister.value = it.message
                         }
                     } else {
-                        errorText.value = it.message
+                        errorRegister.value = it.message
                     }
                 }
             )

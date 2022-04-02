@@ -61,19 +61,19 @@ data class User (
     @SerializedName("participants")
     val participants: List<Participant>? = null,
     @SerializedName("houses_bookmark")
-    val bookmarks: List<BookMark>?,
+    val bookmarks: List<BookMark>? = null,
     @SerializedName("followed")
-    val followed: List<UserFollowed>?,
+    val followed: List<UserFollowed>? = null,
     @SerializedName("following")
-    val following: List<UserFollowing>?,
+    val following: List<UserFollowing>? = null,
     @SerializedName("following_count")
-    val followingCount: Int,
+    val followingCount: Int? = null,
     @SerializedName("followed_count")
-    val followedCount: Int,
+    val followedCount: Int? = null,
     @SerializedName("my_houses_count")
-    val myHousesCount: Int,
+    val myHousesCount: Int? = null,
     @SerializedName("bios")
-    val bios: String,
+    val bios: String? = null,
 ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =

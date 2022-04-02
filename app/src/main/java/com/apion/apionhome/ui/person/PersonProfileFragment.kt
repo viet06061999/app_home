@@ -98,16 +98,16 @@ class PersonProfileFragment :
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_phone -> {
-                    requireContext().toPhone(args.userProfile.phone)
+                    requireContext().toPhone(args.userProfile.phone?:"")
                 }
                 R.id.item_messages -> {
-                    requireContext().toMessage(args.userProfile.phone)
+                    requireContext().toMessage(args.userProfile.phone?:"")
                 }
                 R.id.item_messenger -> {
-                    requireContext().toMessenger(args.userProfile.facebook_id ?: "")
+                    requireContext().toMessenger(args.userProfile.facebook_id?:"")
                 }
                 R.id.item_zalo -> {
-                    requireContext().toZalo(args.userProfile.phone)
+                   requireContext().toZalo(args.userProfile.phone?:"")
                 }
             }
             true
@@ -147,9 +147,9 @@ class PersonProfileFragment :
                 if (MyApplication.sessionUser.value!!.id == userProfile.id) {
                     findNavController().navigate(R.id.actionToAdd)
                 } else if (isFollow) {
-                    viewModel.unFollow(MyApplication.sessionUser.value!!.id, userProfile.id)
+                    viewModel.unFollow(MyApplication.sessionUser.value!!.id?:-1, userProfile.id?:-1)
                 } else {
-                    viewModel.follow(MyApplication.sessionUser.value!!.id, userProfile.id)
+                    viewModel.follow(MyApplication.sessionUser.value!!.id?:-1, userProfile.id?:-1)
                 }
             } else {
                 dialog.show()
@@ -160,6 +160,6 @@ class PersonProfileFragment :
 
     private fun onItemHouseClick(house: House) {
         val action = PersonProfileFragmentDirections.actionProfileToDetail(house)
-        findNavController().navigate(action)
+      findNavController().navigate(action)
     }
 }

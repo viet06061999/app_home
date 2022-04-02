@@ -51,6 +51,7 @@ fun setTextPhone(view:TextView, phone: String){
     if(phone.length >=7){
         result = "+84 " + phone.subSequence(1,4)+" "+phone.subSequence(4,7)+" "+phone.subSequence(7,phone.length)
     }
+
     view.text = result
 }
 @BindingAdapter("textDob")

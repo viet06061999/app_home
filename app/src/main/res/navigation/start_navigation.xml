@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/start_navigation"
     app:startDestination="@+id/startFragment">
 
     <activity
@@ -15,11 +15,11 @@
         android:name="com.apion.apionhome.ui.geting_started.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
-        <action
-            android:id="@+id/actionToLogin"
-            app:destination="@id/loginFragment" />
-    </fragment>
 
+    </fragment>
+    <action
+        android:id="@+id/actionToLogin"
+        app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.apion.apionhome.ui.geting_started.LoginFragment"
@@ -41,7 +41,6 @@
         <action
             android:id="@+id/actionToRegister"
             app:destination="@id/registerFragment"
-
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_right"
@@ -114,15 +113,6 @@
         android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneFragment"
         tools:layout="@layout/fragment_verify_phone"
         >
-
-        <action
-            android:id="@+id/actionToLogin"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            />
 
     </fragment>
     <fragment

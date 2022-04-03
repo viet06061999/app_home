@@ -33,17 +33,18 @@ class MainActivity : AppCompatActivity() {
     }
     private val dialog by lazy {
         val dialog = AlertDialog.Builder(this)
-        dialog.setTitle("Yêu cầu đăng nhập!")
-        dialog.setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
-        dialog.setPositiveButton("Đăng nhập") { _, _ ->
-            navView.menu.getItem(currentIndex).isChecked = true
-            navController.navigate(MobileNavigationDirections.actionToLogin())
-        }
-        dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
-            navView.menu.getItem(currentIndex).isChecked = true
-            MyApplication.tabToNavigate.value = null
-            dialogShow.dismiss()
-        }
+            .setCancelable(false)
+            .setTitle("Yêu cầu đăng nhập!")
+            .setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
+            .setPositiveButton("Đăng nhập") { _, _ ->
+                navView.menu.getItem(currentIndex).isChecked = true
+                navController.navigate(MobileNavigationDirections.actionToLogin())
+            }
+            .setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
+                navView.menu.getItem(currentIndex).isChecked = true
+                MyApplication.tabToNavigate.value = null
+                dialogShow.dismiss()
+            }
         dialog
     }
 
@@ -60,9 +61,9 @@ class MainActivity : AppCompatActivity() {
         setupObserver()
     }
 
-    private fun setupObserver(){
+    private fun setupObserver() {
         viewModel.errorException.observe(this) {
-            if (it!=null){
+            if (it != null) {
                 showToast(getString(R.string.default_error))
             }
         }
@@ -84,10 +85,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_notification -> {
                     if (MyApplication.sessionUser.value != null) {
                         currentIndex = 3
-                        println("da vao den đây")
                         navController.navigate(R.id.actionToNotification)
                     } else {
-                        MyApplication.tabToNavigate.value = 3
+                        MyApplication.tabToNavigate.value = TabApp.NOTIFICATION
                         dialog.show()
                     }
                 }
@@ -105,20 +105,29 @@ class MainActivity : AppCompatActivity() {
             true
         }
         binding.fab.setOnClickListener {
-            if (MyApplication.sessionUser.value != null) {
-                currentIndex = 2
+//            if (MyApplication.sessionUser.value != null) {
+//                currentIndex = 2
                 navController.navigate(R.id.actionToAdd)
-            } else {
-                MyApplication.tabToNavigate.value = 2
-                dialog.show()
-            }
+//            } else {
+//                MyApplication.tabToNavigate.value = TabApp.CREATE_HOUSE
+//                dialog.show()
+//            }
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in arrayListOf(
                     R.id.searDetailResultFragment,
                     R.id.selectLocationFragment,
-                    R.id.personProfileFragment
+                    R.id.personProfileFragment,
+                    R.id.levelFragment,
+                    R.id.navigation_add,
+                    R.id.selectLocationFragment,
+                    R.id.selectLocationCreateHouse,
+                    R.id.searchProvinceFragment,
+                    R.id.searchDistrictFragment,
+                    R.id.searchWardFragment,
+                    R.id.searchStreetFragment,
+                    R.id.updateProdfileFragment,
                 )
             ) {
                 hideBottom()
@@ -171,6 +180,11 @@ class MainActivity : AppCompatActivity() {
                     val action = MobileNavigationDirections.actionMainToDetail(it)
                     navController.navigate(action)
                 }
+            }
+            TabApp.PROFILE -> {
+                navView.menu.getItem(4).isChecked = true
+                MyApplication.tabToNavigate.value = null
+                navController.navigate(R.id.actionToProfile)
             }
         }
     }

@@ -1,4 +1,6 @@
 package com.apion.apionhome.utils
+
+import android.util.Patterns
 import java.util.regex.Pattern
 
 const val PASSWORD_MIN_LENGTH = 5
@@ -24,8 +26,13 @@ fun String.removeSpecific(): String {
 }
 
 val String.isTitleValid get() = !Pattern.compile(TITLE_PATTERN).matcher(this).find()
-val String.isPhoneValid get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
-val String.isNameValid get() = Pattern.compile(NAME_PATTERN).matcher(this).matches() || isNullOrBlank()
+val String.isPhoneValid
+    get() = Pattern.compile(PHONE_PATTERN).matcher(this).matches() || isNullOrBlank()
+val String.isNameValid
+    get() = Pattern.compile(NAME_PATTERN).matcher(this).matches() || isNullOrBlank()
+val String.isEmailValid
+    get() = Patterns.EMAIL_ADDRESS.matcher(this).matches() || isNullOrBlank()
+
 //val String.isPhoneValid = true
 
 val String.isValidPassword get() = !contains(REGEX_SPACE) && length > PASSWORD_MIN_LENGTH || isNullOrBlank()

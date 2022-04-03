@@ -36,7 +36,8 @@ import java.net.Socket
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> T) : Fragment() {
+abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> T) :
+    Fragment() {
 
     abstract val viewModel: RxViewModel
 
@@ -66,7 +67,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding =  inflate.invoke(inflater,container,false)
+        _binding = inflate.invoke(inflater, container, false)
         return binding.root
     }
 //    override fun onCreateView(
@@ -91,7 +92,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.errorException.observe(viewLifecycleOwner) {
-            if (it!=null){
+            if (it != null) {
                 showToast(getString(R.string.default_error))
             }
         }
@@ -221,11 +222,34 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
         dialog.show()
     }
 
+    fun showDialogCustom(
+        tittle: String?,
+        content: String?,
+        onPositive: ((DialogInterface) -> Unit)?,
+        onNegative: (DialogInterface) -> Unit
+    ) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(tittle)
+        dialog.setMessage(content)
+
+        onPositive?.let {
+            dialog.setPositiveButton(getString(R.string.tittle_button_agree)) { dialogShow, _ ->
+                it(dialogShow)
+            }
+        }
+
+        dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
+            dialogShow.dismiss()
+            onNegative(dialogShow)
+        }
+        dialog.show()
+    }
+
     abstract fun setupView()
 
     open fun onConnectionAvailable() {}
 
     companion object {
-         const val EXCEPTION = "Binding only is valid after onCreateView"
+        const val EXCEPTION = "Binding only is valid after onCreateView"
     }
 }

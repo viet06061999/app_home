@@ -10,6 +10,7 @@ import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.apion.apionhome.ui.search.SearchViewModelTmp
 import com.apion.apionhome.viewmodel.CommunityViewModel
 import com.apion.apionhome.viewmodel.HouseViewModel
+import com.apion.apionhome.viewmodel.ProfileViewModel
 import com.apion.apionhome.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

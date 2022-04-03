@@ -147,9 +147,9 @@ class PersonProfileFragment :
                 if (MyApplication.sessionUser.value!!.id == userProfile.id) {
                     findNavController().navigate(R.id.actionToAdd)
                 } else if (isFollow) {
-                    viewModel.unFollow(MyApplication.sessionUser.value!!.id?:-1, userProfile.id?:-1)
+                    viewModel.unFollow(MyApplication.sessionUser.value?.id!!, userProfile?.id ?: -1)
                 } else {
-                    viewModel.follow(MyApplication.sessionUser.value!!.id?:-1, userProfile.id?:-1)
+                    viewModel.follow(MyApplication.sessionUser.value?.id!!, userProfile?.id ?: -1)
                 }
             } else {
                 dialog.show()

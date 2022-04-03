@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:background="#478C51"
             android:paddingBottom="@dimen/dp_10"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
@@ -25,7 +24,7 @@
                 android:id="@+id/imageBackForget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_64"
+                android:layout_marginTop="@dimen/dp_32"
                 android:layout_marginStart="23dp"
                 android:src="@drawable/ic_back_white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +35,7 @@
                 android:id="@+id/txtTitleGet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_64"
+                android:layout_marginTop="@dimen/dp_32"
                 android:text="@string/title_get_getcode"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/sp_20"

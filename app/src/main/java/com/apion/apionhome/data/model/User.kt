@@ -2,9 +2,13 @@ package com.apion.apionhome.data.model
 
 import android.os.Parcelable
 import com.apion.apionhome.data.model.community.Participant
+import com.apion.apionhome.utils.TimeFormat
+import com.apion.apionhome.utils.toString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Parcelize
 data class User (
@@ -36,9 +40,9 @@ data class User (
     @SerializedName("permission")
     val permission: String?= null,
     @SerializedName("email")
-    val email: String? = null,
+    var email: String? = null,
     @SerializedName("facebook_id")
-    val facebook_id: String?= null,
+    var facebook_id: String?= null,
     @SerializedName("role")
     val role: String? = null,
 
@@ -125,5 +129,19 @@ data class User (
             }
         }
         return "$textPos $textPer"
+    }
+
+    fun getDOBDate(): String {
+        val date = SimpleDateFormat(
+            TimeFormat.TIME_FORMAT_API_1,
+            Locale.getDefault()
+        ).parse(dateOfBirth)
+        return date?.let {
+            date.toString(TimeFormat.DATE_FORMAT)
+        } ?: ""
+    }
+
+    fun getSexString(): String {
+        return if(sex == "Male") "Nam" else "Nữ"
     }
 }

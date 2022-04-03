@@ -37,13 +37,16 @@ import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.util.*
 
-class UserViewModel(val userRepository: UserRepository,private val houseRepository: HouseRepository) : RxViewModel() {
+class UserViewModel(
+    val userRepository: UserRepository,
+    private val houseRepository: HouseRepository
+) : RxViewModel() {
 
 
     // khởi tạo biến _users, khai báo users  và gán _users cho nó
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>>
-    get() = _users
+        get() = _users
 
 
     // khởi tạo biến _user, khai báo user  và gán _users cho nó
@@ -62,26 +65,32 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val userRegister: LiveData<User>
         get() = _userRegister
 
-    val codeSent                  = MutableLiveData<String>()
-    val nameRegister              = MutableLiveData<String>()
-    val phoneRegister             = MutableLiveData<String>()
-    val phoneReferalRegister      = MutableLiveData<String?>()
-    val dobRegister               = MutableLiveData<Calendar?>()
-    val sexIndexRegister          = MutableLiveData<Int>()
-    val levelIndexRegister        = MutableLiveData<Int?>()
-    val jobIndexRegister          = MutableLiveData<Int>()
-    val biosRegister              = MutableLiveData<String?>()
+    val codeSent = MutableLiveData<String>()
+    val nameRegister = MutableLiveData<String>()
+    val phoneRegister = MutableLiveData<String>()
+    val phoneReferalRegister = MutableLiveData<String?>()
+    val dobRegister = MutableLiveData<Calendar?>()
+    val sexIndexRegister = MutableLiveData<Int>()
+    val levelIndexRegister = MutableLiveData<Int?>()
+    val jobIndexRegister = MutableLiveData<Int>()
+    val biosRegister = MutableLiveData<String?>()
 
+    val phoneRule = phoneRegister.transform {
+        if (it?.isPhoneValid == true) null else "Định dạng không hợp lệ!"
+    }
 
     fun setJobIndex(index: Int) {
         jobIndexRegister.value = index
     }
+
     fun setSexIndex(index: Int) {
         sexIndexRegister.value = index
     }
+
     fun setLevelIndex(index: Int) {
         levelIndexRegister.value = index
     }
+
     // khởi tạo biến _loginSuccess, khai báo loginSuccess  và gán _loginSuccess cho nó
     private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
     val loginSuccess: LiveData<Pair<Boolean, String?>>
@@ -114,14 +123,14 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         get() = _street
 
 
-
     var _isCreateDone = MutableLiveData<Boolean>()
 
     val isCreateDone: LiveData<Boolean>
         get() = _isCreateDone
 
-
-
+//    private val _codeSent = MutableLiveData<String>()
+//    val codeSent: LiveData<String>
+//        get() = _codeSent
 
     val phone = MutableLiveData<String>()
 //    phone.phone
@@ -142,18 +151,18 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
     val errorLogin = MutableLiveData<String?>()
 
 
-
-
-
-    fun setError(error : String?){
+    fun setError(error: String?) {
         errorText.value = error
     }
-    fun setErrorName(error : String?){
+
+    fun setErrorName(error: String?) {
         errorName.value = error
     }
-    fun setErrorPhone(error : String?){
+
+    fun setErrorPhone(error: String?) {
         errorPhone.value = error
     }
+
     fun getAllUser() {
         userRepository
             .getAllUsers()
@@ -168,20 +177,21 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
+
     fun getAddress(): String? {
-        var textAddress  =""
+        var textAddress = ""
         street.value?.let {
-            textAddress += street.value?.prefix+" " +street.value?.name
-            if(street.value?.name?.isNotEmpty() == true) textAddress +=", "
+            textAddress += street.value?.prefix + " " + street.value?.name
+            if (street.value?.name?.isNotEmpty() == true) textAddress += ", "
         }
 
         ward.value?.let {
-            textAddress +=ward.value?.prefix+" " + ward.value?.name
-            if(ward.value?.name?.isNotEmpty() == true) textAddress +=", "
+            textAddress += ward.value?.prefix + " " + ward.value?.name
+            if (ward.value?.name?.isNotEmpty() == true) textAddress += ", "
         }
         district.value?.let {
             textAddress += district.value?.name
-            if(district.value?.name?.isNotEmpty() == true) textAddress +=", "
+            if (district.value?.name?.isNotEmpty() == true) textAddress += ", "
         }
 
         province.value?.let {
@@ -190,7 +200,8 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
 
         return textAddress
     }
-    fun getDobAPI(): String{
+
+    fun getDobAPI(): String {
 
         var result = Calendar.getInstance().time.toString(TimeFormat.TIME_FORMAT_API_1)
         dobRegister.value?.let {
@@ -201,19 +212,21 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         }
         return result
     }
+
     fun getPhoneFirebase(): String {
         phoneRegister.value?.let {
             var length = it.length
-            if(length>1){
-            var subSequence = it.subSequence(1,length)
-            return "+84"+subSequence
+            if (length > 1) {
+                var subSequence = it.subSequence(1, length)
+                return "+84" + subSequence
             }
         }
 
 
         return ""
     }
-    override fun initData(){
+
+    override fun initData() {
         _province.value = Province(
             id = 2,
             name = "Hà Nội",
@@ -231,6 +244,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
             )
         )
     }
+
     fun searchDistrict(query: String) {
         houseRepository
             .searchDistrict(_province.value, query)
@@ -244,18 +258,22 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
-    fun setCodeSent(codeSent: String) {
-        _codeSent.value = codeSent
 
+    //    fun setCodeSent(codeSent: String) {
+//        _codeSent.value = codeSent
+//    }
+    fun setCreateDone() {
+        _isCreateDone.value =
+            (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid
+                ?: false)
     }
-    fun setCreateDone(){
-        _isCreateDone.value = (phoneRegister.value?.isPhoneValid ?: false) && (nameRegister.value?.isNameValid ?: false)
-    }
+
     fun setDistrict(district: District?) {
         _district.value = district
         _ward.value = null
         _street.value = null
     }
+
     fun setWard(locationName: LocationName?) {
         println("PQTHANh")
         println(locationName?.getContent())
@@ -263,9 +281,11 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         _street.value = null
 
     }
+
     fun setStreet(locationName: LocationName?) {
         _street.value = locationName
     }
+
     fun searchStreet(query: String) {
         println("province $province")
         houseRepository
@@ -280,6 +300,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
+
     fun searchProvince(query: String) {
         houseRepository
             .searchProvince(query)
@@ -294,6 +315,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 })
 
     }
+
     fun searchWard(query: String) {
         houseRepository
             .searchWard(_district.value, query)
@@ -309,9 +331,10 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                 }
             )
     }
+
     fun setProvince(province: Province?) {
         _province.value = province
-        if(province?.districts?.isNotEmpty() == true){
+        if (province?.districts?.isNotEmpty() == true) {
             _district.value = province.districts.first()
         }
         println("da gan")
@@ -336,7 +359,8 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                         _loginSuccess.value = true to it.pincode
                         MyApplication.sessionUser.value = it
                         it.following?.forEach {
-                            FirebaseMessaging.getInstance().subscribeToTopic("ApionHome${it.beingFollowedId}")
+                            FirebaseMessaging.getInstance()
+                                .subscribeToTopic("ApionHome${it.beingFollowedId}")
                                 .addOnCompleteListener { task ->
                                     if (!task.isSuccessful) {
                                         task.exception?.printStackTrace()
@@ -344,7 +368,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
                                     }
                                 }
                         }
-                        println("myapplication ${ MyApplication.sessionUser.value}")
+                        println("myapplication ${MyApplication.sessionUser.value}")
                     }, {
                         if (it is HttpException) {
                             try {
@@ -368,53 +392,56 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         }
 
     }
+
     fun checkExits() {
         // ? để check null. khi null thì ko thực hiện scope function apply
         //
+        _isLoading.value = true
         userRepository
-                .login(phoneRegister.value!!)
-                .setup()
-                .doOnTerminate {
-                }
-                .subscribe(
-                    {
-                        _isLoading.value = false
-                        textCheckExistPhone.value = "Số điện thoại này đã tồn tại."
-                        checkExistPhone.value = true
-
-                    }, {
-                        if (it is HttpException) {
-                            try {
-                                val jsonError = JSONObject(
-                                    String(
-                                        it.response()?.errorBody()?.bytes() ?: byteArrayOf(),
-                                        charset("UTF-8")
-                                    )
+            .login(phoneRegister.value!!)
+            .setup()
+            .doOnTerminate {
+                _isLoading.value = false
+            }
+            .subscribe(
+                {
+                    _isLoading.value = false
+                    textCheckExistPhone.value = "Số điện thoại này đã tồn tại."
+                    checkExistPhone.value = true
+                }, {
+                    if (it is HttpException) {
+                        try {
+                            val jsonError = JSONObject(
+                                String(
+                                    it.response()?.errorBody()?.bytes() ?: byteArrayOf(),
+                                    charset("UTF-8")
                                 )
+                            )
 //                                errorTextPhone.value =
-                                jsonError.getString("message").equals("Số điện thoại này không tồn tại trên hệ thống.")?.let {
+                            jsonError.getString("message")
+                                .equals("Số điện thoại này không tồn tại trên hệ thống.").let {
+                                    textCheckExistPhone.value = "Số điện thoại này không tồn tại trên hệ thống."
                                     checkExistPhone.value = false
                                 }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                _isLoading.value = false
-                                textCheckExistPhone.value = "Có lỗi xảy ra."
-                                checkExistPhone.value = true
-
-                            }
-                        } else {
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                             _isLoading.value = false
                             textCheckExistPhone.value = "Có lỗi xảy ra."
                             checkExistPhone.value = true
-
                         }
+                    } else {
+                        _isLoading.value = false
+                        textCheckExistPhone.value = "Có lỗi xảy ra."
+                        checkExistPhone.value = true
                     }
-                )
+                }
+            )
 
 
     }
-    fun getUser() : User = User(
-        name  = nameRegister.value?.toString(),
+
+    fun getUser(): User = User(
+        name = nameRegister.value?.toString(),
         phone = phoneRegister.value?.toString(),
         refer = phoneReferalRegister.value?.toString(),
         dateOfBirth = getDobAPI(),
@@ -427,6 +454,7 @@ class UserViewModel(val userRepository: UserRepository,private val houseReposito
         role = "User"
 
     )
+
     fun register() {
         val user = getUser()
         println("USER: ")

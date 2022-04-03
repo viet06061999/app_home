@@ -125,8 +125,8 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
                     currentView.setText((keyCode-7).toString())
                 }
 
-                nextView!!.isEnabled = true
-                nextView!!.requestFocus()
+                nextView?.isEnabled = true
+                nextView?.requestFocus()
                 currentView.isCursorVisible = false
                 currentView.isEnabled = false
 //                previousView.requestFocus()
@@ -137,7 +137,5 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
             }
             return false
         }
-
-
     }
 }

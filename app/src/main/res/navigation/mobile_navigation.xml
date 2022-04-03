@@ -271,4 +271,20 @@
     <fragment
         android:id="@+id/selectLocationCreateHouse"
         android:name="com.apion.apionhome.ui.add_home.SelectLocationCreateHouseFragment" />
+
+    <action
+        android:id="@+id/actionToLevel"
+        app:destination="@id/levelFragment" />
+
+    <fragment
+        android:id="@+id/levelFragment"
+        android:name="com.apion.apionhome.ui.profile.LevelFragment" />
+
+    <action
+        android:id="@+id/actionToUpdateProfile"
+        app:destination="@id/updateProdfileFragment" />
+
+    <fragment
+        android:id="@+id/updateProdfileFragment"
+        android:name="com.apion.apionhome.ui.profile.ProfileUpdateFragment" />
 </navigation>

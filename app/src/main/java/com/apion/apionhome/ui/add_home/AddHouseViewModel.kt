@@ -29,6 +29,7 @@ class AddHouseViewModel(
     val acreage = MutableLiveData<String>()
     val frontWidth = MutableLiveData<String>()
     val bedroom = MutableLiveData<String>()
+    val addHouseDone = MutableLiveData<Boolean>(false)
 
     private val _houseTypeIndex = MutableLiveData<Int>(1)
     val houseTypeIndex: LiveData<Int>
@@ -58,7 +59,8 @@ class AddHouseViewModel(
                 imagesList.add(it)
             }
         }
-        if(titleRule.value==null&&contentRule.value==null&&addressRule.value==null){
+        if (titleRule.value == null && contentRule.value == null && addressRule.value == null) {
+            _isLoading.value = true
             val house = House(
                 houseType = RangeUI.houseTypeRangeUis.keys.toMutableList()[houseTypeIndex.value
                     ?: 1],
@@ -71,19 +73,23 @@ class AddHouseViewModel(
                 ward = ward,
                 street = street,
                 address = detailAddress,
-                price = price.value?.toLong(),
-                frontWidth = frontWidth.value?.toDouble(),
-                acreage = acreage.value?.toDouble(),
-                bedrooms = bedroom.value?.toInt(),
+                price = price.value?.toLong() ?: 0,
+                frontWidth = frontWidth.value?.toDouble() ?: 0.0,
+                acreage = acreage.value?.toDouble() ?: 0.0,
+                bedrooms = bedroom.value?.toInt() ?: 0,
                 userId = MyApplication.sessionUser.value?.id
             )
             houseRepository.createHouse(
                 imagesList,
                 house
-            )  .setup()
+            ).setup()
+                .doOnTerminate {
+                    _isLoading.value = false
+                }
                 .subscribe(
                     {
                         println(it)
+                        addHouseDone.value = true
                     }, {
                         it.printStackTrace()
                         error.value = it.message

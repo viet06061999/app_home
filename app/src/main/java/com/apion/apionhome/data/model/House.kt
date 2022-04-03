@@ -43,7 +43,7 @@ data class House(
     @SerializedName("homeDirection")
     val homeDirection: String?,
     @SerializedName("bedrooms")
-    val bedrooms: Int?,
+    val bedrooms: Int? = 0,
     @SerializedName("user_id")
     val userId: Int?,
     @SerializedName("seller_id")
@@ -62,8 +62,7 @@ data class House(
     val updatedAt: String? = null,
     @SerializedName("commission_rate")
     val commissionRate: String? = "3",
-
-    ) : GeneraEntity, Parcelable {
+) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
         newItem is House && this.id == newItem.id

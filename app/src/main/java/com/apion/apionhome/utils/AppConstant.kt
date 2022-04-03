@@ -11,7 +11,7 @@ object TabApp {
     const val SEARCH = 2
     const val CREATE_HOUSE = 3
     const val NOTIFICATION = 4
-    const val PERSON = 5
+    const val PROFILE = 5
     const val PROFILE_PERSON = 6
     const val DETAIL_HOUSE = 7
 }

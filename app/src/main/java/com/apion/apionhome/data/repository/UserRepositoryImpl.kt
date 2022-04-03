@@ -54,4 +54,13 @@ class UserRepositoryImpl(private val remote: UserDatasource.Remote) : UserReposi
             Maybe.error(exception)
         }
     }
+
+    override fun uploadAvatar(id: Int, image: String): Maybe<User> {
+        return try {
+            remote.uploadAvatar(id, image)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            Maybe.error(exception)
+        }
+    }
 }

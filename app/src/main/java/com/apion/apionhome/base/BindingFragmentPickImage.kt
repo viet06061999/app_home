@@ -3,6 +3,7 @@ package com.apion.apionhome.base
 import android.app.Activity
 import androidx.activity.result.ActivityResult
 import androidx.viewbinding.ViewBinding
+import com.apion.apionhome.utils.FileUtils
 import com.apion.apionhome.utils.getRealPath
 import com.github.dhaval2404.imagepicker.ImagePicker
 
@@ -20,8 +21,8 @@ abstract class BindingFragmentPickImage<T : ViewBinding>
         super.onActivityResult(result)
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data!!
-            val path = uri.getRealPath(requireContext())
-            onImagesSelect(path)
+            val path = FileUtils.getReadablePathFromUri(requireContext(), uri)
+            onImagesSelect(path?:"")
         }
     }
 
@@ -39,7 +40,10 @@ abstract class BindingFragmentPickImage<T : ViewBinding>
         ImagePicker.with(this)
             .galleryOnly()
             .compress(1024)         //Final image size will be less than 1 MB(Optional)
-            .maxResultSize(1080, 1080)  //Final image resolution will be less than 1080 x 1080(Optional)
+            .maxResultSize(
+                1080,
+                1080
+            )  //Final image resolution will be less than 1080 x 1080(Optional)
             .createIntent { intent ->
                 startActivityForResultSafely(intent)
             }

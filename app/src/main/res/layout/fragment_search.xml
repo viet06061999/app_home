@@ -7,6 +7,8 @@
 
         <import type="com.apion.apionhome.data.model.RangeUI" />
 
+        <import type="android.view.View" />
+
         <variable
             name="searchVM"
             type="com.apion.apionhome.ui.search.SearchViewModel" />
@@ -89,10 +91,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_input_query"
-                        android:text="@={searchVM.title}"
                         android:inputType="phone"
                         android:maxLines="1"
-                        android:padding="@dimen/dp_16" />
+                        android:padding="@dimen/dp_16"
+                        android:text="@={searchVM.title}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -120,9 +122,9 @@
                     android:id="@+id/textLayoutHouseType"
                     style="@style/StyleEditText"
                     android:layout_marginHorizontal="@dimen/dp_32"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_rectangle_grey"
                     android:focusable="false"
-                    android:hint="@string/hint_ward"
                     android:paddingHorizontal="@dimen/dp_8"
                     android:text="@string/title_all"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -144,13 +146,25 @@
                     style="@style/StyleEditText"
                     android:layout_marginHorizontal="@dimen/dp_32"
                     android:background="@drawable/bg_rectangle_grey"
+                    android:paddingStart="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_32"
                     android:focusable="false"
-                    android:hint="@string/hint_ward"
-                    android:paddingHorizontal="@dimen/dp_8"
                     android:text="@string/text_select_address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textAddress" />
+
+                <ImageButton
+                    android:id="@+id/icDeleteAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:background="@null"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:visibility="@{searchVM.province == null ? View.GONE:View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/textLayoutAddress"
+                    app:layout_constraintEnd_toEndOf="@+id/textLayoutAddress"
+                    app:layout_constraintTop_toTopOf="@+id/textLayoutAddress" />
 
                 <TextView
                     android:id="@+id/textDirection"
@@ -202,8 +216,9 @@
                     android:layout_marginTop="@dimen/dp_8"
                     android:max="@{RangeUI.INSTANCE.priceRangeUis.values().size() - 1}"
                     android:maxHeight="4dp"
-                    android:progressDrawable="@drawable/thumb"
                     android:scaleY="1"
+                    android:progressBackgroundTint="#000000"
+                    android:progressTint="#388e3c"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -237,7 +252,8 @@
                     android:layout_marginTop="@dimen/dp_8"
                     android:max="@{RangeUI.INSTANCE.acreageRangeUis.values().size() -1}"
                     android:maxHeight="4dp"
-                    android:progressDrawable="@drawable/thumb"
+                    android:progressBackgroundTint="#000000"
+                    android:progressTint="#388e3c"
                     android:scaleY="1"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
@@ -272,7 +288,8 @@
                     android:layout_marginTop="@dimen/dp_8"
                     android:max="@{RangeUI.INSTANCE.frontWidthRangeUis.values().size() - 1}"
                     android:maxHeight="4dp"
-                    android:progressDrawable="@drawable/thumb"
+                    android:progressBackgroundTint="#000000"
+                    android:progressTint="#388e3c"
                     android:scaleY="1"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
@@ -307,7 +324,8 @@
                     android:layout_marginTop="@dimen/dp_8"
                     android:max="@{RangeUI.INSTANCE.bedroomUis.values().size()-1}"
                     android:maxHeight="4dp"
-                    android:progressDrawable="@drawable/thumb"
+                    android:progressBackgroundTint="#000000"
+                    android:progressTint="#388e3c"
                     android:scaleY="1"
                     android:thumb="@drawable/thumb1"
                     app:layout_constraintEnd_toEndOf="@+id/textPrice"
@@ -321,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_32"
+                    android:layout_marginBottom="@dimen/dp_48"
                     android:background="@drawable/background_button1"
                     android:paddingVertical="@dimen/dp_8"
                     android:text="@string/title_search_button"

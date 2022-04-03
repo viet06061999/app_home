@@ -54,4 +54,6 @@ class HouseRepositoryImpl(
 
     override fun searchStreet(district: District?, query: String): Maybe<List<LocationName>> =
         local.searchStreet(district, query)
+
+    override fun getNotificationByUser(): Maybe<List<House>> = remote.getNotificationByUser()
 }

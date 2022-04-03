@@ -4,6 +4,7 @@ import com.apion.apionhome.data.model.dashboard.Dashboard
 import com.apion.apionhome.data.model.House
 import com.apion.apionhome.data.model.SearchParam
 import com.apion.apionhome.data.source.HouseDatasource
+import com.apion.apionhome.data.source.remote.response_entity.AllHouseResponse
 import com.apion.apionhome.data.source.remote.utils.HouseAPIService
 import com.apion.apionhome.utils.ApiEndPoint.PART_ATTACHMENTS
 import com.apion.apionhome.utils.toMap
@@ -103,4 +104,7 @@ class HouseRemoteDatasource(private val backend: HouseAPIService) : HouseDatasou
             Maybe.error(exception)
         }
     }
+
+    override fun getNotificationByUser(): Maybe<List<House>> =
+        backend.getNotificationByUser().map { it.houses }
 }

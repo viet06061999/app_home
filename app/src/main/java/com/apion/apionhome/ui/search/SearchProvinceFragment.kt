@@ -3,21 +3,17 @@ package com.apion.apionhome.ui.search
 import com.apion.apionhome.R
 import com.apion.apionhome.data.model.local.Province
 
-class SearchProvinceFragment : SearchLocationBottomSheet<Province>() {
+class SearchProvinceFragment : SearchLocationFragment<Province>() {
 
     override fun getHint(): String {
         return getString(R.string.title_search_province)
     }
 
     override fun onItemClick(item: Province) {
-        println("wards ${item.districts}")
-        viewModel.setProvince(item)
+        setUpViewModel().setProvince(item)
     }
 
-    override fun onSearch(query: String) {
-        viewModel.searchProvince(query)
-    }
-
-    override fun onConnectionAvailable() {
+    override fun onGetAll(query: String) {
+        setUpViewModel().searchProvince(query)
     }
 }

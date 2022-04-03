@@ -2,6 +2,7 @@ package com.apion.apionhome
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.apion.apionhome.data.model.House
 import com.apion.apionhome.data.model.User
 import com.apion.apionhome.di.*
 import org.koin.android.ext.koin.androidContext
@@ -31,5 +32,9 @@ class MyApplication : Application() {
 
     companion object {
         var sessionUser: MutableLiveData<User?> = MutableLiveData(null)
+        var tabToNavigate: MutableLiveData<Int?> = MutableLiveData(null)
+        var profileUserNavigate: MutableLiveData<User?> = MutableLiveData(null)
+        var houseNavigate: MutableLiveData<House?> = MutableLiveData(null)
+
     }
 }

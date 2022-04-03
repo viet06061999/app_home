@@ -2,22 +2,20 @@ package com.apion.apionhome.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.apion.apionhome.base.RxViewModel
+import com.apion.apionhome.data.model.local.District
+import com.apion.apionhome.data.model.local.ILocation
 import com.apion.apionhome.data.model.House
 import com.apion.apionhome.data.model.Range
 import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.SearchParam
-import com.apion.apionhome.data.model.local.District
-import com.apion.apionhome.data.model.local.ILocation
 import com.apion.apionhome.data.model.local.LocationName
 import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.utils.setup
 
-class SearchViewModel(
-    private val houseRepository: HouseRepository
-) : RxViewModel() {
+open class SearchViewModel(private val houseRepository: HouseRepository) : RxViewModel() {
+
     val title = MutableLiveData<String>()
 
     private val _provinces = MutableLiveData<List<Province>>()
@@ -25,21 +23,15 @@ class SearchViewModel(
     val provinces: LiveData<List<Province>>
         get() = _provinces
 
-    private val _locations = MutableLiveData<List<ILocation>>()
-
-    val locations: LiveData<List<ILocation>>
-        get() = _locations
-
-    private val _province = MutableLiveData<Province?>()
-
-    val province: LiveData<Province?>
-        get() = _province
-
     private val _district = MutableLiveData<District?>()
 
     val district: LiveData<District?>
         get() = _district
 
+    private val _province = MutableLiveData<Province?>()
+
+    val province: LiveData<Province?>
+        get() = _province
     private val _ward = MutableLiveData<LocationName?>()
 
     val ward: LiveData<LocationName?>
@@ -50,20 +42,15 @@ class SearchViewModel(
     val street: LiveData<LocationName?>
         get() = _street
 
-    private val _price = MutableLiveData<Range?>()
+    val detailAddress = MutableLiveData<String?>()
 
-    val price: LiveData<Range?>
-        get() = _price
+    private val _locations = MutableLiveData<List<ILocation>>()
+    val locations: LiveData<List<ILocation>>
+        get() = _locations
 
-    private val _acreage = MutableLiveData<Range?>()
-
-    val acreage: LiveData<Range?>
-        get() = _acreage
-
-    private val _frontWidth = MutableLiveData<Range?>()
-
-    val frontWidth: LiveData<Range?>
-        get() = _frontWidth
+    private val _texts = MutableLiveData<String>()
+    val texts: LiveData<String>
+        get() = _texts
 
     private val empty = emptyList<ILocation>()
 
@@ -102,10 +89,84 @@ class SearchViewModel(
     val housesSearch: LiveData<List<House>>
         get() = _housesSearch
 
+    private val _isSearchDone = MutableLiveData<Boolean>(false)
+
+    val isSearchDone: LiveData<Boolean>
+        get() = _isSearchDone
+
+    fun setSearchDone(done: Boolean) {
+        _isSearchDone.value = done
+    }
+
+    fun getAddress(): String {
+        var textAddress = ""
+        detailAddress.value?.let {
+            if (detailAddress.value?.isNotEmpty() == true) {
+                textAddress += detailAddress.value ?: ""
+                textAddress += ", "
+            }
+        }
+        street.value?.let {
+            if (street.value?.name?.isNotEmpty() == true) {
+                textAddress += street.value?.prefix + " " + street.value?.name
+                textAddress += ", "
+            }
+        }
+
+        ward.value?.let {
+            if (ward.value?.name?.isNotEmpty() == true) {
+                textAddress += ward.value?.prefix + " " + ward.value?.name
+                textAddress += ", "
+            }
+        }
+        district.value?.let {
+            if (district.value?.name?.isNotEmpty() == true) {
+                textAddress += district.value?.name
+                textAddress += ", "
+            }
+        }
+
+        province.value?.let {
+            textAddress += province.value?.name
+        }
+
+        return textAddress
+    }
+
     override fun initData() {
         super.initData()
         getAllProvince()
+        _province.value = Province(
+            id = 2,
+            name = "Hà Nội",
+            code = "HN",
+            districts = mutableListOf()
+        )
+        _district.value = District(
+            id = 25,
+            name = "Ba Đình",
+            province = Province(
+                id = 2,
+                name = "Hà Nội",
+                code = "HN",
+                districts = mutableListOf()
+            )
+        )
+        _ward.value = null
+        _street.value = null
+        title.value = ""
+        _locations.value = emptyList()
+        _priceIndex.value = 0
+        _frontWidthIndex.value = 0
+        _houseDirectionIndex.value = 0
+        _housesSearch.value = emptyList()
+        _houseTypeIndex.value = 0
+        _bedroomIndex.value = 0
+        _acreageIndex.value = 0
+        _isSearchDone.value = false
+        detailAddress.value = null
     }
+
 
     fun clearSearch() {
         _locations.value = empty
@@ -125,42 +186,53 @@ class SearchViewModel(
             )
     }
 
+
+    fun searchDistrict(query: String, includeAll: Boolean) {
+        houseRepository
+            .searchDistrict(_province.value, query)
+            .setup()
+            .subscribe(
+                {
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+
     fun searchProvince(query: String) {
-        println("province $province")
         houseRepository
             .searchProvince(query)
             .setup()
             .subscribe(
                 {
                     _locations.value = it
-                }, {
-                    it.printStackTrace()
-                    error.value = it.message
-                }
-            )
-    }
-
-    fun searchDistrict(query: String) {
-        houseRepository
-            .searchDistrict(_province.value, query)
-            .setup()
-            .subscribe(
+                },
                 {
-                    _locations.value = it
-                }, {
                     it.printStackTrace()
                     error.value = it.message
-                }
-            )
+                })
+
     }
 
-    fun searchWard(query: String) {
+    fun searchWard(query: String, includeAll: Boolean) {
         houseRepository
             .searchWard(_district.value, query)
             .setup()
             .subscribe(
                 {
-                    _locations.value = it
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -168,14 +240,19 @@ class SearchViewModel(
             )
     }
 
-    fun searchStreet(query: String) {
+    fun searchStreet(query: String, includeAll: Boolean) {
         println("province $province")
         houseRepository
             .searchStreet(_district.value, query)
             .setup()
             .subscribe(
                 {
-                    _locations.value = it
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -184,28 +261,32 @@ class SearchViewModel(
     }
 
     fun searchHouse() {
+        _isLoading.value = true
+        _isSearchDone.value = false
         val param = SearchParam(
-           title.value,
-           province.value?.name,
+            title.value,
+            province.value?.name,
             district.value?.name,
             ward.value?.name,
             street.value?.name,
-            RangeUI.houseTypeRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
-            RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value?:0].key,
-            RangeUI.priceRangeUis.entries.toList()[priceIndex.value?:0].key,
-            RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value?:0].key,
-            RangeUI.frontWidthRangeUis.entries.toList()[frontWidthIndex.value?:0].key,
-            RangeUI.bedroomUis.entries.toList()[bedroomIndex.value?:0].key,
-            )
+            RangeUI.houseTypeRangeUis.entries.toList()[houseTypeIndex.value ?: 0].key,
+            RangeUI.homeDirectionRangeUis.entries.toList()[houseDirectionIndex.value ?: 0].key,
+            RangeUI.priceRangeUis.entries.toList()[priceIndex.value ?: 0].key,
+            RangeUI.acreageRangeUis.entries.toList()[acreageIndex.value ?: 0].key,
+            RangeUI.frontWidthRangeUis.entries.toList()[frontWidthIndex.value ?: 0].key,
+            RangeUI.bedroomUis.entries.toList()[bedroomIndex.value ?: 0].key,
+        )
         println(param)
         houseRepository
             .getSearchHouse(param)
             .setup()
+            .doOnTerminate {
+                _isLoading.value = false
+            }
             .subscribe(
                 {
-                    println("search house -----------------")
-                    println(it)
                     _housesSearch.value = it
+                    _isSearchDone.value = true
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -213,51 +294,27 @@ class SearchViewModel(
             )
     }
 
-    fun setProvince(province: Province) {
+    fun setProvince(province: Province?) {
         _province.value = province
-        _district.value = null
+        if (province?.districts?.isNotEmpty() == true) {
+            _district.value = province.districts.first()
+        }
         _ward.value = null
         _street.value = null
     }
 
-    fun setDistrict(district: District) {
-        _province.value = district.province
+    fun setDistrict(district: District?) {
         _district.value = district
         _ward.value = null
         _street.value = null
     }
 
-    fun setWard(locationName: LocationName) {
+    fun setWard(locationName: LocationName?) {
         _ward.value = locationName
     }
 
-    fun setStreet(locationName: LocationName) {
+    fun setStreet(locationName: LocationName?) {
         _street.value = locationName
-    }
-
-    fun setPrice(min: Int, max: Int) {
-        val range = _price.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "ty")
-        _price.value = range
-    }
-
-    fun setAcreage(min: Int, max: Int) {
-        val range = _acreage.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "m2")
-        _acreage.value = range
-    }
-
-
-    fun setFrontWidth(min: Int, max: Int) {
-        val range = _frontWidth.value?.apply {
-            this.min = min
-            this.max = max
-        } ?: Range(min, max, "m")
-        _frontWidth.value = range
     }
 
     fun setFrontWidthIndex(index: Int) {
@@ -283,4 +340,5 @@ class SearchViewModel(
     fun setBedroomsIndex(index: Int) {
         _bedroomIndex.value = index
     }
+
 }

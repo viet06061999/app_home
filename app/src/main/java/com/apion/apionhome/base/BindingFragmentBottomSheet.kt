@@ -125,7 +125,7 @@ abstract class BindingFragmentBottomSheet<T : ViewBinding>
         tittle: String,
         content: String,
         onPositive: (DialogInterface) -> Unit,
-        onNegative: (DialogInterface) -> Unit
+        onNegative: (DialogInterface) -> Unit,
     ) {
         val dialog = AlertDialog.Builder(requireContext())
         dialog.setTitle(tittle)
@@ -133,11 +133,23 @@ abstract class BindingFragmentBottomSheet<T : ViewBinding>
         dialog.setPositiveButton(getString(R.string.tittle_button_agree)) { dialogShow, _ ->
             onPositive(dialogShow)
         }
-
         dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
             onNegative(dialogShow)
         }
         dialog.show()
+    }
+
+    fun showCancelDialog(
+        tittle: String?,
+        content: String,
+    ) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(tittle)
+            .setMessage(content)
+            .setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
+                dialogShow.dismiss()
+            }
+            .show()
     }
 
     abstract fun setupView()

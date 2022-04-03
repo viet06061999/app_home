@@ -8,15 +8,15 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class BookMark(
     @SerializedName("id")
-    val id: Int,
+    val id: Int?,
     @SerializedName("created_at")
-    val created_at: String,
+    val created_at: String?,
     @SerializedName("updated_at")
-    val updated_at: String,
+    val updated_at: String?,
     @SerializedName("user")
-    val user: User,
+    val user: User?,
     @SerializedName("house")
-    val house: House,
+    val house: House?,
 ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =

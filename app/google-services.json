@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "203257542816",
+    "project_id": "apion-c1192",
+    "storage_bucket": "apion-c1192.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203257542816:android:3c6b4a3939a8300ddaf1c5",
+        "android_client_info": {
+          "package_name": "com.apion.apionhome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203257542816-fm71ff3dpc5c0tediubhqp9mufc9qb1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtkJkmCAs34gk_VWYCeWuMPFcddjavK14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203257542816-fm71ff3dpc5c0tediubhqp9mufc9qb1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

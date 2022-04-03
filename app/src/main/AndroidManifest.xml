@@ -5,7 +5,19 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto"/>
+        </intent>
+    </queries>
+    <queries>
+        <package android:name="com.facebook.katana"/>
+    </queries>
+    <queries>
+        <package android:name="com.zing.zalo"/>
+    </queries>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -24,9 +36,8 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/app_name"/>
-
-        <activity android:name=".ui.geting_started.StartActivity" >
+            android:windowSoftInputMode="adjustPan"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,5 +45,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.geting_started.StartActivity" />
+        <activity android:name=".ui.geting_started.VerifyPhoneActivity" />
+        <service
+            android:name=".service.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

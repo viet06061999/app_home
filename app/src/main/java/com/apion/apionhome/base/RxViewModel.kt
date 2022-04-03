@@ -13,7 +13,7 @@ open class RxViewModel : ViewModel() {
     val errorException: LiveData<String>
         get() = error
 
-    protected val _isLoading = MutableLiveData<Boolean>(false)
+    val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 

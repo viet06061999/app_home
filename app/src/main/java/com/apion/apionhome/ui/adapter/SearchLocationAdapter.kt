@@ -16,23 +16,18 @@ class SearchLocationAdapter<L : ILocation>(
         parent: ViewGroup,
         viewType: Int
     ): BaseViewHolder<ILocation, ItemLocationBinding> {
-        val itemView = ItemLocationBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val itemView = ItemLocationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchLocationViewHolder(itemView, listener)
     }
 
-    private class SearchLocationViewHolder<L : ILocation>(
-        private val itemLocationBinding: ItemLocationBinding,
-        listener: (L) -> Unit,
-    ) : BaseViewHolder<ILocation, ItemLocationBinding>(
-        itemLocationBinding, listener as? (ILocation) -> Unit ?: {}
-    ) {
+    private class SearchLocationViewHolder<L : ILocation>(private val itemLocationBinding: ItemLocationBinding, listener: (L) -> Unit,)
+        : BaseViewHolder<ILocation, ItemLocationBinding>(itemLocationBinding, listener as? (ILocation) -> Unit ?: {})
+    {
         override fun onBind(itemData: ILocation) {
             super.onBind(itemData)
             itemLocationBinding.location = itemData
+
         }
+
     }
 }

@@ -17,14 +17,13 @@ import androidx.databinding.ViewDataBinding
 abstract class BindingActivity<T : ViewDataBinding> : AppCompatActivity() {
     @LayoutRes
     abstract fun getLayoutResId(): Int
-
+    abstract fun setupView()
     protected lateinit var binding: T
         private set
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayoutResId())
-
+        setupView()
         if (Build.VERSION.SDK_INT in 21..29) {
             window.statusBarColor = Color.BLACK
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

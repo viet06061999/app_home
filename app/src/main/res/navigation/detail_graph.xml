@@ -5,6 +5,15 @@
     android:id="@+id/detail_gra"
     app:startDestination="@+id/detailHouseFragment">
 
+    <activity
+        android:id="@+id/activitylogin"
+        android:name="com.apion.apionhome.ui.geting_started.StartActivity" />
+
+    <action
+        android:id="@+id/actionDetailToLogin"
+        app:destination="@+id/activitylogin"
+        />
+
     <fragment
         android:id="@+id/detailImageFragment"
         android:name="com.apion.apionhome.ui.detail.DetailImageFragment"
@@ -30,11 +39,11 @@
             app:destination="@id/activityDetail" />
     </fragment>
 
-    <fragment
-        android:id="@+id/mapsFragment"
-        android:name="com.apion.apionhome.ui.detail.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+<!--    <fragment-->
+<!--        android:id="@+id/mapsFragment"-->
+<!--        android:name="com.apion.apionhome.ui.detail.MapsFragment"-->
+<!--        android:label="fragment_maps"-->
+<!--        tools:layout="@layout/fragment_maps" />-->
 
     <activity
         android:id="@+id/activityDetail"

@@ -39,4 +39,6 @@ interface HouseRepository {
         district: District? = null,
         query: String
     ): Maybe<List<LocationName>>
+
+    fun getNotificationByUser(): Maybe<List<House>>
 }

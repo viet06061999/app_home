@@ -15,13 +15,48 @@ class HouseViewModel(val houseRepository: HouseRepository) : RxViewModel() {
     val house: LiveData<House>
         get() = _house
 
+    private val _notifications = MutableLiveData<List<House>>()
+
+    val notifications: LiveData<List<House>>
+        get() = _notifications
+
     fun getHouseById(houseId: Int) {
+        _isLoading.value = true
         houseRepository
             .getHouseById(houseId)
             .setup()
+            .doOnTerminate {
+                _isLoading.value = false
+            }
             .subscribe(
                 {
                     _house.value = it
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
+                }
+            )
+    }
+
+    fun getNotification(onRefreshDone: (() -> Unit)?) {
+        if (onRefreshDone == null) {
+            _isLoading.value = true
+        }
+        houseRepository
+            .getNotificationByUser()
+            .setup()
+            .doOnTerminate {
+                onRefreshDone?.let {
+                    it()
+                }
+                if (onRefreshDone == null) {
+                    _isLoading.value = false
+                }
+            }
+            .subscribe(
+                {
+                    println(it)
+                    _notifications.value = it
                 }, {
                     it.printStackTrace()
                     error.value = it.message

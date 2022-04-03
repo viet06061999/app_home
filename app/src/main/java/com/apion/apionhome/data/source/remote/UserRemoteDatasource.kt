@@ -1,9 +1,14 @@
 package com.apion.apionhome.data.source.remote
 
 import com.apion.apionhome.data.model.User
+import com.apion.apionhome.data.model.UserFollowRequest
+import com.apion.apionhome.data.model.UserFollowed
 import com.apion.apionhome.data.source.UserDatasource
 import com.apion.apionhome.data.source.remote.utils.UserAPIService
 import com.apion.apionhome.utils.ApiEndPoint
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.reactivex.rxjava3.core.Completable
@@ -38,9 +43,12 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
     @Throws(IllegalArgumentException::class)
     override fun updateUser(user: User): Maybe<User> {
         return try {
-            backend.updateUser(user.id, user).map {
-                if (it.isSuccess) it.user else throw IllegalArgumentException(it.message)
-            }
+            user.id?.let {
+                backend.updateUser(user.id, user).map {
+                    if (it.isSuccess) it.user else throw IllegalArgumentException(it.message)
+                }
+            } ?: Maybe.error(Exception("khong tim thay user"))
+
         } catch (exception: Exception) {
             Maybe.error(exception)
         }
@@ -77,13 +85,7 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
 
         return try {
             backend.login(body).map {
-                println("response")
                 if (it.isSuccess) {
-//                    if (it.user.pincode == pinCode) {
-//                        it.user
-//                    } else {
-//                        throw IllegalArgumentException(AUTHEN_EXCEPTION)
-//                    }
                     it.user
                 } else {
                     throw IllegalArgumentException(it.message)
@@ -94,6 +96,7 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
             Maybe.error(exception)
         }
     }
+
 
     override fun logout(id: Int, phone: String): Maybe<User> {
         val json = JsonObject().apply {
@@ -108,6 +111,76 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
             backend.logout(id, body).map {
                 if (it.isSuccess) {
                     it.user
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: HttpException) {
+            Maybe.error(exception)
+        }
+    }
+
+    override fun updatePincode(id: String, pin: String): Maybe<User> {
+        val json = JsonObject().apply {
+            addProperty("pincode", pin)
+        }
+
+        val body = RequestBody.create(
+            MediaType.parse("application/json; charset=utf-8"),
+            Gson().toJson(json)
+        )
+
+        return try {
+            backend.updatePincode(id, body).map {
+                if (it.isSuccess) {
+                    it.user
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: Exception) {
+
+            Maybe.error(exception)
+        }
+    }
+
+    override fun follow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+
+
+        val body = UserFollowRequest(followerId, beingFollowedId)
+        return try {
+            backend.follow(body).map {
+                if (it.isSuccess) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
+                    it.userFollow
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: HttpException) {
+            Maybe.error(exception)
+        }
+    }
+
+    override fun unFollow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+
+        val body = UserFollowRequest(followerId, beingFollowedId)
+        return try {
+            backend.unFollow(body).map {
+                if (it.isSuccess) {
+                    FirebaseMessaging.getInstance()
+                        .unsubscribeFromTopic("ApionHome$beingFollowedId")
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                throw IllegalArgumentException(task.exception)
+                            }
+                        }
+                    it.userFollow
                 } else {
                     throw IllegalArgumentException(it.message)
                 }

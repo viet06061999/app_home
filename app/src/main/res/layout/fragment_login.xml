@@ -4,7 +4,7 @@
     <data>
     <variable
         name="loginVM"
-        type="com.apion.apionhome.viewmodel.UserViewModel" />
+        type="com.apion.apionhome.viewmodel.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -128,7 +128,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/txtPhoneForget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

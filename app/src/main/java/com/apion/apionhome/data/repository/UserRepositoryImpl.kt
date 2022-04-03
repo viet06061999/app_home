@@ -1,6 +1,7 @@
 package com.apion.apionhome.data.repository
 
 import com.apion.apionhome.data.model.User
+import com.apion.apionhome.data.model.UserFollowed
 import com.apion.apionhome.data.source.UserDatasource
 import io.reactivex.rxjava3.core.Maybe
 import java.lang.Exception
@@ -35,4 +36,35 @@ class UserRepositoryImpl(private val remote: UserDatasource.Remote) : UserReposi
             Maybe.error(exception)
         }
     }
+
+    override fun follow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+        return try {
+            remote.follow(followerId, beingFollowedId)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            Maybe.error(exception)
+        }
+    }
+
+    override fun unFollow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed> {
+        return try {
+            remote.unFollow(followerId, beingFollowedId)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            Maybe.error(exception)
+        }
+    }
+
+    override fun uploadAvatar(id: Int, image: String): Maybe<User> {
+        return try {
+            remote.uploadAvatar(id, image)
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            Maybe.error(exception)
+        }
+    }
+
+    override fun logout(id: Int, phone: String): Maybe<User> = remote.logout(id, phone)
+
+    override fun updatePincode(id: String, pin: String): Maybe<User> = remote.updatePincode(id, pin)
 }

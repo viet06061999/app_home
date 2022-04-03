@@ -16,11 +16,11 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_community"
+        android:id="@+id/navigation_notification"
         android:icon="@drawable/ic_bell"
         android:title="@string/title_notification" />
     <item
-        android:id="@+id/navigation_user"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/title_person" />
 </menu>

@@ -5,7 +5,7 @@ import com.apion.apionhome.utils.removeSpecific
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class District(
+open  class District(
     @SerializedName("id")
     val id: Int = -1,
     @SerializedName("name")
@@ -24,7 +24,7 @@ data class District(
         return District(id, name, province)
     }
 
-    override fun getTitle(): String = "${this.province.name}"
+    override fun getTitle(): String = "${this.name}"
 
     override fun getContent(): String = this.name
 

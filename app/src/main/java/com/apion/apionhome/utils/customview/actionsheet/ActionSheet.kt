@@ -118,7 +118,7 @@ class ActionSheet {
         return actionSheet
     }
 
-    fun create(actionSheetCallBack: ActionSheetCallBack) {
+    fun create(actionSheetCallBack: ActionSheetCallBack, onCancel: () -> Unit) {
         val adb = AlertDialog.Builder(context)
         val v = LayoutInflater.from(context).inflate(R.layout.action_sheet, null)
 
@@ -151,7 +151,10 @@ class ActionSheet {
             }
         })
 
-        cancel.setOnClickListener { alertDialog?.dismiss() }
+        cancel.setOnClickListener {
+            onCancel()
+            alertDialog?.dismiss()
+        }
 
         if (ActionSheetData.titleDisable) {
             lineTitle.visibility = View.GONE

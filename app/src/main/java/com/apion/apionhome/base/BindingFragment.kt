@@ -36,7 +36,8 @@ import java.net.Socket
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>) : Fragment() {
+abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> T) :
+    Fragment() {
 
     abstract val viewModel: RxViewModel
 
@@ -47,7 +48,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
 
     private var exceptionDialog: AlertDialog? = null
 
-    private val dialog by lazy {
+    val dialog by lazy {
         requireContext().createProgressDialog()
     }
 
@@ -69,6 +70,14 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
         _binding = inflate.invoke(inflater, container, false)
         return binding.root
     }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        _binding = inflate.invoke(inflater, container, false)
+//        return binding.root
+//    }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
@@ -83,7 +92,9 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.errorException.observe(viewLifecycleOwner) {
-            showToast(getString(R.string.default_error))
+            if (it != null) {
+                showToast(getString(R.string.default_error))
+            }
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) dialog.show() else dialog.dismiss()
@@ -162,7 +173,7 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
     }
 
     open fun onActivityResult(result: ActivityResult) {
-        Log.e("DEBUG", "${result.resultCode} = ${result.data}")
+        Log.d("DEBUG", "${result.resultCode} = ${result.data}")
     }
 
     fun startActivityForResultSafely(intent: Intent) {
@@ -210,12 +221,48 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: Inflate<T>)
         }
         dialog.show()
     }
+    fun showDialog2(
+        tittle: String,
+        content: String,
+
+    ) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(tittle)
+        dialog.setMessage(content)
+        dialog.setPositiveButton(getString(R.string.tittle_button_agree)) { _ , _ ->
+        }
+
+        dialog.show()
+    }
+
+    fun showDialogCustom(
+        tittle: String?,
+        content: String?,
+        onPositive: ((DialogInterface) -> Unit)?,
+        onNegative: (DialogInterface) -> Unit
+    ) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(tittle)
+        dialog.setMessage(content)
+
+        onPositive?.let {
+            dialog.setPositiveButton(getString(R.string.tittle_button_agree)) { dialogShow, _ ->
+                it(dialogShow)
+            }
+        }
+
+        dialog.setNegativeButton(getString(R.string.tittle_button_cancel)) { dialogShow, _ ->
+            dialogShow.dismiss()
+            onNegative(dialogShow)
+        }
+        dialog.show()
+    }
 
     abstract fun setupView()
 
     open fun onConnectionAvailable() {}
 
     companion object {
-         const val EXCEPTION = "Binding only is valid after onCreateView"
+        const val EXCEPTION = "Binding only is valid after onCreateView"
     }
 }

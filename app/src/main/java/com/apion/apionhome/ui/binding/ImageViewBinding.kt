@@ -48,7 +48,42 @@ fun loadImage(view: ImageView, imageUrl: String?, sex: String?) {
         view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_male))
     } else if (!sex.isNullOrEmpty() && sex == "Female") {
         view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_female))
+    }else{
+        view.setImageDrawable(AppCompatResources.getDrawable(view.context, R.drawable.img_no_image_to_show))
     }
+}
+
+@BindingAdapter(value = ["avatar", "gender"], requireAll = false)
+fun loadImageAvatar(view: ImageView, avatar: String?, gender: String?) {
+    val animationDrawable =
+        ContextCompat.getDrawable(view.context, R.drawable.gradient_list) as AnimationDrawable
+    animationDrawable.apply {
+        setEnterFadeDuration(2000)
+        setExitFadeDuration(4000)
+        start()
+    }
+    val factory =
+        DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+    val url = avatar?.let {
+        GlideUrl(
+            avatar, LazyHeaders.Builder()
+                .addHeader("User-Agent", "5")
+                .build()
+        )
+    }
+
+    val default = if (!gender.isNullOrEmpty() && gender == "Male") {
+        R.drawable.img_male
+    } else {
+        R.drawable.img_female
+    }
+
+    Glide.with(view.context)
+        .load(url)
+        .placeholder(animationDrawable)
+        .transition(withCrossFade(factory))
+        .error(default)
+        .into(view)
 }
 
 @BindingAdapter("imageUri")

@@ -5,7 +5,7 @@ import com.apion.apionhome.utils.removeSpecific
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class LocationName(
+open class LocationName(
     @SerializedName("id")
     val id: Int = -1,
     @SerializedName("name")
@@ -15,9 +15,9 @@ data class LocationName(
     val prefix: String = ""
 ) : ILocation {
 
-    override fun getTitle(): String = district.getTitle()
+    override fun getTitle(): String = "$prefix $name"
 
-    override fun getContent(): String = "$prefix $name, ${district.getContent()}"
+    override fun getContent(): String = "$name"
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
         newItem is District && this.id == newItem.id

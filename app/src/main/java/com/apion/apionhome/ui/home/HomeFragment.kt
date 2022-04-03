@@ -1,14 +1,20 @@
 package com.apion.apionhome.ui.home
 
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.apion.apionhome.MobileNavigationDirections
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.data.model.House
+import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.User
 import com.apion.apionhome.data.model.dashboard.Banner
 import com.apion.apionhome.databinding.FragmentHomeBinding
@@ -16,6 +22,7 @@ import com.apion.apionhome.ui.adapter.HouseAdapter
 import com.apion.apionhome.ui.adapter.ImageSliderAdapter
 import com.apion.apionhome.ui.adapter.UserOnlineAdapter
 import com.apion.apionhome.ui.search.SearchViewModel
+import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -31,7 +38,7 @@ class HomeFragment :
 
     private val adapterImage = ImageSliderAdapter(::onItemBannerClick)
 
-    private val adapterFeature = HouseAdapter(){house ->
+    private val adapterFeature = HouseAdapter() { house ->
         onItemHouseClick(house)
     }
 
@@ -39,7 +46,9 @@ class HomeFragment :
 
     private val adapterSaiGon = HouseAdapter(::onItemHouseClick)
 
-    private val adapterUserOnline = UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick)
+    private val adapterUserOnline by lazy {
+        UserOnlineAdapter(::onItemUserOnlineClick, ::onChatNowClick, requireContext())
+    }
 
     private var isCheck = false
 
@@ -47,6 +56,7 @@ class HomeFragment :
         ViewTreeObserver.OnGlobalLayoutListener {
 //            binding.swipeLayout.isEnabled = binding.layoutHeader.root.isVisible
         }
+    private var isFirstCome = true
 
     private val runnable by lazy {
         Runnable {
@@ -60,6 +70,12 @@ class HomeFragment :
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("lai vao set up view")
+        searchViewModel.initData()
+    }
+
     override fun setupView() {
         binding.lifecycleOwner = this
         binding.layoutFeature.recyclerViewFeature.adapter = adapterFeature
@@ -70,6 +86,7 @@ class HomeFragment :
         setupListener()
         setupRefresh()
         setupSearchView()
+        setupObserve()
     }
 
     override fun onConnectionAvailable() {
@@ -79,45 +96,61 @@ class HomeFragment :
     }
 
     private fun setupListener() {
-        binding.editTextPrice.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
-        }
-        binding.editTextDistrict.setOnClickListener(){
-            this.findNavController().navigate(R.id.actionToSearchDistrictFragment)
-        }
         binding.editTextSquare.setOnClickListener {
-            this.findNavController().navigate(R.id.actionToBottomSheetPriceAcrea)
+            this.findNavController().navigate(R.id.actionToBottomSheetSquareFragment)
         }
-//        binding.layoutHeader.editTextCity.setOnClickListener {
-//            findNavController().navigate(R.id.actionToSearchProvinceFragment)
-//        }
-//
-//        binding.layoutHeader.editTextDistrict.setOnClickListener {
-//            findNavController().navigate(R.id.actionToSearchDistrictFragment)
-//        }
-//
-//        binding.layoutHeader.editTextWard.setOnClickListener {
-//            if (searchViewModel.district.value != null) {
-//                findNavController().navigate(R.id.actionToSearchWardFragment)
-//            } else {
-//                showToast(getString(R.string.error_select_ward))
-//            }
-//        }
-//
-//        binding.layoutHeader.editTextStreet.setOnClickListener {
-//            if (searchViewModel.district.value != null) {
-//                findNavController().navigate(R.id.actionToSearchStreetFragment)
-//            } else {
-//                showToast(getString(R.string.error_select_ward))
-//            }
-//        }
-
+        binding.editTextCity.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchProvinceFragment)
+        }
+        binding.editTextDistrict.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchDistrictFragment)
+        }
+        binding.editTextPrice.setOnClickListener {
+            findNavController().navigate(R.id.actionToBottomSheetPriceFragment)
+        }
+        binding.layoutWardStreet.setOnClickListener {
+            findNavController().navigate(R.id.actionToSearchDetailFragment)
+        }
+        binding.txtSearch.setOnClickListener {
+            isFirstCome = false
+            searchViewModel.searchHouse()
+        }
     }
 
     override fun onStop() {
         super.onStop()
         //binding.layoutHeader.root.viewTreeObserver.removeOnGlobalLayoutListener(observerVisible)
         sliderHandler.removeCallbacks(runnable)
+    }
+
+    private fun setupObserve() {
+        searchViewModel.priceIndex.observe(this) {
+            binding.editTextPrice.text =
+                RangeUI.priceRangeUis.values.toMutableList()[searchViewModel.priceIndex.value ?: 0]
+        }
+        searchViewModel.acreageIndex.observe(this) {
+            binding.editTextSquare.text =
+                RangeUI.acreageRangeUis.values.toMutableList()[searchViewModel.acreageIndex.value
+                    ?: 0]
+        }
+        searchViewModel.frontWidthIndex.observe(this) {
+            binding.textFront.text =
+                RangeUI.frontWidthRangeUis.values.toMutableList()[searchViewModel.frontWidthIndex.value
+                    ?: 0]
+        }
+        searchViewModel.isSearchDone.observe(this) {
+            if (it) {
+                if (searchViewModel.housesSearch.value?.isNotEmpty() == true) {
+                    searchViewModel.setSearchDone(false)
+                    findNavController().navigate(R.id.actionToDetailSearchResult)
+                } else {
+                    showToast("không tìm thấy kết quả nào")
+                }
+            }
+        }
+        searchViewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) dialog.show() else dialog.dismiss()
+        }
     }
 
     private fun setupRefresh() {
@@ -166,6 +199,7 @@ class HomeFragment :
     }
 
     private fun onItemUserOnlineClick(user: User) {
-        println(user)
+        val action = MobileNavigationDirections.actionToPersonProfile(user)
+        findNavController().navigate(action)
     }
 }

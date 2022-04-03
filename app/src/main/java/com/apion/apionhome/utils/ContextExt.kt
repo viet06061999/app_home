@@ -1,8 +1,6 @@
 package com.apion.apionhome.utils
 
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,11 +8,12 @@ import android.graphics.Color
 import android.net.Uri
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.apion.apionhome.MobileNavigationDirections
-import com.apion.apionhome.MyApplication
+import androidx.core.content.ContextCompat
+import com.apion.apionhome.BuildConfig
 import com.apion.apionhome.R
 import com.apion.apionhome.utils.customview.actionsheet.ActionSheet
 import com.apion.apionhome.utils.customview.actionsheet.callback.ActionSheetCallBack
+
 
 fun Context.createProgressDialog() = Dialog(this).apply {
     setContentView(R.layout.progress_dialog)
@@ -66,6 +65,24 @@ fun Context.toMessenger(fbId: String) {
     }
 }
 
+fun Context.toFanpage(pageId: String) {
+    if (isAppInstalled("com.facebook.katana")) {
+        val facebookIntent = Intent(Intent.ACTION_VIEW)
+        facebookIntent.data = Uri.parse("fb://page/$pageId")
+        startActivity(facebookIntent)
+    } else {
+        val facebookIntent = Intent(Intent.ACTION_VIEW)
+        facebookIntent.data = Uri.parse("https://www.facebook.com/$pageId")
+        startActivity(facebookIntent)
+    }
+}
+
+fun Context.toYoutube(channelId: String) {
+    val facebookIntent = Intent(Intent.ACTION_VIEW)
+    facebookIntent.data = Uri.parse("https://www.youtube.com/c/$channelId")
+    startActivity(facebookIntent)
+}
+
 fun Context.toZalo(phone: String) {
     if (isAppInstalled("com.zing.zalo")) {
         val zaloIntent = Intent(Intent.ACTION_VIEW)
@@ -100,4 +117,21 @@ fun Context.toMessage(phone: String) {
     intent.data = Uri.parse("smsto:${phone}") // This ensures only SMS apps respond
     intent.putExtra("sms_body", "")
     startActivity(intent)
+}
+
+fun Context.shareApp() {
+    try {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Apion Home")
+        var shareMessage = "\nLet me recommend you this application\n\n"
+        shareMessage =
+            """
+            ${shareMessage}https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}
+            """.trimIndent()
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+        startActivity(Intent.createChooser(shareIntent, "choose one"))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 }

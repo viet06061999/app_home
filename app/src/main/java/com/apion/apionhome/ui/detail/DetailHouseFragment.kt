@@ -2,10 +2,12 @@ package com.apion.apionhome.ui.detail
 
 import android.app.AlertDialog
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowInsetsController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -60,11 +62,11 @@ class DetailHouseFragment :
 
     private val callback by lazy {
         OnMapReadyCallback { googleMap ->
-            try {
-                Thread {
+            Thread {
+                try {
                     val address = Geocoder(
                         requireActivity()
-                    ).getFromLocationName(args.houseDetail.address, 1)
+                    ).getFromLocationName(args.houseDetail.getDetailAddress(), 1)
                     var latLng = LatLng(20.995195733794585, 105.86181631094217)
                     if (address.isNotEmpty()) {
                         val fist = address.first()
@@ -75,10 +77,10 @@ class DetailHouseFragment :
                         googleMap.addMarker(MarkerOptions().position(latLng).title("Apion Home"))
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f))
                     }
-                }.start()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }.start()
         }
     }
 
@@ -113,12 +115,12 @@ class DetailHouseFragment :
                     findNavController().navigate(R.id.actionToAdd)
                 } else if (isFollow) {
                     userViewModel.unFollow(
-                        MyApplication.sessionUser.value!!.id,
+                        MyApplication.sessionUser.value?.id!!,
                         viewModel.houseDetail.value?.owner?.id ?: -1
                     )
                 } else {
                     userViewModel.follow(
-                        MyApplication.sessionUser.value!!.id,
+                        MyApplication.sessionUser.value?.id!!,
                         viewModel.houseDetail.value?.owner?.id ?: -1
                     )
                 }
@@ -140,8 +142,34 @@ class DetailHouseFragment :
         mapFragment?.getMapAsync(callback)
     }
 
+    override fun onResume() {
+        super.onResume()
+        val view = requireActivity().window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            requireActivity().window.decorView.windowInsetsController?.hide(WindowInsets.Type.statusBars())
+            view.windowInsetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            view.systemUiVisibility =
+                view.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }
+
     override fun onStop() {
         super.onStop()
+        val view = requireActivity().window.decorView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            view.windowInsetsController?.setSystemBarsAppearance(
+                0,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
+        } else {
+            var flags = view.systemUiVisibility
+            flags = flags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            view.systemUiVisibility = flags
+        }
         sliderHandler.removeCallbacks(runnable)
     }
 

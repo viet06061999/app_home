@@ -12,6 +12,7 @@ import com.apion.apionhome.data.model.RangeUI
 import com.apion.apionhome.data.model.ImagePicker as ImagePickerData
 import com.apion.apionhome.databinding.FragmentCreateHomeBinding
 import com.apion.apionhome.ui.adapter.ImagePickerAdapter
+import com.apion.apionhome.ui.home.HomeViewModel
 import com.apion.apionhome.ui.search.SearchViewModelTmp
 import com.apion.apionhome.utils.customview.actionsheet.callback.ActionSheetCallBack
 import com.apion.apionhome.utils.showAction
@@ -22,6 +23,7 @@ class AddFragment :
     BindingFragmentPickImage<FragmentCreateHomeBinding>(FragmentCreateHomeBinding::inflate) {
     override val viewModel by viewModel<AddHouseViewModel>()
     private val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
+    private val homeViewModel by sharedViewModel<HomeViewModel>()
 
     private val adapterImage by lazy {
         ImagePickerAdapter(
@@ -90,7 +92,9 @@ class AddFragment :
                 adapterImage.list.map { it.data }
             )
         }
-
+        binding.icBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.edtTypeHouse.setOnClickListener {
             val data = ArrayList(RangeUI.houseTypeRangeUis.values)
             data.removeFirst()
@@ -101,7 +105,7 @@ class AddFragment :
                     data,
                     object : ActionSheetCallBack {
                         override fun data(data: String, position: Int) {
-                            viewModel.setHouseTypeIndex(position)
+                            viewModel.setHouseTypeIndex(position+1)
                             binding.edtTypeHouse.setText(data)
                             isShowType = false
                         }
@@ -117,7 +121,7 @@ class AddFragment :
                 isShowDirection = true
                 requireContext().showAction("Chọn hướng nhà", data, object : ActionSheetCallBack {
                     override fun data(data: String, position: Int) {
-                        viewModel.setHouseDirectionIndex(position)
+                        viewModel.setHouseDirectionIndex(position+1)
                         binding.edtDirectionHouse.setText(data)
                         isShowDirection = false
                     }
@@ -144,6 +148,13 @@ class AddFragment :
                 binding.edtAddressHouse.setText(searchViewModelTmp.getAddress())
             } else {
                 binding.edtAddressHouse.setText(getString(R.string.text_select_address))
+            }
+        }
+        viewModel.addHouseDone.observe(this) {
+            if (it) {
+                showToast("Ký nhà thành công!")
+                homeViewModel.initData()
+                findNavController ().popBackStack()
             }
         }
     }

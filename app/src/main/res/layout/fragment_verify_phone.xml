@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+    <data>
+        <variable
+            name="verifyVM"
+            type="com.apion.apionhome.viewmodel.UserViewModel" />
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,17 +13,7 @@
     android:layout_height="match_parent">
 
 
-    <ImageButton
-        android:id="@+id/imageBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_36"
-        android:layout_marginStart="23dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#ffffff"
-        />
+
 
     <TextView
         android:id="@+id/textTitle"
@@ -60,9 +56,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
-        android:text="+84 33 255 559"
+        android:text="+84 332 555 559"
+        textPhone="@{verifyVM.phoneRegister}"
         android:textColor="#FFA087"
-        android:textStyle="bold"
         android:textSize="@dimen/sp_18"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,61 +78,70 @@
             android:id="@+id/etPassword1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
             android:layout_weight="1"
             android:background="@drawable/background_edt_text_1"
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector" />
 
-            />
+
+
+        />
         <EditText
             android:id="@+id/etPassword2"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
             android:layout_weight="1"
             android:background="@drawable/background_edt_text_1"
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector"
 
             />
         <EditText
             android:id="@+id/etPassword3"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
             android:layout_weight="1"
             android:background="@drawable/background_edt_text_1"
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
-
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector"
             />
         <EditText
             android:id="@+id/etPassword4"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
             android:background="@drawable/background_edt_text_1"
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
-
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector"
             />
         <EditText
             android:id="@+id/etPassword5"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_8"
             android:layout_weight="1"
             android:background="@drawable/background_edt_text_1"
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
-
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector"
             />
         <EditText
             android:id="@+id/etPassword6"
@@ -147,12 +152,14 @@
             android:gravity="center"
             android:maxLength="1"
             android:textSize="@dimen/sp_18"
-
+            android:inputType="number"
+            android:textColor="@drawable/edit_text_selector"
             />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/txtWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gửi lại mã xác thực sau 01:59"

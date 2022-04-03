@@ -45,6 +45,34 @@ fun houseStatus(view: TextView, status: String) {
     }
     view.text = text
 }
+@BindingAdapter("textPhone")
+fun setTextPhone(view:TextView, phone: String){
+    var result = ""
+    if(phone.length >=7){
+        result = "+84 " + phone.subSequence(1,4)+" "+phone.subSequence(4,7)+" "+phone.subSequence(7,phone.length)
+    }
+
+    view.text = result
+}
+@BindingAdapter("textDob")
+fun setTextDob(view:TextView, cal: Calendar?){
+
+    cal?.let {
+            var dom = "" + it.get(Calendar.DAY_OF_MONTH)
+            if (dom.toInt() < 10){
+                dom = "0" + dom
+            }
+            var month = "" + (it.get(Calendar.MONTH) +1)
+            if (month.toInt() < 10){
+                month = "0" + month
+            }
+            view.text = "" + dom + "/" + month + "/" + it.get(Calendar.YEAR)
+            return
+    }
+    view.text=""
+
+}
+
 
 @BindingAdapter(value = ["position", "permission"])
 fun userPositionPermission(view: TextView, permission: String, position: String) {

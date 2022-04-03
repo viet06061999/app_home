@@ -22,8 +22,11 @@
     <color name="color_grey">#858484</color>
     <color name="color_red">#F80707</color>
     <color name="color_boxStrokeColor">#ECD5D6</color>
+    <color name="enabled_color">#000000</color>
+    <color name="disabled_color">#000000</color>
 
-    <color name="color_silver">#C4C4C4</color>
+
+<color name="color_silver">#C4C4C4</color>
     <color name="color_silver_40">#65C4C4C4</color>
     <color name="color_soft_peach">#F8F2F2</color>
     <color name="color_apricot_peach">#FBBFB0</color>

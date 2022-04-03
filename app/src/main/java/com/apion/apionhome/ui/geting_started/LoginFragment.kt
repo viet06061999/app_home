@@ -1,5 +1,6 @@
 package com.apion.apionhome.ui.geting_started
 
+import android.app.AlertDialog
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.apion.apionhome.R
@@ -16,8 +17,9 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
     override val viewModel by viewModel<UserViewModel>()// tại sao ko khai báo = UserViewModel()
 
     override fun setupView() {
-        binding.lifecycleOwner = this
-        binding.loginVM = viewModel
+        binding.lifecycleOwner    = this
+        binding.loginVM           = viewModel
+        viewModel.errorText.value = null
         listener()
         setupObserver()
     }
@@ -29,6 +31,21 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
                 findNavController().navigate(action)
             }
         }
+        viewModel.phone.observe(this) { error: String ->
+            val errorText = if (error.isPhoneValid) null else "Định dạng không hợp lệ!"
+            viewModel.setError(errorText)
+            binding.editPhoneNumber.error = errorText
+        }
+        viewModel.errorLogin.observe(this){
+            it?.let{
+                val dialog = AlertDialog.Builder(requireContext())
+                dialog.setTitle("Thông báo")
+                dialog.setMessage(it)
+                dialog.setPositiveButton("Đóng"){ _, _ ->
+                }
+                dialog.show()
+            }
+        }
     }
 
     private fun listener() {
@@ -38,10 +55,9 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
         binding.textRegister.setOnClickListener {
             this.findNavController().navigate(R.id.actionToRegister)
         }
-        viewModel.phone.observe(this) { error: String ->
-            val errorText = if (error.isPhoneValid) null else "Định dạng không hợp lệ!"
-            viewModel.setError(errorText)
-            binding.editPhoneNumber.error = errorText
+        binding.txtPhoneForget.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToPhoneForget)
         }
+
     }
 }

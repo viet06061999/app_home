@@ -2,73 +2,82 @@ package com.apion.apionhome.data.model
 
 import android.os.Parcelable
 import com.apion.apionhome.data.model.community.Participant
+import com.apion.apionhome.utils.TimeFormat
+import com.apion.apionhome.utils.toString
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Parcelize
-data class User(
+data class User (
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("phone")
-    val phone: String,
-    @SerializedName("remember_token")
-    val rememberToken: String?,
+    val phone: String? = null,
+
     @SerializedName("referal")
-    val refer: String?,
+    val refer: String?= null,
     @SerializedName("dob")
-    val dateOfBirth: String,
+    val dateOfBirth: String?= null,
     @SerializedName("address")
-    val address: String,
-    @SerializedName("avatar")
-    val avatar: String?,
+    val address: String? = null,
     @SerializedName("sex")
-    val sex: String,
+    val sex: String? = null,
     @SerializedName("academicLevel")
-    val academicLevel: String,
+    val academicLevel: String? = null,
     @SerializedName("job")
-    val job: String,
+    val job: String?= null,
     @SerializedName("pincode")
-    val pincode: String,
+    val pincode: String? = null,
     @SerializedName("isFirst")
-    val isFirst: String,
+    val isFirst: String?= null,
     @SerializedName("position")
-    val position: String,
+    val position: String?= null,
     @SerializedName("permission")
-    val permission: String,
+    val permission: String?= null,
     @SerializedName("email")
-    val email: String,
+    var email: String? = null,
     @SerializedName("facebook_id")
-    val facebook_id: String?,
+    var facebook_id: String?= null,
+    @SerializedName("role")
+    val role: String? = null,
+
+    @SerializedName("remember_token")
+    val rememberToken: String? = null,
+    @SerializedName("avatar")
+    val avatar: String? = null,
     @SerializedName("created_at")
-    val created_at: String,
+    val created_at: String? = null,
     @SerializedName("updated_at")
-    val updated_at: String,
+    val updated_at: String? = null,
     @SerializedName("my_staff")
-    val myStaff: List<User>?,
+    val myStaff: List<User>? = null,
     @SerializedName("boss")
     val boss: User? = null,
     @SerializedName("house_sold")
-    val houseSold: List<House>?,
+    val houseSold: List<House>? = null,
     @SerializedName("my_houses")
-    val myHouses: List<House>?,
+    val myHouses: List<House>? = null,
     @SerializedName("participants")
-    val participants: List<Participant>?,
+    val participants: List<Participant>? = null,
     @SerializedName("houses_bookmark")
-    val bookmarks: List<BookMark>?,
+    val bookmarks: List<BookMark>? = null,
     @SerializedName("followed")
-    val followed: List<UserFollowed>?,
+    val followed: List<UserFollowed>? = null,
     @SerializedName("following")
-    val following: List<UserFollowing>?,
+    val following: List<UserFollowing>? = null,
     @SerializedName("following_count")
-    val followingCount: Int,
+    val followingCount: Int? = null,
     @SerializedName("followed_count")
-    val followedCount: Int,
+    val followedCount: Int? = null,
     @SerializedName("my_houses_count")
-    val myHousesCount: Int,
+    val myHousesCount: Int? = null,
     @SerializedName("bios")
-    val bios: String,
+    val bios: String? = null,
 ) : GeneraEntity, Parcelable {
 
     override fun areItemsTheSame(newItem: GeneraEntity): Boolean =
@@ -120,5 +129,19 @@ data class User(
             }
         }
         return "$textPos $textPer"
+    }
+
+    fun getDOBDate(): String {
+        val date = SimpleDateFormat(
+            TimeFormat.TIME_FORMAT_API_1,
+            Locale.getDefault()
+        ).parse(dateOfBirth)
+        return date?.let {
+            date.toString(TimeFormat.DATE_FORMAT)
+        } ?: ""
+    }
+
+    fun getSexString(): String {
+        return if(sex == "Male") "Nam" else "Nữ"
     }
 }

@@ -70,7 +70,20 @@ object RangeUI {
         "Warehouse and Factory" to "Kho, nhà xưởng",
         "Others" to "Bất động sản khác"
         )
-
+    val jobUis = mapOf(
+        "Looking for a job" to "Đang tìm việc",
+        "Had a job" to "Đang làm công việc khác"
+    )
+    val sexUis = mapOf(
+        "Male" to "Nam",
+        "Female" to "Nữ"
+    )
+    val levelUis = mapOf(
+        "University" to "Đại học",
+        "College" to "Cao đẳng",
+        "Vocational School" to "Trung cấp",
+        "High School Graduation" to "Trung học phổ thông"
+    )
     val bedroomUis = mapOf(
         0 to "Số phòng ngủ",
         1 to "1+",

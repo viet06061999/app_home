@@ -16,14 +16,15 @@
         android:paddingTop="@dimen/dp_24"
         tools:context=".ui.detail.DetailHouseFragment">
 
+
         <TextView
             android:id="@+id/textView"
-            style="@style/TextNormal"
+            style="@style/TextHighlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
             android:text="@string/title_detail_house"
-            android:textColor="@color/color_second_primary"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textColor="@color/color_text_primary"
             android:textSize="@dimen/sp_22"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView"
-            app:tint="@color/color_second_primary" />
+            app:tint="@color/color_text_primary" />
 
         <ImageButton
             android:id="@+id/buttonBookmark"

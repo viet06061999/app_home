@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .setTitle("Yêu cầu đăng nhập!")
             .setMessage("Vui lòng đăng nhập để sử dụng tính năng này!")
-            .setPositiveButton("Đăng nhập") { _, _ ->
+            .setPositiveButton("Đăng nhập") { dialogShow, _ ->
+                dialogShow.dismiss()
                 navView.menu.getItem(currentIndex).isChecked = true
                 navController.navigate(MobileNavigationDirections.actionToLogin())
             }

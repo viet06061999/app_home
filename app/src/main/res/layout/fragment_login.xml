@@ -1,74 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-    <variable
-        name="loginVM"
-        type="com.apion.apionhome.viewmodel.LoginViewModel" />
+
+        <variable
+            name="loginVM"
+            type="com.apion.apionhome.viewmodel.LoginViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.login.LoginActivity">
 
         <ImageView
             android:id="@+id/imageArtwork"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="145dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="145dp"
-            android:layout_marginBottom="590dp"
-            android:scaleType="centerCrop"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginTop="@dimen/dp_40"
             android:src="@drawable/itunes_artwork"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/contentFaculty"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="35dp"
-            android:layout_marginBottom="520dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Apion Home - Robo siêu kết nối Môi giới bất động sản"
             android:textColor="#000000"
             android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageArtwork" />
 
         <ImageView
-
             android:id="@+id/imageView3"
             android:layout_width="0dp"
-            android:layout_height="209dp"
+            android:layout_height="@dimen/dp_180"
             android:layout_marginStart="60dp"
+            android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="60dp"
-            android:src="@drawable/login_image_page"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/login_img_page"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contentFaculty"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/contentFaculty" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editPhoneNumber"
             style="@style/StyleTextInputLayout"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_32"
+            android:layout_marginTop="@dimen/dp_16"
             app:boxStrokeColor="@color/color_grey"
             app:boxStrokeWidth="@dimen/dp_2"
             app:errorEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/btnLogin"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
@@ -77,10 +69,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_input_phone"
-                android:text="@={loginVM.phone}"
                 android:inputType="phone"
                 android:maxLines="1"
-                android:padding="@dimen/dp_16" />
+                android:padding="@dimen/dp_16"
+                android:text="@={loginVM.phone}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--        <EditText-->
@@ -109,8 +101,9 @@
             android:textAllCaps="false"
             android:textColor="#ffffff"
             android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toTopOf="@+id/textRegister"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editPhoneNumber" />
 
@@ -118,28 +111,27 @@
             android:id="@+id/textRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginBottom="@dimen/dp_16"
             android:text="@string/register"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/txtPhoneForget"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/txtPhoneForget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/dp_20"
             android:text="@string/forgetPinCode"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textRegister" />
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

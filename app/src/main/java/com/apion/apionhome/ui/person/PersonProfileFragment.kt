@@ -98,16 +98,16 @@ class PersonProfileFragment :
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_phone -> {
-                    requireContext().toPhone(args.userProfile.phone?:"")
+                    requireContext().toPhone(args.userProfile.phone)
                 }
                 R.id.item_messages -> {
-                    requireContext().toMessage(args.userProfile.phone?:"")
+                    requireContext().toMessage(args.userProfile.phone)
                 }
                 R.id.item_messenger -> {
-                    requireContext().toMessenger(args.userProfile.facebook_id?:"")
+                    requireContext().toMessenger(args.userProfile.facebook_id)
                 }
                 R.id.item_zalo -> {
-                   requireContext().toZalo(args.userProfile.phone?:"")
+                   requireContext().toZalo(args.userProfile.phone)
                 }
             }
             true

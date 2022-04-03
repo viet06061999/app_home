@@ -91,7 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_input_query"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:maxLines="1"
                         android:padding="@dimen/dp_16"
                         android:text="@={searchVM.title}" />

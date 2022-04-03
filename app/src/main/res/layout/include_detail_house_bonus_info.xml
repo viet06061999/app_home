@@ -95,7 +95,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_8"
-            android:text="@{house.bedrooms + ` phòng`}"
+            android:text="@{house.rooms + ` phòng`}"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_14"
             app:layout_constraintEnd_toEndOf="parent"

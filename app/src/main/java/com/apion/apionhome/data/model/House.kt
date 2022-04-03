@@ -171,6 +171,10 @@ data class House(
         ).toString()
     }
 
+    fun getRooms(): Int {
+        return bedrooms ?: 0
+    }
+
     private fun checkPrice(number: Double): String {
         val priceString = String.format("%.2f", number)
         return if (priceString.split(".").last() == "00") priceString.split(".")

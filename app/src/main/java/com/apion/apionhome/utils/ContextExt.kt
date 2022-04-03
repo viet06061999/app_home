@@ -51,11 +51,15 @@ fun Context.hideKeyboard() {
     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
 }
 
-fun Context.toMessenger(fbId: String) {
+fun Context.toMessenger(fbId: String?) {
     if (isAppInstalled("com.facebook.katana")) {
-        val facebookIntent = Intent(Intent.ACTION_VIEW)
-        facebookIntent.data = Uri.parse("fb://messaging/$fbId")
-        startActivity(facebookIntent)
+        try {
+            val facebookIntent = Intent(Intent.ACTION_VIEW)
+            facebookIntent.data = Uri.parse("fb://messaging/$fbId")
+            startActivity(facebookIntent)
+        } catch (e: Exception) {
+            showToast(e.message?:"Đã có lỗi xảy ra!")
+        }
     } else {
         Toast.makeText(
             applicationContext,
@@ -65,11 +69,16 @@ fun Context.toMessenger(fbId: String) {
     }
 }
 
-fun Context.toFanpage(pageId: String) {
+fun Context.toFanpage(pageId: String?) {
     if (isAppInstalled("com.facebook.katana")) {
-        val facebookIntent = Intent(Intent.ACTION_VIEW)
-        facebookIntent.data = Uri.parse("fb://page/$pageId")
-        startActivity(facebookIntent)
+        try {
+            val facebookIntent = Intent(Intent.ACTION_VIEW)
+            facebookIntent.data = Uri.parse("fb://page/$pageId")
+            startActivity(facebookIntent)
+        } catch (e: Exception) {
+            showToast(e.message?:"Đã có lỗi xảy ra!")
+        }
+
     } else {
         val facebookIntent = Intent(Intent.ACTION_VIEW)
         facebookIntent.data = Uri.parse("https://www.facebook.com/$pageId")
@@ -77,17 +86,25 @@ fun Context.toFanpage(pageId: String) {
     }
 }
 
-fun Context.toYoutube(channelId: String) {
-    val facebookIntent = Intent(Intent.ACTION_VIEW)
-    facebookIntent.data = Uri.parse("https://www.youtube.com/c/$channelId")
-    startActivity(facebookIntent)
+fun Context.toYoutube(channelId: String?) {
+    try {
+        val facebookIntent = Intent(Intent.ACTION_VIEW)
+        facebookIntent.data = Uri.parse("https://www.youtube.com/c/$channelId")
+        startActivity(facebookIntent)
+    } catch (e: Exception) {
+        showToast(e.message?:"Đã có lỗi xảy ra!")
+    }
 }
 
-fun Context.toZalo(phone: String) {
+fun Context.toZalo(phone: String?) {
     if (isAppInstalled("com.zing.zalo")) {
-        val zaloIntent = Intent(Intent.ACTION_VIEW)
-        zaloIntent.data = Uri.parse("https://zalo.me/$phone")
-        startActivity(zaloIntent)
+        try {
+            val zaloIntent = Intent(Intent.ACTION_VIEW)
+            zaloIntent.data = Uri.parse("https://zalo.me/$phone")
+            startActivity(zaloIntent)
+        } catch (e: Exception) {
+            showToast(e.message?:"Đã có lỗi xảy ra!")
+        }
     } else {
         Toast.makeText(
             applicationContext,
@@ -107,12 +124,12 @@ fun Context.isAppInstalled(packageName: String): Boolean {
     }
 }
 
-fun Context.toPhone(phone: String) {
+fun Context.toPhone(phone: String?) {
     val intentDial = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone))
     startActivity(intentDial)
 }
 
-fun Context.toMessage(phone: String) {
+fun Context.toMessage(phone: String?) {
     val intent = Intent(Intent.ACTION_SENDTO)
     intent.data = Uri.parse("smsto:${phone}") // This ensures only SMS apps respond
     intent.putExtra("sms_body", "")

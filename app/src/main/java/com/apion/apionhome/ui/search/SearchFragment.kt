@@ -180,11 +180,12 @@ class SearchFragment :
         viewModel.isSearchDone.observe(this) {
             if (it) {
                 if (viewModel.housesSearch.value?.isNotEmpty() == true) {
-                    viewModel.setSearchDone(false)
                     findNavController().navigate(R.id.actionToDetailSearchResult)
                 } else {
+                    println("váo day roi")
                     showToast("không tìm thấy kết quả nào")
                 }
+                viewModel.setSearchDone(false)
             }
         }
     }

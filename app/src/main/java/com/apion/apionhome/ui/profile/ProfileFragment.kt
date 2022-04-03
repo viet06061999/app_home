@@ -71,13 +71,13 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(FragmentProfileB
             requireContext().shareApp()
         }
         binding.btnFanpage.setOnClickListener {
-            requireContext().toFanpage("/apion.home")
+            requireContext().toFanpage("109001047169523")
         }
         binding.btnComunity.setOnClickListener {
-            requireContext().toFanpage("/apion.home")
+            requireContext().toFanpage("109001047169523")
         }
         binding.btnYoutube.setOnClickListener {
-            requireContext().toYoutube("saonhapngu-qpvn")
+            requireContext().toYoutube("CAFELANDVIETNAM")
         }
         binding.btnHotline.setOnClickListener {
             requireContext().toPhone(" 1900 29 29 91")

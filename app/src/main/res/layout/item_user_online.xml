@@ -45,9 +45,36 @@
                 android:text="@{user.name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp_14"
-                app:drawableEndCompat="@drawable/dot_online"
+                app:drawableEndCompat="@drawable/ic_active"
                 app:layout_constraintEnd_toStartOf="@id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textNA"
+                style="@style/TextHighlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:text="(N/A)"
+                android:textColor="@color/color_grey"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textStar"
+                style="@style/TextHighlight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:drawableStart="@drawable/ic_star"
+                android:text="5"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintEnd_toStartOf="@+id/textNA"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView

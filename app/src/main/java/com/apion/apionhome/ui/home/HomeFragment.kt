@@ -141,11 +141,11 @@ class HomeFragment :
         searchViewModel.isSearchDone.observe(this) {
             if (it) {
                 if (searchViewModel.housesSearch.value?.isNotEmpty() == true) {
-                    searchViewModel.setSearchDone(false)
                     findNavController().navigate(R.id.actionToDetailSearchResult)
                 } else {
                     showToast("không tìm thấy kết quả nào")
                 }
+                searchViewModel.setSearchDone(false)
             }
         }
         searchViewModel.isLoading.observe(viewLifecycleOwner) {

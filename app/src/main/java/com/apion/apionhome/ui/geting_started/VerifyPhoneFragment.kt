@@ -248,7 +248,7 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
 
             }
 
-            if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etPassword1 && currentView.text.isEmpty()) {
+            if (event?.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etPassword1 && currentView.text.isEmpty()) {
                 //If current is empty then previous EditText's number will also be deleted
                 previousView!!.text = null
                 previousView.isCursorVisible = true
@@ -260,7 +260,7 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 return true
             }
 
-            if (event!!.action == KeyEvent.ACTION_UP &&currentView.id != R.id.etPassword6 && !currentView.text.isEmpty()) {
+            if (event?.action == KeyEvent.ACTION_UP &&currentView.id != R.id.etPassword6 && !currentView.text.isEmpty()) {
                 nextView!!.isEnabled = true
                 if(currentView.id == R.id.etPassword5){
                     nextView!!.isCursorVisible = true

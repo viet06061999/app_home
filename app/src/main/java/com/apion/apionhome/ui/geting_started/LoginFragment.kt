@@ -83,7 +83,6 @@ class LoginFragment : BindingFragment<FragmentLoginBinding>(FragmentLoginBinding
                     )
                 }else{
                     // Chưa từng đăng nhập
-
                     verify ()
 
                         }

@@ -31,7 +31,6 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
         binding.etPassword2.isCursorVisible = false
         binding.etPassword3.isCursorVisible = false
         binding.etPassword4.isCursorVisible = false
-        println("BBBBBB")
 
         binding.etPassword1.isEnabled = true
         binding.etPassword2.isEnabled = false

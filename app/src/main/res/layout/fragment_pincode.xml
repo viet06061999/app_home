@@ -69,12 +69,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_edt_text"
                 android:gravity="center"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="10dp"
-
-
                 android:textSize="30dp" />
 
             <EditText
@@ -84,7 +82,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_edt_text"
                 android:gravity="center"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -97,7 +95,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_edt_text"
                 android:gravity="center"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
@@ -108,10 +106,9 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-
                 android:background="@drawable/background_edt_text"
                 android:gravity="center"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:maxLength="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="30dp"

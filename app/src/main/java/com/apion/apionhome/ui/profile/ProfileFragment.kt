@@ -29,6 +29,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(FragmentProfileB
         MyApplication.sessionUser.observe(this) {
             binding.user = it
         }
+        viewModel.isLogout.observe(this) {
+            if (it) {
+                findNavController().popBackStack(R.id.navigation_home, false)
+            }
+        }
     }
 
     override fun onResume() {
@@ -88,6 +93,11 @@ class ProfileFragment : BindingFragment<FragmentProfileBinding>(FragmentProfileB
         }
         binding.btnUpdateProfile.setOnClickListener {
             findNavController().navigate(R.id.actionToUpdateProfile)
+        }
+        binding.btnLogout.setOnClickListener {
+            MyApplication.sessionUser.value?.id?.let {
+                viewModel.logout(it, MyApplication.sessionUser.value?.phone ?: "")
+            }
         }
     }
 

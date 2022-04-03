@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             if (it) dialogLoading.show() else dialogLoading.dismiss()
         }
     }
+
     private fun setupListener() {
         navView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -91,13 +92,13 @@ class MainActivity : AppCompatActivity() {
                         dialog.show()
                     }
                 }
-                R.id.navigation_profile ->{
+                R.id.navigation_profile -> {
                     if (MyApplication.sessionUser.value != null) {
                         currentIndex = 4
                         println("da vao den đây")
                         navController.navigate(R.id.actionToProfile)
                     } else {
-                        MyApplication.tabToNavigate.value = 4
+                        MyApplication.tabToNavigate.value = TabApp.PROFILE
                         dialog.show()
                     }
                 }
@@ -105,13 +106,13 @@ class MainActivity : AppCompatActivity() {
             true
         }
         binding.fab.setOnClickListener {
-//            if (MyApplication.sessionUser.value != null) {
-//                currentIndex = 2
+            if (MyApplication.sessionUser.value != null) {
+                currentIndex = 2
                 navController.navigate(R.id.actionToAdd)
-//            } else {
-//                MyApplication.tabToNavigate.value = TabApp.CREATE_HOUSE
-//                dialog.show()
-//            }
+            } else {
+                MyApplication.tabToNavigate.value = TabApp.CREATE_HOUSE
+                dialog.show()
+            }
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->

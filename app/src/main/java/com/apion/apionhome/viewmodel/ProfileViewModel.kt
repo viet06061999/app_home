@@ -17,6 +17,7 @@ class ProfileViewModel(val userRepository: UserRepository) : RxViewModel() {
     val email = MutableLiveData<String?>()
     val fbId = MutableLiveData<String?>()
     val updateDone = MutableLiveData<Boolean>(false)
+    val isLogout = MutableLiveData<Boolean>(false)
 
     val emailRule = email.transform {
         if (it?.isEmailValid == true) null else "Định dạng không hợp lệ!"
@@ -52,6 +53,24 @@ class ProfileViewModel(val userRepository: UserRepository) : RxViewModel() {
                     it.printStackTrace()
                     error.value = it.message
                     _isLoading.value = false
+                }
+            )
+    }
+
+    fun logout(userId: Int, phone: String) {
+        userRepository
+            .logout(userId, phone)
+            .setup()
+            .subscribe(
+                {
+                    isLogout.value = true
+                    MyApplication.sessionUser.value = null
+                    MyApplication.houseNavigate.value = null
+                    MyApplication.profileUserNavigate.value = null
+                    MyApplication.tabToNavigate.value = null
+                }, {
+                    it.printStackTrace()
+                    error.value = it.message
                 }
             )
     }

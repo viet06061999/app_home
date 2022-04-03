@@ -18,5 +18,6 @@ interface UserRepository {
     fun follow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed>
     fun unFollow(followerId: Int, beingFollowedId: Int): Maybe<UserFollowed>
     fun uploadAvatar(id: Int, image: String): Maybe<User>
+    fun logout(id: Int, phone: String): Maybe<User>
 
 }

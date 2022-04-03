@@ -10,6 +10,13 @@
         android:name="com.apion.apionhome.ui.MainActivity"
         tools:layout="@layout/activity_detail" />
 
+    <action
+        android:id="@+id/actionToVerifyCustom"
+        app:destination="@id/verifyPhoneCustom" />
+
+    <fragment
+        android:id="@+id/verifyPhoneCustom"
+        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneCustomFragment" />
     <fragment
         android:id="@+id/startFragment"
         android:name="com.apion.apionhome.ui.geting_started.StartFragment"
@@ -35,17 +42,16 @@
             app:destination="@id/phoneForgetFragment"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_in_right"/>
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_right" />
 
         <action
             android:id="@+id/actionToRegister"
             app:destination="@id/registerFragment"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_in_right"
-            />
+            app:popExitAnim="@anim/slide_right" />
         <!--        app:popEnterAnim="@anim/fade_in"-->
         <!--        app:popExitAnim="@anim/slide_bottom"-->
     </fragment>
@@ -59,82 +65,72 @@
             android:id="@+id/actionToMain"
             app:destination="@id/activitymain"
             app:popUpTo="@id/activitymain"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
         <argument
             android:name="pinCode"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
     </fragment>
 
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.apion.apionhome.ui.geting_started.RegisterFragment"
-        tools:layout="@layout/fragment_register"
-        >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/actionToSelectLocation"
             app:destination="@id/addressSelectLocationFragment"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_in_right"
-            />
+            app:popExitAnim="@anim/slide_right" />
         <action
             android:id="@+id/actionToVerifyPhone"
             app:destination="@id/verifyPhoneFragment"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_in_right"
-            />
+            app:popExitAnim="@anim/slide_right" />
     </fragment>
+    <action
+        android:id="@+id/actionToGetNewPincode"
+        app:destination="@id/getNewPincodeFragment"
+        app:enterAnim="@anim/slide_left"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_right" />
     <fragment
         android:id="@+id/phoneForgetFragment"
         android:name="com.apion.apionhome.ui.geting_started.PhoneForgetFragment"
-        tools:layout="@layout/fragment_forget_pincode"
-        >
-        <action
-            android:id="@+id/actionToGetNewPincode"
-            app:destination="@id/getNewPincodeFragment"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            />
+        tools:layout="@layout/fragment_forget_pincode">
+
     </fragment>
     <fragment
         android:id="@+id/getNewPincodeFragment"
         android:name="com.apion.apionhome.ui.geting_started.GetNewPincodeFragment"
-        tools:layout="@layout/fragment_get_pincode_new"
-        />
+        tools:layout="@layout/fragment_get_pincode_new" />
     <fragment
         android:id="@+id/verifyPhoneFragment"
         android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneFragment"
-        tools:layout="@layout/fragment_verify_phone"
-        >
+        tools:layout="@layout/fragment_verify_phone">
 
     </fragment>
     <fragment
         android:id="@+id/selectProvinceFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectProvinceFragment"
-        tools:layout="@layout/bottomsheet_search_location_register"
-        />
+        tools:layout="@layout/bottomsheet_search_location_register" />
     <fragment
         android:id="@+id/selectDistrictFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectDistrictFragment"
-        tools:layout="@layout/bottomsheet_search_location_register"
-        />
+        tools:layout="@layout/bottomsheet_search_location_register" />
     <fragment
         android:id="@+id/selectWardFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectWardFragment"
-        tools:layout="@layout/bottomsheet_search_location_register"
-        />
+        tools:layout="@layout/bottomsheet_search_location_register" />
     <fragment
         android:id="@+id/selectStreetFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectStreetFragment"
-        tools:layout="@layout/bottomsheet_search_location_register"
-        />
+        tools:layout="@layout/bottomsheet_search_location_register" />
     <fragment
         android:id="@+id/addressSelectLocationFragment"
         android:name="com.apion.apionhome.ui.geting_started.SelectLocationFragment"
@@ -145,32 +141,28 @@
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_bottom"
-            />
+            app:popExitAnim="@anim/slide_bottom" />
         <action
             android:id="@+id/actionToSelectDistrictFragment"
             app:destination="@id/selectDistrictFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_bottom"
-            />
+            app:popExitAnim="@anim/slide_bottom" />
         <action
             android:id="@+id/actionToSelectWardFragment"
             app:destination="@id/selectWardFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_bottom"
-            />
+            app:popExitAnim="@anim/slide_bottom" />
         <action
             android:id="@+id/actionToSelectStreetFragment"
             app:destination="@id/selectStreetFragment"
             app:enterAnim="@anim/slide_up"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/slide_bottom"
-            />
+            app:popExitAnim="@anim/slide_bottom" />
 
     </fragment>
 

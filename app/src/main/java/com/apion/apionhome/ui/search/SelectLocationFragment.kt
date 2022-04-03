@@ -19,6 +19,11 @@ class SelectLocationFragment :
 
     override val viewModel by sharedViewModel<SearchViewModel>()
     private val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
+
+    val includeAll by lazy {
+        arguments?.getBoolean("includeAll", true) ?: true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         searchViewModelTmp.initData()
@@ -82,14 +87,15 @@ class SelectLocationFragment :
         binding.edtDistrict.setOnClickListener {
             findNavController().navigate(
                 R.id.actionToSearchDistrictFragment,
-                bundleOf("shareData" to false)
+                bundleOf("shareData" to false, "includeAll" to includeAll)
             )
         }
         binding.edtStreet.setOnClickListener {
+            println("stree click")
             if (searchViewModelTmp.district.value != null && searchViewModelTmp.district.value !is AllDistrict) {
                 findNavController().navigate(
                     R.id.actionToSearchStreetFragment,
-                    bundleOf("shareData" to false)
+                    bundleOf("shareData" to false, "includeAll" to includeAll)
                 )
             } else {
                 showCancelDialog(null, getString(R.string.error_select_ward))
@@ -99,7 +105,7 @@ class SelectLocationFragment :
             if (searchViewModelTmp.district.value != null && searchViewModelTmp.district.value !is AllDistrict) {
                 findNavController().navigate(
                     R.id.actionToSearchWardFragment,
-                    bundleOf("shareData" to false)
+                    bundleOf("shareData" to false, "includeAll" to includeAll)
                 )
             } else {
                 showCancelDialog(null, getString(R.string.error_select_ward))

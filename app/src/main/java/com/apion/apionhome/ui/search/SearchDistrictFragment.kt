@@ -9,7 +9,7 @@ class SearchDistrictFragment : SearchLocationFragment<District>() {
     }
 
     override fun onGetAll(query: String) {
-        setUpViewModel().searchDistrict(query)
+        setUpViewModel().searchDistrict(query, includeAll)
     }
 
 

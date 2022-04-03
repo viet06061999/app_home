@@ -20,6 +20,7 @@ class SelectLocationCreateHouseFragment :
     override val viewModel by sharedViewModel<SearchViewModel>()
     private val searchViewModelTmp by sharedViewModel<SearchViewModelTmp>()
     var isAdressCreateHouse = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         searchViewModelTmp.initData()
@@ -80,20 +81,20 @@ class SelectLocationCreateHouseFragment :
         binding.edtProvince.setOnClickListener {
             findNavController().navigate(
                 R.id.actionToSearchProvinceFragment,
-                bundleOf("shareData" to false)
+                bundleOf("shareData" to false, "includeAll" to false)
             )
         }
         binding.edtDistrict.setOnClickListener {
             findNavController().navigate(
                 R.id.actionToSearchDistrictFragment,
-                bundleOf("shareData" to false)
+                bundleOf("shareData" to false, "includeAll" to false)
             )
         }
         binding.edtStreet.setOnClickListener {
             if (searchViewModelTmp.district.value != null && searchViewModelTmp.district.value !is AllDistrict) {
                 findNavController().navigate(
                     R.id.actionToSearchStreetFragment,
-                    bundleOf("shareData" to false)
+                    bundleOf("shareData" to false, "includeAll" to false)
                 )
             } else {
                 showCancelDialog(null, getString(R.string.error_select_ward))
@@ -103,7 +104,7 @@ class SelectLocationCreateHouseFragment :
             if (searchViewModelTmp.district.value != null && searchViewModelTmp.district.value !is AllDistrict) {
                 findNavController().navigate(
                     R.id.actionToSearchWardFragment,
-                    bundleOf("shareData" to false)
+                    bundleOf("shareData" to false, "includeAll" to false)
                 )
             } else {
                 showCancelDialog(null, getString(R.string.error_select_ward))

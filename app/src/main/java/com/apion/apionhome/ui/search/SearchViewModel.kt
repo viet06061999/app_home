@@ -94,34 +94,35 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     val isSearchDone: LiveData<Boolean>
         get() = _isSearchDone
 
-    fun setSearchDone(done:Boolean){
+    fun setSearchDone(done: Boolean) {
         _isSearchDone.value = done
     }
+
     fun getAddress(): String {
         var textAddress = ""
         detailAddress.value?.let {
-            if(detailAddress.value?.isNotEmpty() == true){
-                textAddress += detailAddress.value?:""
-                textAddress +=", "
+            if (detailAddress.value?.isNotEmpty() == true) {
+                textAddress += detailAddress.value ?: ""
+                textAddress += ", "
             }
         }
         street.value?.let {
-            if(street.value?.name?.isNotEmpty() == true){
-                textAddress += street.value?.prefix+" " +street.value?.name
-                textAddress +=", "
+            if (street.value?.name?.isNotEmpty() == true) {
+                textAddress += street.value?.prefix + " " + street.value?.name
+                textAddress += ", "
             }
         }
 
         ward.value?.let {
-            if(ward.value?.name?.isNotEmpty() == true){
-                textAddress +=ward.value?.prefix+" " + ward.value?.name
-                textAddress +=", "
+            if (ward.value?.name?.isNotEmpty() == true) {
+                textAddress += ward.value?.prefix + " " + ward.value?.name
+                textAddress += ", "
             }
         }
         district.value?.let {
-            if(district.value?.name?.isNotEmpty() == true){
+            if (district.value?.name?.isNotEmpty() == true) {
                 textAddress += district.value?.name
-                textAddress +=", "
+                textAddress += ", "
             }
         }
 
@@ -186,14 +187,18 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
     }
 
 
-
-    fun searchDistrict(query: String) {
+    fun searchDistrict(query: String, includeAll: Boolean) {
         houseRepository
             .searchDistrict(_province.value, query)
             .setup()
             .subscribe(
                 {
-                    _locations.value = it
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -216,15 +221,18 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     }
 
-    fun searchWard(query: String) {
+    fun searchWard(query: String, includeAll: Boolean) {
         houseRepository
             .searchWard(_district.value, query)
             .setup()
             .subscribe(
                 {
-                    _locations.value = it
-                    print(_locations.value)
-                    print("PAT")
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -232,14 +240,19 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
             )
     }
 
-    fun searchStreet(query: String) {
+    fun searchStreet(query: String, includeAll: Boolean) {
         println("province $province")
         houseRepository
             .searchStreet(_district.value, query)
             .setup()
             .subscribe(
                 {
-                    _locations.value = it
+                    if (!includeAll) {
+                        val tpmList = it.subList(1, it.size)
+                        _locations.value = tpmList
+                    } else {
+                        _locations.value = it
+                    }
                 }, {
                     it.printStackTrace()
                     error.value = it.message
@@ -283,7 +296,7 @@ open class SearchViewModel(private val houseRepository: HouseRepository) : RxVie
 
     fun setProvince(province: Province?) {
         _province.value = province
-        if(province?.districts?.isNotEmpty() == true){
+        if (province?.districts?.isNotEmpty() == true) {
             _district.value = province.districts.first()
         }
         _ward.value = null

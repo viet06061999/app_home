@@ -14,6 +14,6 @@ class SearchStreetFragment : SearchLocationFragment<LocationName>() {
     }
 
     override fun onGetAll(query: String) {
-        setUpViewModel().searchStreet(query)
+        setUpViewModel().searchStreet(query, includeAll)
     }
 }

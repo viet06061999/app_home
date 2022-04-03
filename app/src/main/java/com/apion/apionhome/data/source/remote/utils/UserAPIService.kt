@@ -34,6 +34,9 @@ interface UserAPIService {
     @POST(PATH_USERS_BY_ID)
     fun updateUser(@Path(PATH_PARAM_ID) id: Int, @Body user: User): Maybe<UserResponse>
 
+    @POST("update-pincode/{id}")
+    fun updatePincode(@Path(PATH_PARAM_ID) id: String, @Body pass: RequestBody): Maybe<UserResponse>
+
     @POST(PATH_LOGIN)
     fun login(@Body phone: RequestBody): Maybe<UserResponse>
 

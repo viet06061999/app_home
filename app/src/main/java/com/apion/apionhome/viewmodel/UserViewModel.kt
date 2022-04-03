@@ -393,6 +393,7 @@ class UserViewModel(
                 {
                     _isLoading.value = false
                     textCheckExistPhone.value = "Số điện thoại này đã tồn tại."
+                    _user.value = it
                     checkExistPhone.value = true
                 }, {
                     if (it is HttpException) {

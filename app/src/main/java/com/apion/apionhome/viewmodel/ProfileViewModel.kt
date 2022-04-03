@@ -18,6 +18,29 @@ class ProfileViewModel(val userRepository: UserRepository) : RxViewModel() {
     val fbId = MutableLiveData<String?>()
     val updateDone = MutableLiveData<Boolean>(false)
     val isLogout = MutableLiveData<Boolean>(false)
+    val updatePinCodeDone = MutableLiveData<Boolean>(false)
+
+    val pin1 = MutableLiveData<String?>()
+    val pin2 = MutableLiveData<String?>()
+    val rulePin1 = pin1.transform {
+        if (it.isNullOrBlank()) {
+            "Vui lòng nhập mật khẩu"
+        } else if (it.length < 4) {
+            "Vui lòng nhập 4 số"
+        } else {
+            null
+        }
+    }
+
+    val rulePin2 = pin2.transform {
+        if (it.isNullOrBlank()) {
+            "Vui lòng nhập lại mật khẩu"
+        } else if (it.length == pin1.value?.length && it != pin1.value) {
+            "Mật khẩu không khớp"
+        } else {
+            null
+        }
+    }
 
     val emailRule = email.transform {
         if (it?.isEmailValid == true) null else "Định dạng không hợp lệ!"
@@ -56,6 +79,7 @@ class ProfileViewModel(val userRepository: UserRepository) : RxViewModel() {
                 }
             )
     }
+
 
     fun logout(userId: Int, phone: String) {
         userRepository
@@ -100,6 +124,26 @@ class ProfileViewModel(val userRepository: UserRepository) : RxViewModel() {
                         }
                     )
             }
+        }
+    }
+
+    fun updatePin(id: String) {
+        if (rulePin1.value == null && rulePin2.value == null) {
+            _isLoading.value = true
+            userRepository
+                .updatePincode(id, pin1.value!!)
+                .setup()
+                .doOnTerminate {
+                    _isLoading.value = false
+                }
+                .subscribe(
+                    {
+                        updatePinCodeDone.value = true
+                    }, {
+                        it.printStackTrace()
+                        error.value = it.message
+                    }
+                )
         }
     }
 }

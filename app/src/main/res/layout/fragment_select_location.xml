@@ -146,19 +146,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textStreet" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtDetailAddress"
-                    style="@style/StyleEditText"
-                    android:layout_marginHorizontal="@dimen/dp_32"
-                    android:background="@drawable/bg_rectangle_grey"
-                    android:focusable="false"
-                    android:paddingHorizontal="@dimen/dp_8"
-                    tail="@{`Đường phố`}"
-                    textCustom="@{searchVM.street.content==null?@string/hint_street:searchVM.street.content}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textStreet" />
-
                 <Button
                     android:id="@+id/btnSearch"
                     android:layout_width="0dp"

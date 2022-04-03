@@ -71,7 +71,7 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
             when (id) {
                 R.id.radio_male -> viewModel.setSexIndex(0)
                 R.id.radio_female -> viewModel.setSexIndex(1)
-               }
+            }
         }
         binding.radioGroupJob.setOnCheckedChangeListener { _, id ->
             when (id) {
@@ -214,7 +214,7 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
                 binding.validatePhone.visibility = View.INVISIBLE
             else
                 binding.validatePhone.visibility = View.VISIBLE
-                binding.validatePhone.text = "Định dạng không hợp lệ!"
+            binding.validatePhone.text = "Định dạng không hợp lệ!"
         })
         viewModel.nameRegister.observe(this, {
             val errorTextName =
@@ -224,7 +224,7 @@ class RegisterFragment : BindingFragment<FragmentRegisterBinding>(FragmentRegist
                 binding.validateName.visibility = View.INVISIBLE
             else
                 binding.validateName.visibility = View.VISIBLE
-                binding.validateName.text = "Vui lòng không nhập các ký tự đặc biệt."
+            binding.validateName.text = "Vui lòng không nhập các ký tự đặc biệt."
 
         })
     }

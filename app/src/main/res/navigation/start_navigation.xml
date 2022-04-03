@@ -10,13 +10,6 @@
         android:name="com.apion.apionhome.ui.MainActivity"
         tools:layout="@layout/activity_detail" />
 
-    <action
-        android:id="@+id/actionToVerifyCustom"
-        app:destination="@id/verifyPhoneCustom" />
-
-    <fragment
-        android:id="@+id/verifyPhoneCustom"
-        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneCustomFragment" />
     <fragment
         android:id="@+id/startFragment"
         android:name="com.apion.apionhome.ui.geting_started.StartFragment"
@@ -27,15 +20,19 @@
     <action
         android:id="@+id/actionToLogin"
         app:destination="@id/loginFragment" />
+    <action
+        android:id="@+id/actionToPinCode"
+        app:destination="@id/pincodeFragment"
+        app:enterAnim="@anim/slide_left"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_right" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.apion.apionhome.ui.geting_started.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
 
-        <action
-            android:id="@+id/actionToPinCode"
-            app:destination="@id/pincodeFragment" />
 
         <action
             android:id="@+id/actionToPhoneForget"
@@ -50,10 +47,60 @@
             app:destination="@id/registerFragment"
             app:enterAnim="@anim/slide_left"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/actionToVerifyLogin"
+            app:destination="@id/verifyLoginFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_right" />
+        app:popExitAnim="@anim/slide_right" />
         <!--        app:popEnterAnim="@anim/fade_in"-->
         <!--        app:popExitAnim="@anim/slide_bottom"-->
+    </fragment>
+    <fragment
+        android:id="@+id/verifyLoginFragment"
+        android:name="com.apion.apionhome.ui.geting_started.VerifyLoginFragment"
+        tools:layout="@layout/fragment_verify_phone_login">
+        <action
+            android:id="@+id/actionToVerifyPincodeStartFragment"
+            app:destination="@id/verifyPincodeStartFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/actionToConfirmPhone"
+            app:destination="@id/confirmPhoneFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_right" />
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/confirmPhoneFragment"
+        android:name="com.apion.apionhome.ui.geting_started.ConfirmPhoneFragment"
+        tools:layout="@layout/fragment_confirm_phone">
+        <action
+            android:id="@+id/actionLoginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/verifyPincodeStartFragment"
+        android:name="com.apion.apionhome.ui.geting_started.PincodeStartFragment"
+        tools:layout="@layout/fragment_start_pincode">
+
     </fragment>
 
     <fragment
@@ -66,10 +113,7 @@
             app:destination="@id/activitymain"
             app:popUpTo="@id/activitymain"
             app:popUpToInclusive="false" />
-        <argument
-            android:name="pinCode"
-            app:argType="string"
-            app:nullable="true" />
+
     </fragment>
 
 
@@ -91,6 +135,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_right" />
+
     </fragment>
     <action
         android:id="@+id/actionToGetNewPincode"
@@ -166,4 +211,10 @@
 
     </fragment>
 
+    <action
+        android:id="@+id/acttionToVerifyCustom"
+        app:destination="@+id/fragmentVerifyCustom" />
+    <fragment
+        android:id="@+id/fragmentVerifyCustom"
+        android:name="com.apion.apionhome.ui.geting_started.VerifyPhoneCustomFragment" />
 </navigation>

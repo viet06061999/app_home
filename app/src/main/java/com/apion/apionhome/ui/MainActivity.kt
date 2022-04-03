@@ -1,19 +1,20 @@
 package com.apion.apionhome.ui
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.apion.apionhome.MobileNavigationDirections
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import com.apion.apionhome.utils.TabApp
 import com.apion.apionhome.utils.createProgressDialog
 import com.apion.apionhome.utils.showToast

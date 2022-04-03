@@ -97,6 +97,7 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
         }
     }
 
+
     override fun logout(id: Int, phone: String): Maybe<User> {
         val json = JsonObject().apply {
             addProperty("phone", phone)

@@ -1,31 +1,25 @@
 package com.apion.apionhome.ui.geting_started
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.apion.apionhome.MyApplication
 import com.apion.apionhome.R
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.base.RxViewModel
-import com.apion.apionhome.databinding.FragmentPincodeBinding
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
+import com.apion.apionhome.databinding.FragmentStartPincodeBinding
+import com.apion.apionhome.viewmodel.UpdatePincodeViewModel
+import com.apion.apionhome.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeBinding::inflate) {
-
-    override val viewModel by viewModel<RxViewModel>()
+class PincodeStartFragment : BindingFragment<FragmentStartPincodeBinding>(FragmentStartPincodeBinding::inflate) {
+    override val viewModel by viewModel<UpdatePincodeViewModel>()
 
     override fun setupView() {
         binding.lifecycleOwner = this
-        setupEdit()
         setupListener()
+        setupEdit()
     }
-
     private fun setupEdit() {
         binding.etPassword1.isCursorVisible = true
         binding.etPassword2.isCursorVisible = false
@@ -43,71 +37,51 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
             GenericKeyEvent(
                 binding.etPassword2,
                 binding.etPassword1,
-                null,
-                ::isValidPinCode,
+                null
             )
         )
         binding.etPassword2.setOnKeyListener(
             GenericKeyEvent(
                 binding.etPassword3,
                 binding.etPassword2,
-                binding.etPassword1,
-                ::isValidPinCode,
+                binding.etPassword1
             )
         )
         binding.etPassword3.setOnKeyListener(
             GenericKeyEvent(
                 binding.etPassword4,
                 binding.etPassword3,
-                binding.etPassword2,
-                ::isValidPinCode,
+                binding.etPassword2
             )
         )
         binding.etPassword4.setOnKeyListener(
             GenericKeyEvent(
                 null,
                 binding.etPassword4,
-                binding.etPassword3,
-                ::isValidPinCode,
+                binding.etPassword3
             )
         )
 
 
 
     }
-    private fun setupListener(){
-        binding.buttonlogin.setOnClickListener {
-//            this.findNavController().navigate(R.id.actionToLogin)
-            println("BẠN VỪA CLICK ĐĂNG NHẬP")
+    fun setupListener(){
+        binding.buttonCreate.setOnClickListener {
+            if(binding.etPassword4.text.isNullOrBlank()){
+                showDialog2("Thông báo","Vui lòng tạo mã pin!")
+            }else{
+
+            }
+        }
+        binding.txtCancel.setOnClickListener {
+            this.findNavController().navigate(R.id.actionToLogin)
         }
 
     }
-    private fun isValidPinCode() {
-        val pincode    = arguments?.getString("phone", "") ?: ""
-
-        val pin = binding.etPassword1.text.toString() + binding.etPassword2.text.toString() + binding.etPassword3.text.toString() + binding.etPassword4.text.toString()
-        if (pincode == pin){
-            findNavController().navigate(PincodeFragmentDirections.actionToMain())
-            requireActivity().finish()
-        }
-    }
-//    private fun checkPincode() : Boolean{
-//        val pin =
-//            binding.etPassword1.text.toString() + binding.etPassword2.text.toString() + binding.etPassword3.text.toString() + binding.etPassword4.text.toString()
-//        if (pincode == pin){
-//            return true
-//        }else{
-//            return false
-//        }
-//    }
-
-
-
     class GenericKeyEvent internal constructor(
         private val nextView: EditText?,
         private val currentView: EditText,
         private val previousView: EditText?,
-        private val isValidVerify : ()->Unit
     ) : View.OnKeyListener {
 
         override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
@@ -146,5 +120,8 @@ class PincodeFragment : BindingFragment<FragmentPincodeBinding>(FragmentPincodeB
 
             return false
         }
+
+
     }
+
 }

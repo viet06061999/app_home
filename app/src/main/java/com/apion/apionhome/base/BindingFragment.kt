@@ -221,6 +221,19 @@ abstract class BindingFragment<T : ViewBinding>(private val inflate: (LayoutInfl
         }
         dialog.show()
     }
+    fun showDialog2(
+        tittle: String,
+        content: String,
+
+    ) {
+        val dialog = AlertDialog.Builder(requireContext())
+        dialog.setTitle(tittle)
+        dialog.setMessage(content)
+        dialog.setPositiveButton(getString(R.string.tittle_button_agree)) { _ , _ ->
+        }
+
+        dialog.show()
+    }
 
     fun showDialogCustom(
         tittle: String?,

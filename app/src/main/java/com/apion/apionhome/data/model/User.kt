@@ -34,7 +34,7 @@ data class User (
     @SerializedName("pincode")
     val pincode: String? = null,
     @SerializedName("isFirst")
-    val isFirst: String?= null,
+    val isFirst: Int?= null,
     @SerializedName("position")
     val position: String?= null,
     @SerializedName("permission")
@@ -45,6 +45,8 @@ data class User (
     var facebook_id: String?= null,
     @SerializedName("role")
     val role: String? = null,
+
+
 
     @SerializedName("remember_token")
     val rememberToken: String? = null,

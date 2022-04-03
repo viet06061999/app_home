@@ -115,7 +115,7 @@
     <string name="title_type_house">Loại nhà đất *</string>
     <string name="text_type_house">Nhà đất</string>
     <string name="title_content_house">Nội dung*</string>
-    <string name="title_address_house">Địa điểm*</string>
+    <string name="title_address_house">Địa điểm</string>
     <string name="title_direction_house">Hướng nhà</string>
     <string name="title_room_house">Nhập số phòng ngủ</string>
     <string name="title_bonus_house">Nhập tỉ lệ hoa hồng</string>
@@ -139,6 +139,7 @@
     <string name="hint_confirm_pincode">Nhập lại pin code</string>
     <string name="button_sent_pincode">Đổi pin code</string>
 
+<!--    Profile-->
 
 
     <string name="title_select_location">Chọn địa chỉ</string>

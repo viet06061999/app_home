@@ -46,13 +46,17 @@ fun houseStatus(view: TextView, status: String) {
     view.text = text
 }
 @BindingAdapter("textPhone")
-fun setTextPhone(view:TextView, phone: String){
+fun setTextPhone(view:TextView, phone: String?){
     var result = ""
-    if(phone.length >=7){
-        result = "+84 " + phone.subSequence(1,4)+" "+phone.subSequence(4,7)+" "+phone.subSequence(7,phone.length)
+    phone?.let{
+        if(it.length >=7){
+            result = "+84 " + phone.subSequence(1,4)+" "+phone.subSequence(4,7)+" "+phone.subSequence(7,phone.length)
+            view.text = result
+        }
     }
 
-    view.text = result
+
+//
 }
 @BindingAdapter("textDob")
 fun setTextDob(view:TextView, cal: Calendar?){
@@ -101,7 +105,7 @@ fun userPositionPermission(view: TextView, permission: String, position: String)
             "Chuyên viên"
         }
         else -> {
-            "Chuyên viên"
+            "Đang bán"
         }
     }
     view.text = "$textPos $textPer"

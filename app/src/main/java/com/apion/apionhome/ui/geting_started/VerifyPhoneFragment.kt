@@ -2,25 +2,26 @@ package com.apion.apionhome.ui.geting_started
 
 import android.app.AlertDialog
 import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.apion.apionhome.R
 import com.apion.apionhome.StartNavigationDirections
 import com.apion.apionhome.base.BindingFragment
 import com.apion.apionhome.databinding.FragmentVerifyPhoneBinding
-import com.apion.apionhome.ui.binding.bindError
+import com.apion.apionhome.viewmodel.LoginViewModel
 import com.apion.apionhome.viewmodel.UserViewModel
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import java.util.concurrent.TimeUnit
+
 
 class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(FragmentVerifyPhoneBinding::inflate) {
     override val viewModel by sharedViewModel<UserViewModel>()
@@ -38,7 +39,7 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
         }
 
         override fun onFinish() {
-            binding.txtWarning.setText("done!")
+            setVerifyPhone()
         }
     }
 
@@ -63,6 +64,36 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
         binding.txtAnswer.setOnClickListener {
 
         }
+    }
+    fun setVerifyPhone() {
+        var mCallbacks = object: PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+
+            }
+            override fun onVerificationFailed(p0: FirebaseException) {
+                println(p0)
+                val dialog = AlertDialog.Builder(requireContext())
+                dialog.setTitle("Thông báo")
+                dialog.setMessage(p0.message)
+                dialog.setPositiveButton("Đóng") { _, _ ->
+                }
+                dialog.show()
+            }
+            override fun onCodeSent(verfication: String, p1: PhoneAuthProvider.ForceResendingToken) {
+                super.onCodeSent(verfication, p1)
+                viewModel.codeSent.value   =  verfication
+            }
+        }
+        var mAuth = FirebaseAuth.getInstance()
+//        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true)
+        val options = PhoneAuthOptions.newBuilder(mAuth)
+            .setPhoneNumber(viewModel.getPhoneFirebase()) // Phone number to verify
+            .setTimeout(120, TimeUnit.SECONDS) // Timeout and unit
+            .setActivity(requireActivity()) // Activity (for callback binding)
+            .setCallbacks(mCallbacks) // OnVerificationStateChangedCallbacks
+            .build()
+        PhoneAuthProvider.verifyPhoneNumber(options)
+
     }
 
     private fun setupObserver() {
@@ -92,6 +123,8 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
         dialog.setTitle("Thông báo")
         dialog.setMessage("Đăng ký thành công.")
         dialog.setPositiveButton("Đóng") { _, _ ->
+
+
             findNavController().navigate(StartNavigationDirections.actionToLogin())
         }
         dialog.show()
@@ -117,7 +150,6 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 binding.etPassword2,
                 binding.etPassword1,
                 null,
-                ::isValidVerify
             )
         )
         binding.etPassword2.setOnKeyListener(
@@ -125,7 +157,6 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 binding.etPassword3,
                 binding.etPassword2,
                 binding.etPassword1,
-                ::isValidVerify
             )
         )
         binding.etPassword3.setOnKeyListener(
@@ -133,7 +164,6 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 binding.etPassword4,
                 binding.etPassword3,
                 binding.etPassword2,
-                ::isValidVerify
             )
         )
         binding.etPassword4.setOnKeyListener(
@@ -141,7 +171,6 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 binding.etPassword5,
                 binding.etPassword4,
                 binding.etPassword3,
-                ::isValidVerify
             )
         )
         binding.etPassword5.setOnKeyListener(
@@ -149,7 +178,6 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 binding.etPassword6,
                 binding.etPassword5,
                 binding.etPassword4,
-                ::isValidVerify
             )
         )
         binding.etPassword6.setOnKeyListener(
@@ -157,13 +185,21 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                 null,
                 binding.etPassword6,
                 binding.etPassword5,
-                ::isValidVerify
             )
         )
 
 
         binding.btnDoneVerify.setOnClickListener {
-            //isValidPinCode()
+            if(binding.etPassword6.text.isNullOrBlank()){
+                val dialog = AlertDialog.Builder(requireContext())
+                dialog.setTitle("Thông báo")
+                dialog.setMessage("Vui lòng nhập mã xác thực!")
+                dialog.setPositiveButton("Đóng"){ _, _ -> }
+                dialog.show()
+            }
+            else{
+                isValidVerify()
+            }
         }
     }
 
@@ -197,52 +233,52 @@ class VerifyPhoneFragment : BindingFragment<FragmentVerifyPhoneBinding>(Fragment
                     dialog.show()
                 }
             }
-    }
 
+    }
 
     class GenericKeyEvent internal constructor(
         private val nextView: EditText?,
         private val currentView: EditText,
         private val previousView: EditText?,
-        private val isValidVerify: () -> Unit
     ) : View.OnKeyListener {
 
         override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
             if (currentView.id == R.id.etPassword1) {
                 currentView.isCursorVisible = true
-            }
-//            if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etPassword1 && currentView.text.isEmpty()) {
-//                //If current is empty then previous EditText's number will also be deleted
-//                previousView!!.text = null
-//                currentView.isCursorVisible = false
-//                currentView.isEnabled = false
-//                previousView.isEnabled = true
-//                previousView.requestFocus()
-//                println("PreviousView: + ${previousView.text}")
-//            }
-//            if(!currentView.text.isEmpty()) {
-//                if (keyCode == KEYCODE_0 || keyCode == KEYCODE_1 || keyCode == KEYCODE_2 ||
-//                    keyCode == KEYCODE_3 || keyCode == KEYCODE_4 || keyCode == KEYCODE_5 ||
-//                    keyCode == KEYCODE_6 || keyCode == KEYCODE_7 || keyCode == KEYCODE_8 || keyCode == KEYCODE_9
-//                ) {
-//                    currentView.setText((keyCode - 7).toString())
-//                }
-//            }
-            if (currentView.id != R.id.etPassword6 && !currentView.text.isEmpty()) {
-                nextView!!.isEnabled = true
 
-                nextView!!.isCursorVisible = true
+            }
+
+            if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etPassword1 && currentView.text.isEmpty()) {
+                //If current is empty then previous EditText's number will also be deleted
+                previousView!!.text = null
+                previousView.isCursorVisible = true
+                previousView.isEnabled = true
+                previousView.requestFocus()
+
+                currentView.isEnabled = false
+
+                return true
+            }
+
+            if (event!!.action == KeyEvent.ACTION_UP &&currentView.id != R.id.etPassword6 && !currentView.text.isEmpty()) {
+                nextView!!.isEnabled = true
+                if(currentView.id == R.id.etPassword5){
+                    nextView!!.isCursorVisible = true
+                }else{
+                    nextView!!.isCursorVisible = true
+                }
+
                 nextView!!.requestFocus()
 
-                currentView.isCursorVisible = false
+                currentView.isCursorVisible = true
                 currentView.isEnabled = false
+
+
+                return false
 //                previousView.requestFocus()
             }
 
-            if (currentView.id == R.id.etPassword6 && !currentView.text.isNullOrBlank()) {
-                currentView.requestFocus()
-                currentView.setSelection(1)
-            }
+
             return false
         }
 

@@ -12,6 +12,13 @@
     <action
         android:id="@+id/actionToLogin"
         app:destination="@+id/activitylogin"
+        app:enterAnim="@anim/fade_out"
+        app:exitAnim="@anim/slide_left"
+
+        />
+    <action
+        android:id="@+id/actionToLogin2"
+        app:destination="@+id/activitylogin"
         />
     <action
         android:id="@+id/actionMainToDetail"

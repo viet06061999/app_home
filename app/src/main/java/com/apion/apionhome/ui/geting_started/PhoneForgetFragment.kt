@@ -47,7 +47,7 @@ class PhoneForgetFragment :
                 viewModel._isLoading.value = false
                 viewModel.codeSent.value = verfication
                 findNavController().navigate(
-                    R.id.actionToVerifyCustom, bundleOf(
+                    R.id.acttionToVerifyCustom, bundleOf(
                         "codeSent" to verfication,
                         "token" to p1,
                         "phone" to viewModel.phoneRegister.value,

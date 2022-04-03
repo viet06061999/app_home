@@ -2,6 +2,7 @@ package com.apion.apionhome.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.apion.apionhome.MyApplication
 import com.apion.apionhome.base.RxViewModel
 import com.apion.apionhome.data.model.RangeUI
@@ -12,6 +13,10 @@ import com.apion.apionhome.data.model.local.LocationName
 import com.apion.apionhome.data.model.local.Province
 import com.apion.apionhome.data.repository.HouseRepository
 import com.apion.apionhome.data.repository.UserRepository
+import com.apion.apionhome.data.source.remote.response_entity.UserResponse
+import com.apion.apionhome.utils.*
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.apion.apionhome.utils.isNameValid
 import com.apion.apionhome.utils.isPhoneValid
 import com.apion.apionhome.utils.setup
@@ -59,23 +64,13 @@ class UserViewModel(
     val sexIndexRegister = MutableLiveData<Int>()
     val levelIndexRegister = MutableLiveData<Int?>()
     val jobIndexRegister = MutableLiveData<Int>()
+    val addressRegister  = MutableLiveData<String?>()
     val biosRegister = MutableLiveData<String?>()
 
     val phoneRule = phoneRegister.transform {
         if (it?.isPhoneValid == true) null else "Định dạng không hợp lệ!"
     }
-
-    fun setJobIndex(index: Int) {
-        jobIndexRegister.value = index
-    }
-
-    fun setSexIndex(index: Int) {
-        sexIndexRegister.value = index
-    }
-
-    fun setLevelIndex(index: Int) {
-        levelIndexRegister.value = index
-    }
+    val isFirst                   = MutableLiveData<Int>(0)
 
     // khởi tạo biến _loginSuccess, khai báo loginSuccess  và gán _loginSuccess cho nó
     private val _loginSuccess = MutableLiveData<Pair<Boolean, String?>>()
@@ -108,47 +103,46 @@ class UserViewModel(
     val street: LiveData<LocationName?>
         get() = _street
 
-
     var _isCreateDone = MutableLiveData<Boolean>()
 
     val isCreateDone: LiveData<Boolean>
         get() = _isCreateDone
 
-//    private val _codeSent = MutableLiveData<String>()
-//    val codeSent: LiveData<String>
-//        get() = _codeSent
-
     val phone = MutableLiveData<String>()
 //    phone.phone
 //    errorText="@{loginVM.errorText}"
-
 
     // errorText laf 1 MediatorLivedata
     val errorText = MutableLiveData<String?>()
     val errorName = MutableLiveData<String?>()
     val errorPhone = MutableLiveData<String?>()
-
     val resultSentSMS = MutableLiveData<Boolean>()
-
     val checkExistPhone = MutableLiveData<Boolean?>()
     val textCheckExistPhone = MutableLiveData<String?>()
-
     val errorRegister = MutableLiveData<String?>()
     val errorLogin = MutableLiveData<String?>()
 
 
-    fun setError(error: String?) {
+
+    fun setJobIndex(index: Int) {
+        jobIndexRegister.value = index
+    }
+    fun setSexIndex(index: Int) {
+        sexIndexRegister.value = index
+    }
+    fun setLevelIndex(index: Int) {
+        levelIndexRegister.value = index
+    }
+
+    fun setError(error : String?){
         errorText.value = error
     }
-
-    fun setErrorName(error: String?) {
+    fun setErrorName(error : String?){
         errorName.value = error
     }
-
-    fun setErrorPhone(error: String?) {
+    fun setErrorPhone(error : String?){
         errorPhone.value = error
     }
-
     fun getAllUser() {
         userRepository
             .getAllUsers()
@@ -163,7 +157,6 @@ class UserViewModel(
                 }
             )
     }
-
     fun getAddress(): String? {
         var textAddress = ""
         street.value?.let {
@@ -205,6 +198,18 @@ class UserViewModel(
             if (length > 1) {
                 var subSequence = it.subSequence(1, length)
                 return "+84" + subSequence
+            }
+        }
+
+
+        return ""
+    }
+    fun getPhoneLogin(): String {
+        phone.value?.let {
+            var length = it.length
+            if(length>1){
+                var subSequence = it.subSequence(1,length)
+                return "+84"+subSequence
             }
         }
 
@@ -301,7 +306,6 @@ class UserViewModel(
                 })
 
     }
-
     fun searchWard(query: String) {
         houseRepository
             .searchWard(_district.value, query)
@@ -317,7 +321,6 @@ class UserViewModel(
                 }
             )
     }
-
     fun setProvince(province: Province?) {
         _province.value = province
         if (province?.districts?.isNotEmpty() == true) {
@@ -484,7 +487,11 @@ class UserViewModel(
         val phoneValue = phone.value
         when {
             phoneValue.isNullOrBlank() -> errorText.value = "Yêu cầu nhập số điện thoại!"
-            errorText.value == null -> return phoneValue
+            errorText.value == null -> {
+                _isLoading.value = true
+                return phoneValue
+            }
+
         }
         return null
     }

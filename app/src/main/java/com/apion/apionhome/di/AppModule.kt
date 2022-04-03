@@ -8,10 +8,7 @@ import com.apion.apionhome.ui.person.UserProfileViewModel
 import com.apion.apionhome.ui.search.SearchViewModel
 import com.apion.apionhome.ui.search.SearchViewModelHome
 import com.apion.apionhome.ui.search.SearchViewModelTmp
-import com.apion.apionhome.viewmodel.CommunityViewModel
-import com.apion.apionhome.viewmodel.HouseViewModel
-import com.apion.apionhome.viewmodel.ProfileViewModel
-import com.apion.apionhome.viewmodel.UserViewModel
+import com.apion.apionhome.viewmodel.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -24,9 +21,12 @@ val viewModelModule = module {
     viewModel { SearchViewModelTmp(get()) }
     viewModel { SearchViewModelHome(get()) }
     viewModel { CommunityViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
+
     viewModel { UserProfileViewModel(get()) }
     viewModel { AddHouseViewModel(get()) }
 
-    viewModel { ProfileViewModel(get()) }
+    viewModel { UpdatePincodeViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
     viewModel { DetailViewModel(get(), get()) }
 }

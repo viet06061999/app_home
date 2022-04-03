@@ -10,10 +10,10 @@ class SearchWardFragment : SearchLocationFragment<LocationName>() {
     }
 
     override fun onGetAll(query: String) {
-        setUpViewModel().searchWard(query)
+        setUpViewModel().searchWard(query, includeAll)
     }
 
     override fun getHint(): String {
-        return  getString(R.string.title_search_ward)
+        return getString(R.string.title_search_ward)
     }
 }

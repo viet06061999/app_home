@@ -47,7 +47,7 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
                 backend.updateUser(user.id, user).map {
                     if (it.isSuccess) it.user else throw IllegalArgumentException(it.message)
                 }
-            }?:Maybe.error(Exception("khong tim thay user"))
+            } ?: Maybe.error(Exception("khong tim thay user"))
 
         } catch (exception: Exception) {
             Maybe.error(exception)
@@ -115,6 +115,30 @@ class UserRemoteDatasource(private val backend: UserAPIService) : UserDatasource
                 }
             }
         } catch (exception: HttpException) {
+            Maybe.error(exception)
+        }
+    }
+
+    override fun updatePincode(id: String, pin: String): Maybe<User> {
+        val json = JsonObject().apply {
+            addProperty("pincode", pin)
+        }
+
+        val body = RequestBody.create(
+            MediaType.parse("application/json; charset=utf-8"),
+            Gson().toJson(json)
+        )
+
+        return try {
+            backend.updatePincode(id, body).map {
+                if (it.isSuccess) {
+                    it.user
+                } else {
+                    throw IllegalArgumentException(it.message)
+                }
+            }
+        } catch (exception: Exception) {
+
             Maybe.error(exception)
         }
     }

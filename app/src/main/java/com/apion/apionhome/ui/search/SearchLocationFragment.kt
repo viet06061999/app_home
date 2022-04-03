@@ -28,10 +28,13 @@ abstract class SearchLocationFragment<I : ILocation>() :
     private val suggestionsAdapter = SearchLocationAdapter(::onItemSearchClick)
 
     private var disposeable: Disposable? = null
+    val includeAll by lazy {
+        arguments?.getBoolean("includeAll", true) ?: true
+    }
 
     fun setUpViewModel(): SearchViewModel {
         val isShare = arguments?.getBoolean("shareData", true) ?: true
-        val isHome =  arguments?.getBoolean("isHome", false) ?: false
+        val isHome = arguments?.getBoolean("isHome", false) ?: false
         if (isHome) return searchViewModelHome
         return if (isShare) viewModel else searchViewModelTmp
     }
@@ -43,7 +46,7 @@ abstract class SearchLocationFragment<I : ILocation>() :
         }.start()
     }
 
-     open fun onItemSearchClick(item: I){
+    open fun onItemSearchClick(item: I) {
         onItemClick(item)
         this.findNavController().popBackStack()
     }

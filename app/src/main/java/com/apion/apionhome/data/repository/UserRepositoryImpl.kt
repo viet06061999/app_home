@@ -65,4 +65,6 @@ class UserRepositoryImpl(private val remote: UserDatasource.Remote) : UserReposi
     }
 
     override fun logout(id: Int, phone: String): Maybe<User> = remote.logout(id, phone)
+
+    override fun updatePincode(id: String, pin: String): Maybe<User> = remote.updatePincode(id, pin)
 }
